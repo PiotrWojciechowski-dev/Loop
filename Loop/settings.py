@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'search.apps.SearchConfig',
     'imagekit',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,9 @@ ROOT_URLCONF = 'Loop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'post', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'user', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'search', 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
