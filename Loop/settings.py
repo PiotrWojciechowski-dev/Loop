@@ -129,7 +129,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # User Files Configuration
-AUTH_USER_MODEL = 'user.CustomUser'
 LOGIN_URL= '/signin/'
 LOGIN_REDIRECT_URL = 'home'
 
