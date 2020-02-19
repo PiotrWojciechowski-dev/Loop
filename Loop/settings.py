@@ -25,7 +25,7 @@ SECRET_KEY = 'us72an53yf4bk8p0b!1#dhmnr2*^_vghq!o=bib^4mo6hhkc48'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.52', 'localhost']
+ALLOWED_HOSTS = ['192.168.0.52', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -129,7 +129,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # User Files Configuration
-AUTH_USER_MODEL = 'user.CustomUser'
 LOGIN_URL= '/signin/'
 LOGIN_REDIRECT_URL = 'home'
 
