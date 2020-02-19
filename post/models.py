@@ -7,10 +7,9 @@ class Post(models.Model):
         on_delete=models.CASCADE,
     )
 
-    body = models.TextField(),
-    date = models.DateField(),
+    body = models.TextField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
 
-    def __str__(self):
-        return self.author
+    
 
     
