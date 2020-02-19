@@ -25,7 +25,7 @@ SECRET_KEY = 'us72an53yf4bk8p0b!1#dhmnr2*^_vghq!o=bib^4mo6hhkc48'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.52', 'localhost']
 
 
 # Application definition
@@ -124,12 +124,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# Static Files Configuration
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-LOGIN_URL= '/login/'
+# User Files Configuration
+AUTH_USER_MODEL = 'user.CustomUser'
+LOGIN_URL= '/signin/'
+LOGIN_REDIRECT_URL = 'home'
 
+# Media Files Configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Other Files Configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
