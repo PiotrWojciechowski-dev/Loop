@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1 class="text-center">Posts</h1>
+<div class="text-center mb-3">
+    <button type="button" class="btn btn-primary center-align">Make Post</button>
+</div>
+
     {% for post in all_posts_list %}
-        <div class="post-entry">
-            <h2><a href="">{{ post.author }}</a></h2>
-            <p>{{ post.body }}</p>
-            <p>{{ post.date }}</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center border border-dark mb-3">
+                <div class="post-entry">                        
+                    <h2>{{ post.author }}</h2>
+                    <p>{{ post.body }}</p>
+                    <p>{{ post.date }}</p>
+                </div>
         </div>
+        <div class="col-sm-4"></div>
+    </div>
+    
     {% endfor %}
 {% endblock content %}
 
