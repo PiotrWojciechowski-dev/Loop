@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
+<html>
+    <head>
+        <title>Posts</title>
+    </head>
+    <body>
+        <header>
+            <h1><a href="% url 'home' %">Posts</a></h1>
+        </header>
+        <div>
+                {% block content %}
+                {% endblock content %}
+        </div>
+    </body>
+</html>
 
-{% block content %}
-test
-{% endblock content %}
+
+
+
