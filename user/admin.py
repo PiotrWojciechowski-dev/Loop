@@ -1,3 +1,27 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+from .models import CustomUser
+from .forms import SignUpForm, CustomUserChangeForm
 # Register your models here.
+
+class UserAdmin(BaseUserAdmin):
+    add_form = SignUpForm
+
+    list_display = ['username','email', 'admin', 'staff', 'active']
+    list_filter = ['admin', 'staff', 'active']
+
+    fieldsets = (
+        ('Auth Info', {'fields': ('email', 'password',)}),
+        ('Permissions', {'fields': ('admin', 'staff', 'active',)})
+    )
+
+    search_fields = ['email']
+    ordering = ('email',)
+    filter_horizontal = ()
+
+admin.site.register(CustomUser, UserAdmin)
+
+admin.site.site_header = 'Loop Social Network Administration'
+admin.site.site_title = 'Welcome To The Loop Administrative Site'
+admin.site.index_title = 'Welcome To The Loop Administrative Site'
