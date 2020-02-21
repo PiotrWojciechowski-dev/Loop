@@ -25,7 +25,7 @@ SECRET_KEY = 'us72an53yf4bk8p0b!1#dhmnr2*^_vghq!o=bib^4mo6hhkc48'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.52', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,6 +74,11 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'user.CustomUser'
+
+AUTHENTICATION_BACKENDS = [
+    ('django.contrib.auth.backends.ModelBackend'),
+]
 WSGI_APPLICATION = 'Loop.wsgi.application'
 
 
@@ -137,5 +142,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Other Files Configuration
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
