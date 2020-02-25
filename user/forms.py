@@ -35,7 +35,7 @@ class SignUpForm(forms.ModelForm):
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
-        qs = User.objects.filter(email__contains=email)
+        qs = get_user_model().objects.filter(email__contains=email)
         if qs.exists():
             raise forms.ValidationError('Email has already been registered!')
         else:
@@ -58,7 +58,7 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'age',)
+        fields = ('username', 'age')
 
     #first_name = forms.CharField(max_length=100, required=True)
     #last_name = forms.CharField(max_length=100, required=True)
