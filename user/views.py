@@ -2,8 +2,13 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm, CustomUserChangeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+<<<<<<< HEAD
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
+=======
+from django.views.generic import CreateView, View
+from django.urls import reverse_lazy, reverse
+>>>>>>> master
 from django.contrib.auth import get_user_model
 # from .email import email
 
@@ -14,11 +19,19 @@ CustomUser = get_user_model()
 class SignUpView(CreateView):
     model = CustomUser
     form_class = SignUpForm
+<<<<<<< HEAD
     success_url = reverse_lazy('home')
+=======
+    success_url = reverse_lazy('signin')
+>>>>>>> master
     template_name = 'signup.html'
 
-    def signup_view(self, request):
+class SignInView(View):
+    template_name = 'signin.html'
+    
+    def signin_view(request):
         if request.method == 'POST':
+<<<<<<< HEAD
             form = SignUpForm(request.POST)
             if form.is_valid():
                 form.save()
@@ -40,6 +53,9 @@ class SignInView(CreateView):
     def signin_view(self, request):
         if request.method == 'POST':
             form = AuthenticationForm(data=request.POST)
+=======
+            form = AuthenticationForm(request.POST)
+>>>>>>> master
             if form.is_valid():
                 username = request.POST['username']
                 password = request.POST['password']
@@ -53,12 +69,12 @@ class SignInView(CreateView):
             form = AuthenticationForm()
         return render(request, 'signin.html', {'form':form})
 
+    def get(self, request, *args, **kwargs):
+        form = AuthenticationForm()
+        return render(request, self.template_name,)
 
-class SignOutView(CreateView):
 
-    def logout_view(self, request):
+class SignOutView(View):
+    def logout_view(request):
         logout(request)
-        return redirect('home')
-
-def index(request):
-    return render(request, 'home.html')
+        return redirect(reverse('signin'))

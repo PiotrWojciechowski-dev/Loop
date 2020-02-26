@@ -8,12 +8,25 @@ from .forms import SignUpForm, CustomUserChangeForm
 class UserAdmin(BaseUserAdmin):
     add_form = SignUpForm
 
+<<<<<<< HEAD
     list_display = ['username','email', 'admin', 'staff', 'active']
     list_filter = ['admin', 'staff', 'active']
 
     fieldsets = (
         ('Auth Info', {'fields': ('email', 'password',)}),
         ('Permissions', {'fields': ('admin', 'staff', 'active',)})
+=======
+    list_display = ['username','dob','email', 'admin', 'staff', 'active']
+    list_filter = ['admin', 'staff', 'active', 'groups']
+
+    fieldsets = (
+        ('Auth Info', {'fields': ('email', 'username', 'dob', 'password',)}),
+        ('Permissions', {'fields': ('admin', 'staff', 'active', 'groups')})
+    )
+
+    add_fieldsets = (
+        ('Permissions', {'fields': ('groups',)})
+>>>>>>> master
     )
 
     search_fields = ['email']
