@@ -1,15 +1,8 @@
 from django.db import models
-<<<<<<< HEAD
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
-# Create your models here.#
-
-=======
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth.models import Group
 # Create your models here.#
 
->>>>>>> master
 
 class UserManager(BaseUserManager):
     
