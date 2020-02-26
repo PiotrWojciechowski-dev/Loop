@@ -1,5 +1,6 @@
 from django.db import models
-from djagno.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.urls import reverse
 
@@ -17,12 +18,15 @@ STATUS_CHOICES = [
 
 class ProfileManager(models.Manager):
     def get_auth_profile(self, profile, user, *args, **kwargs):
+        return get_object_or_404(self, pk=profile, user=user)
+
+    def check_auth_profile(self, user, *args, **kwargs):
         try:
             obj = self.get(user=user)
             if obj:
                 return obj
-            except Profile.DoesNotExist:
-                return None
+        except Profile.DoesNotExist:
+            return None
 
 
 class Profile(models.Model):
@@ -33,7 +37,7 @@ class Profile(models.Model):
     )
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
-    age = User.objects.age
+    age = models.IntegerField()
     gender = models.CharField(
         max_length=5,
         default=1,

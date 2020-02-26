@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from user.views import SignUpView, SignInView, SignOutView
+import profiles.urls 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('', include('post.urls')),
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
+    path('profiles/', include('profiles.urls')),
 ]
 
 if settings.DEBUG:

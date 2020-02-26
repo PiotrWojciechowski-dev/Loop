@@ -1,4 +1,5 @@
 from django import forms
+
 from .models import Profile
 
 GENDER_CHOICES = [
@@ -28,6 +29,14 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+    age = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Age'
+            }
+        )
+    ) 
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(
@@ -64,3 +73,9 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+    
+    class Meta:
+        model = Profile
+        fields = ('fname','lname', 'age', 'gender', 'status', 'location', 'bio',)
+
+    
