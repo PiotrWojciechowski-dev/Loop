@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'post.apps.PostConfig',
     'search.apps.SearchConfig',
+    'profiles.apps.ProfilesConfig',
     'imagekit',
     'crispy_forms',
 ]

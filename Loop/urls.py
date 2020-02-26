@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from user.views import SignUpView, SignInView, SignOutView
+import profiles.urls 
 from post.views import HomeView
 
 
@@ -29,6 +30,7 @@ urlpatterns = [
     path('', include('post.urls')),
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
+    path('profiles/', include('profiles.urls')),
     path('postlist/', HomeView.as_view(), name='post-list'),
     
     
