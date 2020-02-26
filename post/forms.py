@@ -1,5 +1,18 @@
 from django import forms
 
 class PostForm(forms.Form):
-    your_post = forms.CharField(label='your post')
 
+
+    description = forms.CharField(
+      widget=forms.Textarea(
+        attrs={
+          'class': 'form-control form-control-lg',
+          'placeholder': 'Enter Description',
+          'rows': 3
+        }
+      )
+    )
+    
+        
+
+    
