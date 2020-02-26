@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-test
+<h1 class="text-center">Posts</h1>
+<div class="text-center mb-3">
+    <a href="{% url 'posts-list' %}">Make Post<i class="fi-xnsuxl-sign-outsolid"></i></a>
+</div>
+
+    {% for post in all_posts_list %}
+    </div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 text-center border border-dark mb-3">
+                <div class="post-entry">                        
+                    <h2>{{ post.author }}</h2>
+                    <p>{{ post.description }}</p>
+                    <p>{{ post.date }}</p>
+                </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    
+    {% endfor %}
 {% endblock content %}
+
+
