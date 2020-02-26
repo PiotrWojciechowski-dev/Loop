@@ -35,36 +35,21 @@ class UserManager(BaseUserManager):
         return user
 
 
-<<<<<<< HEAD
-class CustomUser(AbstractBaseUser):
-=======
 class CustomUser(AbstractBaseUser, PermissionsMixin):
->>>>>>> master
     email = models.EmailField(max_length=255, unique=True, null=True)
     admin = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-<<<<<<< HEAD
-    password = models.CharField(max_length=30, null=True, blank=True)
-    username = models.CharField(max_length=30, unique=True, null=True, blank=True)
-    age = models.PositiveIntegerField(null=True, blank=True)
-
-=======
     password = models.CharField(max_length=90, null=True, blank=True)
     username = models.CharField(max_length=30, unique=True, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
->>>>>>> master
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     def __str__(self, *args, **kwargs):
-<<<<<<< HEAD
-	    return self.email
-=======
 	    return self.username
->>>>>>> master
 
     def has_perm(self, perm, obj=None, *args, **kwargs):
 	    return True
@@ -72,10 +57,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label, *args, **kwargs):
         return True
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
     @property
     def is_admin(self, *args, **kwargs):
         return self.admin
