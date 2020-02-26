@@ -50,7 +50,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label, *args, **kwargs):
         return True
 
-
     @property
     def is_admin(self, *args, **kwargs):
         return self.admin

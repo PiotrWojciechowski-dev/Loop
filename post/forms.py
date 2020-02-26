@@ -1,17 +1,18 @@
 from django import forms
+from .models import Post
 
-class PostForm(forms.Form):
-
-
-    description = forms.CharField(
-      widget=forms.Textarea(
+class PostForm(forms.ModelForm):
+  post = forms.CharField(widget=forms.TextInput(
         attrs={
-          'class': 'form-control form-control-lg',
-          'placeholder': 'Enter Description',
-          'rows': 3
+            'class': 'form-control',
+            'placeholder': 'Write a post...'
         }
-      )
-    )
+    ))
+
+  class Meta:
+    model = Post
+    fields = ('post',)
+
     
         
 
