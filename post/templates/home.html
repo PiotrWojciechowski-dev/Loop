@@ -1,5 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-test
+<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+    {% if user.is_authenticated %}
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'signout' %}">Logout</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'signup' %}">Register</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'signin' %}">Login</a>
+    </li>
+    {% endif %}
+</ul>
+<div class="container">
+    <div class="col-md-8">
+        <h2>Home</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.post }}
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        <h2>{{ text }}</h2>
+        {% for post in posts %}
+            <h1>{{ post.post }}</h1>
+            <p>Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
+        {% endfor %}
+</div>
+</div>
+
 {% endblock content %}
+
+

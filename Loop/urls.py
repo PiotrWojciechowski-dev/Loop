@@ -19,16 +19,21 @@ from django.conf import settings
 from django.conf.urls.static import static
 from user.views import SignUpView, SignInView, SignOutView
 import profiles.urls 
+from post.views import HomeView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('signin/', SignInView.as_view(), name='signin'),
-    path('signout/', SignOutView.as_view(), name='signout'),
+    path('logout/', SignOutView.as_view(), name='signout'),
     path('', include('post.urls')),
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
     path('profiles/', include('profiles.urls')),
+    path('postlist/', HomeView.as_view(), name='post-list'),
+    
+    
 ]
 
 if settings.DEBUG:

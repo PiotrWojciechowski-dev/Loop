@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import Group
 # Create your models here.#
 
 
@@ -28,22 +28,21 @@ class UserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, null=True)
     admin = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    password = models.CharField(max_length=30, null=True, blank=True)
+    password = models.CharField(max_length=90, null=True, blank=True)
     username = models.CharField(max_length=30, unique=True, null=True, blank=True)
-    age = models.PositiveIntegerField(null=True, blank=True)
-
+    dob = models.DateField(null=True, blank=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     def __str__(self, *args, **kwargs):
-	    return self.email
+	    return self.username
 
     def has_perm(self, perm, obj=None, *args, **kwargs):
 	    return True
