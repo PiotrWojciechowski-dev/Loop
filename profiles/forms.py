@@ -4,12 +4,18 @@ from .models import Profile
 
 GENDER_CHOICES = [
     ('Male', 'Male'),
-    ('Female', 'Female')
+    ('Female', 'Female'),
+    ('Other', 'Other'),
+    ('Rather Not Say', 'Rather Not Say')
 ]
 
 STATUS_CHOICES = [
     ('Married', 'Married'),
-    ('Single', 'Single')
+    ('Single', 'Single'),
+    ('Its Complicated', 'Its Complicated'),
+    ('Engaged', 'Engaged'),
+    ('Dating', 'Dating')
+
 ]
 
 class ProfileForm(forms.ModelForm):
@@ -73,9 +79,18 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+
+    profile_image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+            }
+        )
+    )
     
     class Meta:
         model = Profile
-        fields = ('fname','lname', 'age', 'gender', 'status', 'location', 'bio',)
+        fields = ('fname','lname', 'age', 'gender', 'status', 'location', 'bio', 'profile_image',)
 
     

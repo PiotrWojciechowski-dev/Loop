@@ -8,12 +8,17 @@ User = get_user_model()
 
 GENDER_CHOICES = [
     ('Male', 'Male'),
-    ('Female', 'Female')
+    ('Female', 'Female'),
+    ('Other', 'Other'),
+    ('Rather Not Say', 'Rather Not Say')
 ]
 
 STATUS_CHOICES = [
     ('Married', 'Married'),
-    ('Single', 'Single')
+    ('Single', 'Single'),
+    ('Its Complicated', 'Its Complicated'),
+    ('Engaged', 'Engaged'),
+    ('Dating', 'Dating')
 ]
 
 class ProfileManager(models.Manager):
@@ -39,17 +44,22 @@ class Profile(models.Model):
     lname = models.CharField(max_length=100)
     age = models.IntegerField()
     gender = models.CharField(
-        max_length=5,
+        max_length=14,
         default=1,
         choices=GENDER_CHOICES
     )
     status = models.CharField(
-        max_length=10,
+        max_length=15,
         default=1,
         choices=STATUS_CHOICES
     )
     location = models.CharField(max_length=100, default='Ireland')
     bio = models.TextField(blank=True, default='I have no bio yet :(')
+    profile_image = models.ImageField(
+        upload_to='media/',
+        default='default.jpg',
+        blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = ProfileManager()
