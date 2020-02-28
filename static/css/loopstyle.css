@@ -1,0 +1,54 @@
+
+.sddm {
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	text-align: center;
+	list-style: none;
+	float: left;
+	font: bold 11px arial
+}
+
+.sddm a{
+	display: block;
+	margin: 0 1px 0 0;
+	padding: 4px 10px;
+	width: 300px;
+	background: #5970B2;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none
+}
+
+.sddm li a:hover{
+	background: #49A3FF
+}
+
+.sddm div{	
+	position: absolute;
+	visibility: hidden;
+	margin: 0px;
+	padding: 0px;
+	background: #EAEBD8;
+	border: 1px solid #5970B2
+}
+
+.sddm div a{	
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 10px 20px;
+	width: auto;
+	white-space: nowrap;
+	text-align: left;
+	text-decoration: none;
+	background: #EAEBD8;
+	color: #2875DE;
+	font: 11px arial
+}
+
+.sddm div a:hover{
+	background: #49A3FF;
+	color: #FFF
+}
+
