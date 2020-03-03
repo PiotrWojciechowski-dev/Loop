@@ -30,7 +30,8 @@
             <div class="card-body">
               <h5 class="card-title"><p>Posted by <a href="/profiles/">{{ post.user }}</a></h5>
               <p class="card-text"><p>{{ post.post }}</p>
-                {{ post.created }}</p></p>
+                {{ post.created }} <button><a href="{% url 'change_post' post.id %}">Edit</a></button>
+                <button><a href="{% url 'delete_post' post.id %}">Delete</a></button></p></p>
             </div>
         </div>
         {% endfor %}
