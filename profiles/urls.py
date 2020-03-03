@@ -1,37 +1,9 @@
 from django.urls import path
-from .views import (   
-    ProfileListView,
-    ProfileCreateView,
-    ProfileDetailView,
-    ProfileUpdateView,
-    ProfileDeleteView
-    )
+from . import views
 
 app_name = 'profiles'
 urlpatterns = [
-        path(
-            '',
-            ProfileListView.as_view(),
-            name='profiles-list'
-        ),
-        path(
-            'create/',
-            ProfileCreateView.as_view(),
-            name='profiles-create'
-        ),
-        path(
-            '<int:id>/detail/',
-            ProfileDetailView.as_view(),
-            name='profiles-detail'
-        ),
-        path(
-            '<int:id>/delete/',
-            ProfileDeleteView.as_view(),
-            name='profiles-delete'
-        ),
-        path(
-            '<int:id>/update/',
-            ProfileUpdateView.as_view(),
-            name='profiles-update'
-        ),
+    path('create/', views.create_profile, name='create_profile'),
+    path('created/', views.profile_created, name='created_profile'),
+    path('', views.profile_detail, name='profile_detail'),
 ]

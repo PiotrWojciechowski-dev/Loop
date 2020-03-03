@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <h1 class="text-center">Create Profile</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="text-center mt-4">Create Profile</h1>
+
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-5">
+    <form action="." method="post" class="box-checkout w-75 mb-3">
+            <p>{{ form }}</p>
+            <input type="submit" value="Pay Now">
+            {% csrf_token %}
+    </form>
+    </div>
+            
+</div>
+
+
+{% endblock content %}

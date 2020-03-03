@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+    Profile Detail
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated and profile.user == user %}
+
+{% endif %}
+
+{% if prof %}
+{{user.username}}
+<p>{{user.profiles.lname}}</p>
+<p>hello</p>
+{% endif %}
+{% endblock content %}

@@ -37,8 +37,8 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
-        default=1,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='prof'
     )
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
@@ -60,18 +60,19 @@ class Profile(models.Model):
         default='default.jpg',
         blank=True
     )
+  
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = ProfileManager()
 
     def __str__(self, *args, **kwargs):
-        return self.name
+        return self.fname
 
     def get_absolute_url(self, *args, **kwargs):
-        return reverse('profiles:profiles-detail', kwargs={'id':self.pk})
+        return reverse('profiles:', kwargs={'id':self.pk})
 
     def get_create_url(self, *args, **kwargs):
-        return reverse('profiles:profiles-create')
+        return reverse('profiles:created_profile')
   
     def get_update_url(self, *args, **kwargs):
         return reverse('profiles:profiles-update', kwargs={'id':self.pk})
