@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'search.apps.SearchConfig',
     'profiles.apps.ProfilesConfig',
-    'imagekit',
+    #'imagekit',
     'crispy_forms',
 ]
 
@@ -62,7 +62,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'post', 'templates/'),
                                                     os.path.join(BASE_DIR, 'user', 'templates/'),
-                                                    os.path.join(BASE_DIR, 'search', 'templates/')],
+                                                    os.path.join(BASE_DIR, 'search', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'profiles', 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

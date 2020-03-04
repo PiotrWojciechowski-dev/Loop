@@ -32,9 +32,6 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
-    path('postlist/', HomeView.as_view(), name='post-list'),
-    
-    
 ]
 
 if settings.DEBUG:

@@ -1,23 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, View, DetailView
+from django.views.generic import View
 from django.http import HttpResponseRedirect
 from .models import Post
 from .forms import PostForm
 from django.views.decorators.http import require_POST
-from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
 
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
   template_name = 'home.html'
+  redirect_field_name = 'next'
 
   def get(self, request, *args, **kwargs):
     form = PostForm()
-    posts = Post.objects.all().order_by('-created')
+    posts = Post.objects.filter(user=request.user).order_by('-created')
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
             'form': form, 'posts': posts, 'users': users
