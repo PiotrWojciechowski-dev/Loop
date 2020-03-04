@@ -4,12 +4,6 @@
     Profile Detail
 {% endblock %}
 {% block content %}
-{% if user.is_authenticated and profile.user == user %}
-<p>help me</p>
-{% endif %}
-
-
-
 
 <p>{{profile.fname}}</p>
 <img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
