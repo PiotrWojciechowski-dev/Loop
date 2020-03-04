@@ -9,12 +9,11 @@
 {% endif %}
 
 
-{{user.username}}
-{%for profile in profiles%}
-{%if profile.username == user.username%}
+
+
 <p>{{profile.fname}}</p>
 <img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
 
-{%endif%}
-{%endfor%}
+
+
 {% endblock content %}
