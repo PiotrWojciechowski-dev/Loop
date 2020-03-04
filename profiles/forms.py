@@ -4,12 +4,18 @@ from .models import Profile
 
 GENDER_CHOICES = [
     ('Male', 'Male'),
-    ('Female', 'Female')
+    ('Female', 'Female'),
+    ('Other', 'Other'),
+    ('Rather Not Say', 'Rather Not Say')
 ]
 
 STATUS_CHOICES = [
     ('Married', 'Married'),
-    ('Single', 'Single')
+    ('Single', 'Single'),
+    ('Its Complicated', 'Its Complicated'),
+    ('Engaged', 'Engaged'),
+    ('Dating', 'Dating')
+
 ]
 
 class ProfileForm(forms.ModelForm):
@@ -29,6 +35,7 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+    """
     age = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
@@ -37,6 +44,7 @@ class ProfileForm(forms.ModelForm):
             }
         )
     ) 
+    """
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(
@@ -55,7 +63,7 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
-    loaction = forms.CharField(
+    location = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg',
@@ -73,9 +81,18 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+
+    profile_image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+            }
+        )
+    )
     
     class Meta:
         model = Profile
-        fields = ('fname','lname', 'age', 'gender', 'status', 'location', 'bio',)
+        fields = ('fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image',)
 
     

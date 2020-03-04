@@ -1,21 +1,66 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
-<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-    {% if user.is_authenticated %}
-    <li class="nav-item active">
-      <a class="nav-link" href="{% url 'signout' %}">Logout</a>
-    </li>
-    {% else %}
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'signup' %}">Register</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'signin' %}">Login</a>
-    </li>
-    {% endif %}
-</ul>
+
+
+<<<<<<< HEAD
 <div class="container">
+<<<<<<< HEAD
+  <div class="col-md-8 mb-3">
+      <h2>Dashboard</h2>
+      <form method="post">
+          {% csrf_token %}
+          {{ form.post }}
+          <br>
+          <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+  </div>
+      {% for post in posts %}
+      <div class="card m-3 w-75" >
+          <div class="card-body">
+            <h5 class="card-title"><p>Posted by <a href="/profiles/">{{ post.user }}</a></h5>
+            <p class="card-text"><p>{{ post.post }}</p>
+              {{ post.created }}</p></p>
+          </div>
+      </div>
+      {% endfor %}
+=======
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3 col-sm-4 col-md-2 col-lg-3">
+            <div class="icon-bar float-right mr-5">
+                <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
+                <a href="#"><i class="fa fa-users"></i></a> 
+                <a href="#"><i class="fa fa-shopping-bag"></i></a> 
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-7 col-lg-6">
+            <h2 class="text-left">My Dashboard</h2>
+            <form method="post" class="w-75 post-form" type="input">
+                {% csrf_token %}
+                {{ form.post }}
+                <br>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+            {% for post in posts %}
+            <div class="card my-3 w-75" >
+                <div class="card-body">
+                    <h5 class="card-title"><p>Posted by <a href="/profiles/">{{ post.user }}</a></h5>
+                    <p class="card-text"><p>{{ post.post }}</p>
+                    {{ post.created }}</p></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-2 col-sm-4 col-md-3 col-lg-3">
+        
+        </div>
+    </div>
+>>>>>>> piotr
+</div>
+=======
     <div class="col-md-8 mb-3">
         <h2>Home</h2>
         <form method="post">
@@ -37,6 +82,7 @@
         {% endfor %}
 </div>
 
+>>>>>>> aaron
 
 {% endblock content %}
 

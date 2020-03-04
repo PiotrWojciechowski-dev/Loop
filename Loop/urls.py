@@ -22,6 +22,7 @@ import profiles.urls
 from post.views import HomeView
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -30,10 +31,7 @@ urlpatterns = [
     path('', include('post.urls')),
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
-    path('profiles/', include('profiles.urls')),
-    path('postlist/', HomeView.as_view(), name='post-list'),
-    
-    
+    path('profiles/', include('profiles.urls', namespace='profiles')),
 ]
 
 if settings.DEBUG:
