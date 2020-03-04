@@ -44,7 +44,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, default='Ireland')
     bio = models.TextField(blank=True, default='I have no bio yet :(')
     profile_image = models.ImageField(
-        upload_to='media/',
+        upload_to='profiles/',
         default='default.jpg',
         blank=True
     )

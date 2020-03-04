@@ -17,7 +17,7 @@ User = get_user_model()
 
 def create_profile(request):
   if request.method == 'POST':
-    form = ProfileForm(request.POST)
+    form = ProfileForm(request.POST, request.FILES)
     if form.is_valid():
       profile = form.save(commit=False)
       if request.user.is_authenticated:
@@ -25,6 +25,7 @@ def create_profile(request):
         profile.username = username
         dob = request.user.dob
         profile.dob = dob
+      profile.profile_image = form.cleaned_data['profile_image']
       profile.user = request.user
       profile = form.save()
       profile.save()
@@ -39,12 +40,11 @@ def create_profile(request):
 class ProfileView(View):
   template_name = 'profile.html'
 
-  def get(self, request, *args, **kwargs):
-    form = ProfileForm
-    profiles = Profile.objects.all().order_by('created_at')
+  def get(self, request, username, *args, **kwargs):
+    profile = get_object_or_404(Profile, username=username)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form': form, 'profiles': profiles, 'users':users
+      'profile': profile, 'users':users
     }
     return render(request, self.template_name, context)
 
