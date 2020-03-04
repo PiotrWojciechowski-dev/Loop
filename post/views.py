@@ -73,5 +73,6 @@ class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   template_name = 'home.html'
   success_url = reverse_lazy('home')
   permission_required = 'post.delete_post'
+  
 
 
