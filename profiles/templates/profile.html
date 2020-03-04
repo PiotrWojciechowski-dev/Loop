@@ -5,12 +5,16 @@
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated and profile.user == user %}
-
+<p>help me</p>
 {% endif %}
 
-{% if prof %}
+
 {{user.username}}
-<p>{{user.profiles.lname}}</p>
-<p>hello</p>
-{% endif %}
+{%for profile in profiles%}
+{%if profile.username == user.username%}
+<p>{{profile.fname}}</p>
+<img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
+
+{%endif%}
+{%endfor%}
 {% endblock content %}

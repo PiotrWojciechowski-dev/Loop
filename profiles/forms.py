@@ -35,6 +35,7 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
+    """
     age = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
@@ -43,6 +44,7 @@ class ProfileForm(forms.ModelForm):
             }
         )
     ) 
+    """
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(
@@ -91,6 +93,6 @@ class ProfileForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ('fname','lname', 'age', 'gender', 'status', 'location', 'bio', 'profile_image',)
+        fields = ('fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image',)
 
     

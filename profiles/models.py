@@ -21,19 +21,6 @@ STATUS_CHOICES = [
     ('Dating', 'Dating')
 ]
 
-class ProfileManager(models.Manager):
-    def get_auth_profile(self, profile, user, *args, **kwargs):
-        return get_object_or_404(self, pk=profile, user=user)
-
-    def check_auth_profile(self, user, *args, **kwargs):
-        try:
-            obj = self.get(user=user)
-            if obj:
-                return obj
-        except Profile.DoesNotExist:
-            return None
-
-
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
@@ -42,7 +29,8 @@ class Profile(models.Model):
     )
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
-    age = models.IntegerField()
+    #age = models.IntegerField()
+    dob = models.DateField(null=True, blank=True)
     gender = models.CharField(
         max_length=14,
         default=1,
@@ -60,26 +48,11 @@ class Profile(models.Model):
         default='default.jpg',
         blank=True
     )
-  
+    username = models.TextField(max_length=30, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    objects = ProfileManager()
-
-    def __str__(self, *args, **kwargs):
-        return self.fname
-
-    def get_absolute_url(self, *args, **kwargs):
-        return reverse('profiles:', kwargs={'id':self.pk})
-
-    def get_create_url(self, *args, **kwargs):
-        return reverse('profiles:created_profile')
-  
-    def get_update_url(self, *args, **kwargs):
-        return reverse('profiles:profiles-update', kwargs={'id':self.pk})
-
-    def get_delete_url(self, *args, **kwargs):
-        return reverse('profiles:profiles-delete', kwargs={'id':self.pk})
-
+def __str__(self):
+    return self.user
   
   
    
