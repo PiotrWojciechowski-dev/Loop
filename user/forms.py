@@ -48,7 +48,7 @@ class SignUpForm(forms.ModelForm):
 
   def clean_username(self, *args, **kwargs):
     username = self.cleaned_data.get('username')
-    qs = get_user_model().objects.filter(username__contains=username)
+    qs = get_user_model().objects.filter(username=username)
     if qs.exists():
       raise forms.ValidationError('Username has already been taken!')
     else:
@@ -64,7 +64,7 @@ class SignUpForm(forms.ModelForm):
 
   def clean_email(self, *args, **kwargs):
     email = self.cleaned_data.get('email')
-    qs = get_user_model().objects.filter(email__contains=email)
+    qs = get_user_model().objects.filter(email=email)
     if qs.exists():
         raise forms.ValidationError('Email has already been registered!')
     else:

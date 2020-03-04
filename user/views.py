@@ -21,7 +21,6 @@ class SignUpView(CreateView):
     def form_valid(self, form):
         username = self.request.POST['username']
         password = self.request.POST['password1']
-        print(username, password)
         user = form.save()
         login(self.request, user)
         return HttpResponseRedirect(self.success_url)
