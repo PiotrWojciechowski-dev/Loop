@@ -15,7 +15,7 @@ CustomUser = get_user_model()
 class SignUpView(CreateView):
     model = CustomUser
     form_class = SignUpForm
-    success_url = reverse_lazy('profiles:profiles-create')
+    success_url = reverse_lazy('profiles:create_profile')
     template_name = 'signup.html'
 
     def form_valid(self, form):
