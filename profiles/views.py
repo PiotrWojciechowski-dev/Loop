@@ -94,11 +94,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
 
 # PROFILE UPDATE VIEW
-class ProfileUpdateView(
-  LoginRequiredMixin,
-  ProfileObjectMixin,
-  UpdateView
-):
+class ProfileUpdateView(LoginRequiredMixin, ProfileObjectMixin, UpdateView):
   queryset = Profile.objects.all()
   context_object_name = 'profile'
   template_name = 'profiles/profile_update.html'
@@ -118,11 +114,7 @@ class ProfileUpdateView(
 
 
 # PROFILE DELETE VIEW
-class ProfileDeleteView(
-  LoginRequiredMixin,
-  ProfileObjectMixin,
-  DeleteView
-):
+class ProfileDeleteView(LoginRequiredMixin, ProfileObjectMixin, DeleteView):
   queryset = Profile.objects.all()
   context_object_name = 'profile'
   template_name = 'profiles/profile_delete.html'

@@ -55,7 +55,7 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
-    loaction = forms.CharField(
+    location = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg',
