@@ -22,6 +22,7 @@ import profiles.urls
 from post.views import HomeView
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', SignUpView.as_view(), name='signup'),
