@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
 from .models import Post
+from profiles.models import Profile
 from .forms import PostForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
@@ -21,9 +22,12 @@ class HomeView(LoginRequiredMixin, View):
   def get(self, request, *args, **kwargs):
     form = PostForm()
     posts = Post.objects.filter(user=request.user).order_by('-created')
+    username = request.user.username
+    profile = get_object_or_404(Profile, username=username)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-            'form': form, 'posts': posts, 'users': users
+            'form': form, 'posts': posts,
+             'users': users, 'profile': profile
         }
     return render(request, self.template_name, context)
 

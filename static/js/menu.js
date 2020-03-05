@@ -1,21 +1,12 @@
-var menuitem = 0;
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function OpenSettings() {
+	event.stopPropagation();
+	document.getElementById("mySettings").classList.toggle("show");
+ }
 
-// open hidden layer
-function menu_open(id)
-{	
-	// close old layer
-	if(menuitem) menuitem.style.visibility = 'hidden';
-
-	// get new layer and show it
-	menuitem = document.getElementById(id);
-	menuitem.style.visibility = 'visible';
-
+// Close the dropdown if the user clicks outside of it
+// Close the dropdown menu if the user clicks outside of it
+	window.onclick = function(event) {
+	document.getElementById("mySettings").classList.remove("show");
 }
-// close showed layer
-function menu_close()
-{
-	if(menuitem) menuitem.style.visibility = 'hidden';
-}
-
-// close layer when click-out
-document.onclick = menu_close; 
