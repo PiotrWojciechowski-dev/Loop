@@ -1,16 +1,33 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block title %}
     Profile Detail
 {% endblock %}
 {% block content %}
+<<<<<<< HEAD
+<<<<<<< HEAD
+{% if user.is_authenticated and profile.user == user %}
+<p>help me</p>
+{% endif %}
 
+
+
+
+=======
+
+>>>>>>> d88a18ac7bba8052b812ea86e7867aec87610e2e
 <p>{{profile.fname}}</p>
 {{user.username}}
 <img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
 {% if profile.username == user.username %}
     <button><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
 {% endif %}
+=======
+
+<p>{{profile.fname}}</p>
+<img src="{{profile.profile_image.url}}" alt="Profile Image" style="width:200px;height:300px;">
+
+>>>>>>> piotr
 
 
 {% endblock content %}
