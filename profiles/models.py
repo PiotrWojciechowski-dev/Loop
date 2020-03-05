@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.urls import reverse
+from django_countries.fields import CountryField
 
 User = get_user_model()
 
@@ -29,7 +30,6 @@ class Profile(models.Model):
     )
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
-    #age = models.IntegerField()
     dob = models.DateField(null=True, blank=True)
     gender = models.CharField(
         max_length=14,
@@ -41,7 +41,7 @@ class Profile(models.Model):
         default=1,
         choices=STATUS_CHOICES
     )
-    location = models.CharField(max_length=100, default='Ireland')
+    location = CountryField(blank_label='Select Country', null=True)
     bio = models.TextField(blank=True, default='I have no bio yet :(')
     profile_image = models.ImageField(
         upload_to='profiles/',
@@ -52,7 +52,7 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user
+        return self.user.__str__()
 
 
 class Mates(models.Model):

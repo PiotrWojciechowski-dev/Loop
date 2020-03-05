@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     #'imagekit',
     'crispy_forms',
+    'django_countries',
 ]
 
 MIDDLEWARE = [

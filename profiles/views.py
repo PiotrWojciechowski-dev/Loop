@@ -25,7 +25,8 @@ def create_profile(request):
         profile.username = username
         dob = request.user.dob
         profile.dob = dob
-      profile.profile_image = form.cleaned_data['profile_image']
+      if form.cleaned_data['profile_image'] is not None:
+        profile.profile_image = form.cleaned_data['profile_image']
       profile.user = request.user
       profile = form.save()
       profile.save()

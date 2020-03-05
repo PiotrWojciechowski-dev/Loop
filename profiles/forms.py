@@ -1,7 +1,7 @@
 from django import forms
 
 from .models import Profile
-
+from django_countries.fields import CountryField
 GENDER_CHOICES = [
     ('Male', 'Male'),
     ('Female', 'Female'),
@@ -35,16 +35,7 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
-    """
-    age = forms.IntegerField(
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-control form-control-lg',
-                'placeholder': 'Enter Age'
-            }
-        )
-    ) 
-    """
+
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(
@@ -63,11 +54,10 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
-    location = forms.CharField(
-        widget=forms.TextInput(
+    location = CountryField().formfield(
+        widget=forms.Select(
             attrs={
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Enter Country'
             }
         )
     )
