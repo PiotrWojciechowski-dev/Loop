@@ -7,6 +7,8 @@
     {% csrf_token %}
     <p>{{ form | crispy }}</p>
     <p class="required text-danger"></p>
-    <button type="submit" class="custom-button"></button>
+    <button type="submit" class="custom-button">Sign In</button>
 </form>
+<p>Not a registered user? </p>
+<a href="{{'/signup'}}"><button type="submit" class="custom-button">Sign Up</button></a>
 {% endblock content %}
