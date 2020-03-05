@@ -42,7 +42,6 @@ class SignInView(View):
         if form.is_valid():
             user = form.cleaned_data.get('user_obj')
             login(request, user)
-            messages.success(request, 'Yay! You just logged in!')
             return redirect(reverse('home'))
         context = {
             'form' : form
