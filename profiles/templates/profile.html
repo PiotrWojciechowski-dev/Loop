@@ -4,30 +4,32 @@
     Profile Detail
 {% endblock %}
 {% block content %}
-<<<<<<< HEAD
-<<<<<<< HEAD
-{% if user.is_authenticated and profile.user == user %}
-<p>help me</p>
-{% endif %}
 
+<div class="row">
+<div class="col-lg-2">
 
-
-
-=======
-
->>>>>>> d88a18ac7bba8052b812ea86e7867aec87610e2e
+</div>
+<div class="col-lg-4">
+    <div class="row"><img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;"></div>
+    <div class="row">
+        {% if profile.username == user.username %}
+            <button><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
+        {% else %}
+            <button><a href="">Add Friend</a></button>
+        {% endif %}
+        </div>
+    
+    
+</div>
+<div class="col-lg-4">
 <p>{{profile.fname}}</p>
 {{user.username}}
-<img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
-{% if profile.username == user.username %}
-    <button><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
-{% endif %}
-=======
 
-<p>{{profile.fname}}</p>
-<img src="{{profile.profile_image.url}}" alt="Profile Image" style="width:200px;height:300px;">
 
->>>>>>> piotr
+</div>
+<div class="col-lg-4">
 
+</div>
+</div>
 
 {% endblock content %}

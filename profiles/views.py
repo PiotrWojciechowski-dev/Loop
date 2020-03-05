@@ -76,16 +76,18 @@ class OwnerProfileMixin(OwnerMixin, LoginRequiredMixin):
   success_url = reverse_lazy('profile:create_profile')
 
 class OwnerProfileEditMixin(OwnerProfileMixin, OwnerEditMixin):
+  """
   def get_username():
     username = get_user_model().username
     print(username)
     return username
-
+  """
+  
   fields = ['fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image',]
   #profile = get_object_or_404(Profile, username=username)
-  username = get_username()
-  success_url = reverse_lazy('profiles:profile_detail', args=[username])
-  #success_url = reverse_lazy('home')
+  #username = get_username()
+  #success_url = reverse_lazy('profiles:profile_detail', args=[username])
+  success_url = reverse_lazy('home')
   template_name = 'profile_update.html'
 
 class ProfileUpdateView(PermissionRequiredMixin, OwnerProfileEditMixin, UpdateView):
