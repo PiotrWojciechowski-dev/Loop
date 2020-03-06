@@ -6,7 +6,7 @@
         <meta charset="UTF-8"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"><link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/6ee1ecfcc2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'css/loopstyle.css' %}">
         <script src="{% static 'js/menu.js' %}"></script>
         <script src="{% static 'js/search.js' %}"></script> 
@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-3 col-sm-4 col-md-2 col-lg-3">
-                    <div class="my-2 mx-5">
+                    <div class="my-2 mx-3">
                         <a href="{% url 'home' %}">
                             <img src="/media/Logo/Loop_Logo.png" class="img-responsive img-fluid float-right" alt="logo">
                         </a>
@@ -37,6 +37,7 @@
                 </div>
                 <div class="col-2 col-sm-4 col-md-3 col-lg-3">
                     {% if user.is_authenticated %}
+<<<<<<< HEAD
                     <ul class="menu-box">
                         <li class="fa fa-bars fa-5x my-4" onmouseover="menu_open('menu')">
                             <div id="menu" onmouseout="menu_close()">
@@ -57,8 +58,31 @@
                         {%endfor%}
                         <a href="{% url 'profiles:profile_detail' %}" class="custom-button bg-white m-3 p-1 text-left">profile</a>
                     </div>
+=======
+                    <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid rounded-circle w-25"></a>
+                    <div class="settings">
+                        <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                          <div id="mySettings" class="settings-options">
+                            <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
+                            <a href="{% url 'signout' %}">Logout</a>
+                          </div>
+                    </div>
+                    {% else %}
+                    <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid rounded-circle w-25 h-100"></a>
+                    <div class="settings">
+                        <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                          <div id="mySettings" class="settings-options">
+                            <a href="{% url 'signup' %}">Sign up</a>
+                          </div>
+                    </div>
+                    {% endif %}
+                </div>
+>>>>>>> 25d48756b6cc6747fa614ca64ac54d97a8de1e5b
         </div>
-        <hr>
+        <hr class="w-75">                     
         {% block content %}
         {% endblock content %}
+        <footer class="footer fixed-bottom text-center font-weight-bold mx-auto w-75">
+            ©IRISHSOFT LLC
+        </footer>
     </body>

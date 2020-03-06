@@ -3,10 +3,40 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <p>{{ form | crispy }}</p>
-    <p class="required text-danger"></p>
-    <button type="submit" class="custom-button"></button>
-</form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3 col-sm-4 col-md-2 col-lg-3">
+            <div class="icon-bar float-right mr-4">
+                <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
+                <a href="#"><i class="fa fa-users"></i></a> 
+                <a href="#"><i class="fa fa-shopping-bag"></i></a> 
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-7 col-lg-6">
+            <div class="row">
+                <div class="col-6 col-sm-4 col-md-7 col-lg-6 mt-5">
+                    <h2 class="text-justify text-center">
+                        Sign in and get back into the loop with your mates!
+                    </h2>
+                    <h2 class="text-center my-4">
+                        Or
+                    </h2>
+                    <div class="text-center">
+                        <a href="{{'/signup'}}"><button type="submit" class="custom-button mt-4">Register</button></a>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-7 col-lg-6 mt-2">
+                    <form method="post" class="font-weight-bold">
+                        {% csrf_token %}
+                        <p>{{ form | crispy }}</p>
+                        <p class="required text-danger"></p>
+                        <button type="submit" class="custom-button mt-3">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 col-sm-4 col-md-3 col-lg-3">
+        </div>
+    </div>
+</div>
 {% endblock content %}

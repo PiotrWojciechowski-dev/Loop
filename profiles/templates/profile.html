@@ -1,20 +1,17 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block title %}
     Profile Detail
 {% endblock %}
 {% block content %}
-{% if user.is_authenticated and profile.user == user %}
-<p>help me</p>
+<p>{{profile.fname}}</p>
+{{user.username}}
+<img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
+{% if profile.username == user.username %}
+    <button><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
 {% endif %}
 
 
-{{user.username}}
-{%for profile in profiles%}
-{%if profile.username == user.username%}
-<p>{{profile.fname}}</p>
-<img src="{{profile.profile_image.url}}" alt="Flowers in Chania" style="width:200px;height:300px;">
 
-{%endif%}
-{%endfor%}
+
 {% endblock content %}

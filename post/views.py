@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
 from .models import Post
+from profiles.models import Profile
 from .forms import PostForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
@@ -19,13 +20,19 @@ class HomeView(LoginRequiredMixin, View):
   redirect_field_name = 'next'
 
   def get(self, request, *args, **kwargs):
-    form = PostForm()
-    posts = Post.objects.filter(user=request.user).order_by('-created')
-    users = get_user_model().objects.exclude(id=request.user.id)
-    context = {
-            'form': form, 'posts': posts, 'users': users
-        }
-    return render(request, self.template_name, context)
+    username = request.user.username
+    if Profile.objects.filter(username=username).exists():
+      form = PostForm()
+      posts = Post.objects.filter(user=request.user).order_by('-created')
+      user_profile = Profile.objects.get(user=request.user)
+      users = get_user_model().objects.exclude(id=request.user.id)
+      context = {
+              'form': form, 'posts': posts,
+              'users': users, 'user_profile': user_profile
+          }
+      return render(request, self.template_name, context)
+    else:
+      return redirect(reverse('profiles:create_profile'))
 
   def post(self, request, *args, **kwargs):
     form = PostForm(request.POST)

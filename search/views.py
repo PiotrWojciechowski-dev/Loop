@@ -10,5 +10,5 @@ def search_result(request):
     #products = products_filter.qs
     if 'q' in request.GET:
         query = request.GET.get('q')
-        profiles = Profile.objects.all().filter(Q(fname__contains=query))
+        profiles = Profile.objects.all().filter(Q(username__contains=query))
     return render(request, 'search.html', {'profiles':profiles})

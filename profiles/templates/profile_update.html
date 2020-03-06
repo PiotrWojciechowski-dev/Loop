@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <h1 class="text-center">Update Profile</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="text-center mt-4"></h1>
+
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-5">
+    <form action="." method="post" class="box-checkout w-75 mb-3" enctype="multipart/form-data">
+            <p>{{ form | crispy }}</p>
+            <input type="submit" value="Update">
+            {% csrf_token %}
+    </form>
+    </div>
+            
+</div>
+
+
+{% endblock content %}

@@ -11,10 +11,19 @@ CustomUser = get_user_model()
 
 
 class SignUpForm(forms.ModelForm):
+  username = forms.CharField(
+    widget=forms.TextInput(
+      attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter Username'
+      }
+    )
+  )
 
   dob = forms.DateField(
-    widget=forms.DateInput
-    (attrs={
+    widget=forms.DateInput(
+      attrs={
+      'class': 'form-control',
       'type': 'date'
       }
     )
@@ -23,7 +32,8 @@ class SignUpForm(forms.ModelForm):
   email = forms.EmailField(
   widget=forms.EmailInput(
     attrs={
-      'placeholder': 'Enter Email Id'
+      'class': 'form-control',
+      'placeholder': 'Enter Email'
     }
   )
 )
@@ -32,6 +42,7 @@ class SignUpForm(forms.ModelForm):
   label='Password',
   widget=forms.PasswordInput(
     attrs={
+      'class': 'form-control',
       'placeholder': 'Enter Password'
     }
   )
@@ -41,6 +52,7 @@ class SignUpForm(forms.ModelForm):
   label='Confirm Password',
   widget=forms.PasswordInput(
     attrs={
+      'class': 'form-control',
       'placeholder': 'Confirm Password'
     }
   )
@@ -48,7 +60,7 @@ class SignUpForm(forms.ModelForm):
 
   def clean_username(self, *args, **kwargs):
     username = self.cleaned_data.get('username')
-    qs = get_user_model().objects.filter(username__contains=username)
+    qs = get_user_model().objects.filter(username=username)
     if qs.exists():
       raise forms.ValidationError('Username has already been taken!')
     else:
@@ -64,7 +76,7 @@ class SignUpForm(forms.ModelForm):
 
   def clean_email(self, *args, **kwargs):
     email = self.cleaned_data.get('email')
-    qs = get_user_model().objects.filter(email__contains=email)
+    qs = get_user_model().objects.filter(email=email)
     if qs.exists():
         raise forms.ValidationError('Email has already been registered!')
     else:
