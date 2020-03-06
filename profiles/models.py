@@ -52,7 +52,7 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user
+        return self.user.__str__()
 
 
 class Mates(models.Model):

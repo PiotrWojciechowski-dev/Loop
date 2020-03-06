@@ -40,9 +40,10 @@ class ProfileView(View):
   def get(self, request, username, *args, **kwargs):
     form = ProfileForm()
     profile = get_object_or_404(Profile, username=username)
+    user_profile = Profile.objects.get(user=request.user)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'users':users
+      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users
     }
     return render(request, self.template_name, context)
 

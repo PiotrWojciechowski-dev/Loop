@@ -161,7 +161,51 @@ body {
 	background-color: #c8bef2;
 }
 
-a img #profile-image{
+.profile-image{
 	border-radius: 90%;
 	background-color: red;
+}
+
+.custom-button{
+    border: 1px black solid;
+    border-radius: 10px;
+    color: black;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    width: 80px;
+    min-width: 80px;
+    overflow: auto;
+}
+
+.custom-button:hover {
+    background-color: #c8bef2
+}
+
+.register-button{
+    border: 1px black solid;
+    border-radius: 10px;
+    color: black;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    min-width: 140px;
+    overflow: auto;
+}
+
+.register-button:hover {
+    background-color: #c8bef2
+}
+
+footer {
+    border: 1px solid black;
+    border-radius: 30px;
+    padding: 5px;
+    background-color: #c8bef2;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.friend-box {
+    
 }

@@ -18,22 +18,55 @@
                 {% csrf_token %}
                 {{ form.post }}
                 <br>
-                <button type="submit" class="btn btn-primary">Post</button>
+                <button type="submit" class="custom-button">Post</button>
             </form>
             {% for post in posts %}
-            <div class="card my-3 w-75" >
+            <div class="card my-4 w-75" >
                 <div class="card-body">
                     <h5 class="card-title"><p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
                     <p class="card-text"><p>{{ post.post }}</p>
-                    {{ post.created }} <button><a href="{% url 'change_post' post.id %}">Edit</a></button>
-                    <button><a href="{% url 'delete_post' post.id %}">Delete</a></button></p></p>
+                    {{ post.created }} <button class="custom-button"><a href="{% url 'change_post' post.id %}">Edit</a></button>
+                    <button class="custom-button"><a href="{% url 'delete_post' post.id %}">Delete</a></button></p></p>
                     <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
                 </div>
             </div>
             {% endfor %}
+            <span class="my-5"></span>
         </div>
         <div class="col-1 col-sm-3 col-md-2 col-lg-3">
-          
+            <br>
+            <br>
+            <br>
+            <br>
+            <hr class="w-75">
+            <h2 class="text-center">Mates List</h2>
+            <div class="card">
+                <div class="card-body mh-100 friend-box text-center">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        You have no friends :(
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                </div>
+            </div>
         </div>
     </div>
 </div>

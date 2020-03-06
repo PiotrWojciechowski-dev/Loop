@@ -11,10 +11,19 @@ CustomUser = get_user_model()
 
 
 class SignUpForm(forms.ModelForm):
+  username = forms.CharField(
+    widget=forms.TextInput(
+      attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter Username'
+      }
+    )
+  )
 
   dob = forms.DateField(
-    widget=forms.DateInput
-    (attrs={
+    widget=forms.DateInput(
+      attrs={
+      'class': 'form-control',
       'type': 'date'
       }
     )
@@ -23,7 +32,8 @@ class SignUpForm(forms.ModelForm):
   email = forms.EmailField(
   widget=forms.EmailInput(
     attrs={
-      'placeholder': 'Enter Email Id'
+      'class': 'form-control',
+      'placeholder': 'Enter Email'
     }
   )
 )
@@ -32,6 +42,7 @@ class SignUpForm(forms.ModelForm):
   label='Password',
   widget=forms.PasswordInput(
     attrs={
+      'class': 'form-control',
       'placeholder': 'Enter Password'
     }
   )
@@ -41,6 +52,7 @@ class SignUpForm(forms.ModelForm):
   label='Confirm Password',
   widget=forms.PasswordInput(
     attrs={
+      'class': 'form-control',
       'placeholder': 'Confirm Password'
     }
   )
