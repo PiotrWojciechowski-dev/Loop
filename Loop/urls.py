@@ -32,6 +32,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
+    path('likes/', include('likes.urls')),
 ]
 
 if settings.DEBUG:

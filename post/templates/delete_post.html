@@ -11,8 +11,8 @@
       <h4 class="card-title">{{post.post}}</h4>
       <p class="card-text">{{post.description}}</p>
       <form action="" method="POST"> {% csrf_token %}
-        <button type="submit" class="custom-button">Yes</button>
-        <a href="{% url 'home' %}" type="button" class="custom-button">No</a>
+        <button type="submit" class="register-button">Yes</button>
+        <a href="{% url 'home' %}" type="button" class="register-button">No</a>
       </form>
     </div>
   </div>
