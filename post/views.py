@@ -69,14 +69,14 @@ class OwnerPostMixin(OwnerMixin, LoginRequiredMixin):
 class OwnerPostEditMxin(OwnerPostMixin, OwnerEditMixin):
   fields = ['post']
   success_url = reverse_lazy('home')
-  template_name = 'home.html'
+  template_name = 'edit_post.html'
 
 
 class PostUpdateView(PermissionRequiredMixin, OwnerPostEditMxin, UpdateView):
   permission_required = 'post.change_post'
 
 class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
-  template_name = 'home.html'
+  template_name = 'delete_post.html'
   success_url = reverse_lazy('home')
   permission_required = 'post.delete_post'
   
