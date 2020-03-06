@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="post-delete">
+  <h3 class="page-heading">Delete Post</h3>
+  <div class="card">
+    <div class="card-header">
+      <h5>Are you sure you want to delete this post?</h5>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">{{post.post}}</h4>
+      <p class="card-text">{{post.description}}</p>
+      <form action="" method="POST"> {% csrf_token %}
+        <button type="submit" class="custom-button">Yes</button>
+        <a href="{% url 'home' %}" type="button" class="custom-button">No</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

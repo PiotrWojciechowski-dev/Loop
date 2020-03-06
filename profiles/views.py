@@ -70,8 +70,6 @@ class OwnerEditMixin(object):
     form.instance.user = self.request.user
     return super(OwnerEditMixin, self).form_valid(form)
   
-<<<<<<< HEAD
-=======
 
 class OwnerProfileMixin(OwnerMixin, LoginRequiredMixin):
   model = Profile
@@ -95,4 +93,3 @@ class ProfileUpdateView(PermissionRequiredMixin, OwnerProfileEditMixin, UpdateVi
   permission_required = 'profile.change_profile'
 
 
->>>>>>> 25d48756b6cc6747fa614ca64ac54d97a8de1e5b

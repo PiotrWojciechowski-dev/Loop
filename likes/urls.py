@@ -6,6 +6,6 @@ urlpatterns = [
     path(
       '<int:id>/like/',
       PostLikeView.as_view(),
-      name='post-likes'
+      name='home'
     )
 ]

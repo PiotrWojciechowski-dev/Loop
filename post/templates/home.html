@@ -3,13 +3,6 @@
 
 
 {% block content %}
-<<<<<<< HEAD
-
-<div class="container"></div>
-
-
-=======
->>>>>>> 25d48756b6cc6747fa614ca64ac54d97a8de1e5b
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 col-sm-3 col-md-2 col-lg-3">
@@ -32,24 +25,12 @@
                 <div class="card-body">
                     <h5 class="card-title"><p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
                     <p class="card-text"><p>{{ post.post }}</p>
-<<<<<<< HEAD
-                    {{ post.created }} <button><a href="{% url 'change_post' post.id %}">Edit</a></button>
-                    <button><a href="{% url 'delete_post' post.id %}">Delete</a></button></p></p>
-=======
                     {{ post.created }} <button class="custom-button"><a href="{% url 'change_post' post.id %}">Edit</a></button>
                     <button class="custom-button"><a href="{% url 'delete_post' post.id %}">Delete</a></button></p></p>
->>>>>>> 25d48756b6cc6747fa614ca64ac54d97a8de1e5b
                     <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
                 </div>
             </div>
             {% endfor %}
-<<<<<<< HEAD
-
-</div>
-
-
-
-=======
             <span class="my-5"></span>
         </div>
         <div class="col-1 col-sm-3 col-md-2 col-lg-3">
@@ -90,7 +71,6 @@
     </div>
 </div>
 
->>>>>>> 25d48756b6cc6747fa614ca64ac54d97a8de1e5b
 {% endblock content %}
 
 
