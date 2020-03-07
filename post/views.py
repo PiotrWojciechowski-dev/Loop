@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
 from .models import Post
-from profiles.models import Profile
+from profiles.models import Profile, Mates
 from .forms import PostForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -26,9 +26,15 @@ class HomeView(LoginRequiredMixin, View):
       posts = Post.objects.filter(user=request.user).order_by('-created')
       user_profile = Profile.objects.get(user=request.user)
       users = get_user_model().objects.exclude(id=request.user.id)
+      try:
+        mate = Mates.objects.get(current_user=request.user)
+        mates = mate.users.all()
+      except ObjectDoesNotExist:
+        mates = None
       context = {
               'form': form, 'posts': posts,
-              'users': users, 'user_profile': user_profile
+              'users': users, 'user_profile': user_profile,
+              'mates': mates
           }
       return render(request, self.template_name, context)
     else:

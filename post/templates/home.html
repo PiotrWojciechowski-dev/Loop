@@ -50,6 +50,7 @@
             <h2 class="text-center">Mates List</h2>
             <div class="card">
                 <div class="card-body mh-100 friend-box text-center">
+                    {% if mates is none %}
                         <br>
                         <br>
                         <br>
@@ -73,6 +74,40 @@
                         <br>
                         <br>
                         <br>
+                    {% elif not mates %}
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    You have no friends :(
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    {% else %}
+                    {% for mate in mates %}
+            <a href="{% url 'profiles:profile_detail' mate.username %}">
+                <h3>{{ mate.username }}</h3>
+            </a>
+            <a href="{% url 'profiles:change_Mates' 'lose' mate.username %}">
+                <button type="button" class="btn btn-default">Remove Friend</button>
+                </a>
+            {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

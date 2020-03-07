@@ -31,7 +31,7 @@ def create_profile(request):
       profile.user = request.user
       profile = form.save()
       profile.save()
-    return render(request, 'profile_create.html', {'profile': profile})
+    return render(request, 'profile.html', {'profile': profile})
   else:
     form = ProfileForm()
   return render(request, 'profile_create.html',{'form':form})
@@ -44,12 +44,13 @@ class ProfileView(View):
     profile = get_object_or_404(Profile, username=username)
     try:
       mate = Mates.objects.get(current_user=request.user)
+      mates = mate.users.all()
     except ObjectDoesNotExist:
-      mate = None
+      mates = None
     user_profile = Profile.objects.get(user=request.user)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mate': mate,
+      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates,
     }
     return render(request, self.template_name, context)
 
