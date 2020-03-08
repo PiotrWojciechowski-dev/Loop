@@ -16,9 +16,9 @@
         {% if profile.username == user.username %}
             <button><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
         {% elif not profile.user in mates  %}
-            <button><a href=""><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Friend</a></button>
+            <button><a href=""><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
         {% else %}
-            <button><a href=""><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Friend</a></button>
+            <button><a href=""><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
         {% endif %}
         </div>
         <p>{{profile.created_at}}</p>

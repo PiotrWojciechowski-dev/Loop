@@ -39,6 +39,25 @@
                 </div>
             </div>
             {% endfor %}
+            {% for post in mate_posts %}
+            <div class="card my-4 w-75" >
+                <div class="card-body">
+                    <h5 class="card-title">
+                            <div class="settings float-right">
+                                <button onclick="test()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                    <div id="myBrain" class="settings-options">
+                                        <a href="{% url 'change_post' post.id %}">Edit</a>
+                                        <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                    </div>
+                            </div>
+                        <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
+                    </h5>
+                    <p class="card-text"><p>{{ post.post }}</p>
+                    {{ post.created }}
+                    <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                </div>
+            </div>
+            {% endfor %}
             <span class="my-5"></span>
         </div>
         <div class="col-1 col-sm-3 col-md-2 col-lg-3">
