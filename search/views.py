@@ -11,4 +11,8 @@ def search_result(request):
     if 'q' in request.GET:
         query = request.GET.get('q')
         profiles = Profile.objects.all().filter(Q(username__contains=query))
-    return render(request, 'search.html', {'profiles':profiles})
+        user_profile = Profile.objects.get(user=request.user)
+        context = {
+            'profiles': profiles, 'user_profile':user_profile
+        }
+    return render(request, 'search.html', context)

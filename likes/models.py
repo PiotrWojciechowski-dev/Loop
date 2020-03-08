@@ -11,7 +11,6 @@ User = get_user_model()
 
 class LikeManager(models.Manager):
   def find_is_liked(self, post, user):
-    print("i'M HERE")
     return self.filter(post=post, user=user)
 
   def create_like(self, post, user):
