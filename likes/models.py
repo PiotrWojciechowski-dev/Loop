@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from user.models import CustomUser
 
 
 from post.models import Post
@@ -25,7 +26,7 @@ class Like(models.Model):
   )
 
   user = models.ForeignKey(
-    User,
+    CustomUser,
     default=1,
     on_delete=models.CASCADE
   )

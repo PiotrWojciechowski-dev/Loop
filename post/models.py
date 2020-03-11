@@ -13,7 +13,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self, *args, **kwargs):
-	    return self.user
+	    return self.post
 
     def get_like_url(self, *args, **kwargs):
         return reverse('likes:post-likes', kwargs={'id': self.pk})

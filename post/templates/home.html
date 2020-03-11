@@ -12,69 +12,109 @@
                 <a href="#"><i class="fa fa-shopping-bag"></i></a> 
             </div>
         </div>
-        <div class="col-9 col-sm-6 col-md-8 col-lg-6">
-            <h2 class="text-left">My Dashboard</h2>
-            <form method="post" class="w-75 post-form" type="input">
-                {% csrf_token %}
-                {{ form.post }}
-                <br>
-                <button type="submit" class="custom-button">Post</button>
-            </form>
-            {% for post in posts %}
-            <div class="card my-4 w-75" >
-                <div class="card-body">
-                    <h5 class="card-title">
-                            <div class="settings float-right">
-                                <button onclick="test()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
-                                    <div id="myBrain" class="settings-options">
-                                        <a href="{% url 'change_post' post.id %}">Edit</a>
-                                        <a href="{% url 'delete_post' post.id %}">Delete</a>
+        <div class="col-9 col-sm-6 col-md-8 col-lg-7">
+            <div class="row">
+                <div class="col-9 col-sm-6 col-md-8 col-lg-9">
+                    <h2 class="text-left">My Dashboard</h2>
+                    <form method="post" class="w-75 post-form" type="input">
+                        {% csrf_token %}
+                        {{ form.post }}
+                        <br>
+                        <button type="submit" class="custom-button">Post</button>
+                    </form>
+                    {% for post in posts %}
+                    {% if not mates %}
+                    <div class="card my-4 w-75" >
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                    {% if user == post.user %}
+                                    <div class="settings float-right">
+                                        <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                    {% endif %}
                                     </div>
-                            </div>
-                        <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
-                    </h5>
-                    <p class="card-text"><p>{{ post.post }}</p>
-                    {{ post.created }}
-                    <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
+                            </h5>
+                            <p class="card-text"><p>{{ post.post }}</p>
+                            {{ post.created }}
+                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card my-4 w-75" >
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                    {% if user == post.user %}
+                                    <div class="settings float-right">
+                                        <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                    </div>
+                                    {% endif %}
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
+                            </h5>
+                            <p class="card-text"><p>{{ post.post }}</p>
+                            {{ post.created }}
+                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <span class="my-5"></span>
+                </div>
+                <div class="col-9 col-sm-6 col-md-8 col-lg-3">
+                    <br>
+                    <br>
+                    <br>
+                    <hr class="w-100">
+                    <h2 class="text-center mb-3">Mates List</h2>
+                    <div class="card w-100">
+                        <div class="card-body mh-100 friend-box text-center">
+                            {% if not mates %}
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                You have no friends :(
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                            {% else %}
+                                {% for mate in mates %}
+                                    <a href="{% url 'profiles:profile_detail' mate.username %}">
+                                        <h3>{{ mate.username }}</h3>
+                                    </a>
+                                    <a href="{% url 'profiles:change_Mates' 'lose' mate.username %}">
+                                        <button type="button" class="btn btn-default">Remove Friend</button>
+                                        </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
-            <span class="my-5"></span>
         </div>
         <div class="col-1 col-sm-3 col-md-2 col-lg-3">
-            <br>
-            <br>
-            <br>
-            <br>
-            <hr class="w-75">
-            <h2 class="text-center">Mates List</h2>
-            <div class="card">
-                <div class="card-body mh-100 friend-box text-center">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        You have no friends :(
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
