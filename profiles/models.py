@@ -61,16 +61,32 @@ class Mates(models.Model):
 
     @classmethod
     def make_mates(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
+        mate, created = cls.objects.get_or_create(
             current_user=current_user
         )
-        friend.users.add(new_friend)
+        mate.users.add(new_friend)
 
     @classmethod
     def lose_mate(cls, current_user, new_friend):
-        friend, created = cls.objects.get_or_create(
+        mate, created = cls.objects.get_or_create(
             current_user=current_user
         ) 
-        friend.users.remove(new_friend)
+        mate.users.remove(new_friend)
   
-   
+class Blocked(models.Model):
+    users = models.ManyToManyField(User)
+    current_user = models.ForeignKey(User, related_name='profile_owner', null=True, on_delete=models.CASCADE)
+
+    @classmethod
+    def block_user(cls, current_user, blocked_user):
+        blocked, created = cls.objects.get_or_create(
+            current_user=current_user
+        )
+        blocked.users.add(blocked_user)
+
+    @classmethod
+    def unblock_user(cls, current_user, blocked_user):
+        blocked, created = cls.objects.get_or_create(
+            current_user=current_user
+        ) 
+        blocked.users.remove(blocked_user)

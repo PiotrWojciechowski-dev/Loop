@@ -15,10 +15,20 @@
             <div class="text-left ml-4 my-2">
                 <button class="register-button"><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
             </div>
-        {% elif not profile.user in mates  %}
-            <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
-        {% else %}
-            <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
+           
+        {% else%}
+            {% if not profile.user in mates  %}
+                <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
+            {% elif not user in profile_mates%}
+            <button>Request pending</button>
+            {% else %}
+                <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
+            {% endif %}
+            {% if not profile.user in blocked_profiles %}
+                <button><a href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a></button>
+            {% else %}
+                <button><a href="{% url 'profiles:block_user' 'unblock' profile.username %}">UnBlock</a></button>
+            {% endif %}
         {% endif %}
         <p>Created: {{profile.created_at}}</p>
 </div>

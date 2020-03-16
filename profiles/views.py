@@ -6,7 +6,7 @@ from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
-from .models import Profile, Mates
+from .models import Profile, Mates, Blocked
 from .forms import ProfileForm
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
@@ -45,12 +45,18 @@ class ProfileView(View):
     try:
       mate = Mates.objects.get(current_user=request.user)
       mates = mate.users.all()
+      profile_mate = Mates.objects.get(current_user=profile.user)
+      profile_mates = profile_mate.users.all()
+      blocked_profile = Blocked.objects.get(current_user=request.user)
+      blocked_profiles = blocked_profile.users.all()
     except ObjectDoesNotExist:
       mates = None
+      blocked_profiles = None
+      profile_mates = None
     user_profile = Profile.objects.get(user=request.user)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates,
+      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles
     }
     return render(request, self.template_name, context)
 
@@ -94,9 +100,20 @@ class ProfileUpdateView(PermissionRequiredMixin, OwnerProfileEditMixin, UpdateVi
   permission_required = 'profile.change_profile'
 
 def change_Mates(request, operation, username):
-  friend = get_user_model().objects.get(username=username)
+  mate = get_user_model().objects.get(username=username)
   if operation == 'add':
-    Mates.make_mates(request.user, friend)
+    Mates.make_mates(request.user, mate)
   elif operation == 'lose':
-      Mates.lose_mate(request.user, friend)
+      Mates.lose_mate(request.user, mate)
+      Mates.lose_mate(mate, request.user)
   return redirect('home')
+
+def block_user(request, operation, username):
+  blocked = get_user_model().objects.get(username=username)
+  if operation == 'block':
+    Blocked.block_user(request.user, blocked)
+    operation = 'lose'
+    return redirect('profiles:change_Mates', operation, blocked.username)
+  elif operation == 'unblock':
+    Blocked.unblock_user(request.user, blocked)
+    return redirect('home')
