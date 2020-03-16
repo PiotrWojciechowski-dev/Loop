@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from user.models import CustomUser
 
 
 from post.models import Post
@@ -11,7 +12,6 @@ User = get_user_model()
 
 class LikeManager(models.Manager):
   def find_is_liked(self, post, user):
-    print("i'M HERE")
     return self.filter(post=post, user=user)
 
   def create_like(self, post, user):
@@ -26,7 +26,7 @@ class Like(models.Model):
   )
 
   user = models.ForeignKey(
-    User,
+    CustomUser,
     default=1,
     on_delete=models.CASCADE
   )

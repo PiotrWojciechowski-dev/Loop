@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 
 # Create your views here.
@@ -23,18 +24,19 @@ class HomeView(LoginRequiredMixin, View):
     username = request.user.username
     if Profile.objects.filter(username=username).exists():
       form = PostForm()
-      posts = Post.objects.filter(user=request.user).order_by('-created')
       user_profile = Profile.objects.get(user=request.user)
       users = get_user_model().objects.exclude(id=request.user.id)
       try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
+        posts = Post.objects.filter(Q(user__in=mates) | Q(user=request.user)).order_by('-created')
       except ObjectDoesNotExist:
         mates = None
+        posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
       context = {
               'form': form, 'posts': posts,
               'users': users, 'user_profile': user_profile,
-              'mates': mates
+              'mates': mates, 
           }
       return render(request, self.template_name, context)
     else:
