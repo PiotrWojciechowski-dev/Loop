@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static%}
+{% block title %}
+    Mates
+{% endblock %}
+{% block content %}
+<div>All Mates
+    {% for m in mates%}
+    {{m.username}}
+    {% endfor %}</div>
+<div>Pending Mates
+    {% for u in unconfirmed_mates %}
+    {{u.username}}
+    {% endfor %}</div>
+<div>Blocked
+    {%for b in blocked_users%}
+    {{b.username}}
+    {% endfor %}</div>
+<div>
+    mate requests
+    
+</div>
+
+<div>
+    confirmed_mates
+{% for m in confirmed_mates%}
+{{m.username}}
+{% endfor %}
+</div>
+
+
+
+{% endblock %}

@@ -6,6 +6,8 @@
 {% block content %}
 {% load countries %}
 {% get_country profile.location as country %}
+
+{% if not user in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
 <div class="col-lg-2">
@@ -18,16 +20,23 @@
            
         {% else%}
             {% if not profile.user in mates  %}
+                {% if not user in profile_mates%}
                 <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
-            {% elif not user in profile_mates%}
-            <button>Request pending</button>
+                {% else %}
+                <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Request pending</a></button>
+                {% endif %}
+                
             {% else %}
+                {% if user in profile_mates%}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-            {% endif %}
-            {% if not profile.user in blocked_profiles %}
-                <button><a href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a></button>
+                    {% else %}
+                    <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
+                    {% endif %}
+                {% endif %}
+            {% if profile.user in blocked_profiles %}
+            <button><a href="{% url 'profiles:block_user' 'unblock' profile.username %}">UnBlock</a></button>
             {% else %}
-                <button><a href="{% url 'profiles:block_user' 'unblock' profile.username %}">UnBlock</a></button>
+            <button><a href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a></button>
             {% endif %}
         {% endif %}
         <p>Created: {{profile.created_at}}</p>
@@ -42,5 +51,8 @@
     <h4>Bio: {{profile.bio}}</h4>
 </div>
 </div>
+{% else %}
+<h3>This user has blocked you</h3>
+{%endif %}
 
 {% endblock content %}

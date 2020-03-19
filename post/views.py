@@ -26,6 +26,7 @@ class HomeView(LoginRequiredMixin, View):
       form = PostForm()
       user_profile = Profile.objects.get(user=request.user)
       users = get_user_model().objects.exclude(id=request.user.id)
+      confirmed_mates = []
       try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
@@ -33,10 +34,18 @@ class HomeView(LoginRequiredMixin, View):
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
+      
+      if mates != None:
+        for m in mates:
+          try:
+            confirmed_mate = Mates.objects.get(current_user=m, users=request.user)
+            confirmed_mates.append(confirmed_mate.current_user)
+          except ObjectDoesNotExist: 
+            confirmed_mate = None
       context = {
               'form': form, 'posts': posts,
               'users': users, 'user_profile': user_profile,
-              'mates': mates, 
+              'mates': mates, 'confirmed_mates': confirmed_mates
           }
       return render(request, self.template_name, context)
     else:

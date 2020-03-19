@@ -53,11 +53,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.__str__()
+    
 
 
 class Mates(models.Model):
     users = models.ManyToManyField(User)
     current_user = models.ForeignKey(User, related_name='owner', null=True, on_delete=models.CASCADE)
+    
 
     @classmethod
     def make_mates(cls, current_user, new_friend):

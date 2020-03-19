@@ -8,7 +8,7 @@
         <div class="col-2 col-sm-3 col-md-2 col-lg-3">
             <div class="icon-bar float-right mr-5">
                 <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
-                <a href="#"><i class="fa fa-users"></i></a> 
+                <a href="{% url 'profiles:mates_list' user.username%}"><i class="fa fa-users"></i></a> 
                 <a href="#"><i class="fa fa-shopping-bag"></i></a> 
             </div>
         </div>
@@ -55,8 +55,15 @@
                                                 <a href="{% url 'delete_post' post.id %}">Delete</a>
                                             </div>
                                     </div>
+                                    {% else %}
+                                    <div class="settings float-right">
+                                        <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="">Report</a>
+                                            </div>
+                                    </div>
                                     {% endif %}
-                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' post.user.username%}">{{ post.user }}</a>
                             </h5>
                             <p class="card-text"><p>{{ post.post }}</p>
                             {{ post.created }}
@@ -75,7 +82,7 @@
                     <h2 class="text-center mb-3">Mates List</h2>
                     <div class="card w-100">
                         <div class="card-body mh-100 friend-box text-center">
-                            {% if not mates %}
+                            {% if not confirmed_mates %}
                                 <br>
                                 <br>
                                 <br>
@@ -99,7 +106,7 @@
                                 <br>
                                 <br>
                             {% else %}
-                                {% for mate in mates %}
+                                {% for mate in confirmed_mates %}
                                     <a href="{% url 'profiles:profile_detail' mate.username %}">
                                         <h3>{{ mate.username }}</h3>
                                     </a>

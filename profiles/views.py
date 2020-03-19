@@ -45,18 +45,28 @@ class ProfileView(View):
     try:
       mate = Mates.objects.get(current_user=request.user)
       mates = mate.users.all()
-      profile_mate = Mates.objects.get(current_user=profile.user)
-      profile_mates = profile_mate.users.all()
-      blocked_profile = Blocked.objects.get(current_user=request.user)
-      blocked_profiles = blocked_profile.users.all()
     except ObjectDoesNotExist:
       mates = None
-      blocked_profiles = None
+    try:
+      profile_mate = Mates.objects.get(current_user=profile.user)
+      profile_mates = profile_mate.users.all()
+    except ObjectDoesNotExist:
       profile_mates = None
+    try:
+      blocked_by_user = Blocked.objects.get(current_user=profile.user)
+      blocked_users = blocked_by_user.users.all()
+    except ObjectDoesNotExist:
+      blocked_users = None
+    try:
+      blocked_by_me= Blocked.objects.get(current_user=request.user)
+      blocked_profiles = blocked_by_me.users.all()
+    except ObjectDoesNotExist:
+      blocked_profiles = None
     user_profile = Profile.objects.get(user=request.user)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles
+      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
+      'blocked_users': blocked_users
     }
     return render(request, self.template_name, context)
 
@@ -117,3 +127,46 @@ def block_user(request, operation, username):
   elif operation == 'unblock':
     Blocked.unblock_user(request.user, blocked)
     return redirect('home')
+
+class MatesView(View):
+  template_name = 'mates.html'
+
+  def get(self, request, username, *args, **kwargs):
+    unconfirmed_mates = []
+    confirmed_mates = []
+    try:
+      mate = Mates.objects.get(current_user=request.user)
+      mates = mate.users.all()
+    except ObjectDoesNotExist:
+      mates = None
+    try:
+      blocked_by_me= Blocked.objects.get(current_user=request.user)
+      blocked_users = blocked_by_me.users.all()
+    except ObjectDoesNotExist:
+      blocked_users = None
+          
+    if mates != None:
+      for m in mates:
+        try:
+          confirmed_mate = Mates.objects.get(current_user=m, users=request.user)
+          confirmed_mates.append(confirmed_mate.current_user)
+        except ObjectDoesNotExist: 
+          unconfirmed_mate, created = Mates.objects.get_or_create(current_user=m)
+          if not created:
+            unconfirmed_mate.current_user = m
+            unconfirmed_mate.save()
+          unconfirmed_mates.append(unconfirmed_mate.current_user)
+    users = Profile.objects.get
+    print(users)
+    for user in users:
+      print(user)
+    mate_requests = None
+    context = {
+      'mates':mates, 'confirmed_mates':confirmed_mates, 'unconfirmed_mates':unconfirmed_mates, 'blocked_users':blocked_users, 'mate_requests':mate_requests
+    }
+    return render(request, self.template_name, context)
+
+  def get_queryset(self):
+    queryset = super(OwnerMixin, self).get_queryset()
+    return queryset.filter(user=self.request.user)
+
