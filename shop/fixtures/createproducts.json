@@ -1,0 +1,172 @@
+[
+    {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+    "category_id":1,
+    "name": "T-Shirt",
+    "description": "A basic T-shirt made to show your love for Loop.",
+    "price": 45.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+    "category_id":1,
+    "name": "Hoodie",
+    "description": "Nothing says that you're a Loop fan like our fine sewed hoodie which displays our logo at the friend and then our well-known slogan. Available for men and women.",
+    "price": 7.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+    "category_id":1,
+    "name": "Longsleeve",
+    "description": "Sometimes you feel like haveing that extra sleeve length. It's just a small want but we're here to make your wants a reality. We think this longsleeve will be just perfect. Available for men and women.",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+    "category_id":1,
+    "name": "Crop Top",
+    "description": "Now this item is just for the ladies out there. We know you want to have something to call your own and this crop top will do just that. Fashnioble all year round! Available for women only.",
+    "price": 10.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+    "category_id":2,
+    "name": "",
+    "description": "",
+    "price": 10.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+    "category_id":2,
+    "name": "",
+    "description": "",
+    "price": 10.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+    "category_id":3,
+    "name": "",
+    "description": "",
+    "price": 45.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+    "category_id":4,
+    "name": "Safety Razor",
+    "description": "",
+    "price": 7.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+    "category_id":5,
+    "name": "Advanced Safety Razor",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 13,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 14,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 15,
+    "fields": {
+    "category_id":5,
+    "name": "Advanced Safety Razor",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 16,
+    "fields": {
+    "category_id":5,
+    "name": "",
+    "description": "",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 17,
+    "fields": {
+    "category_id":6,
+    "name": "",
+    "description": "",
+    "price": 10.00
+    }
+}
+]

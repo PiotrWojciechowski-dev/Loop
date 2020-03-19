@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+	Order History 
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-8 mt-5 ml-5">
+		{% if messages %}
+		{% for msg in messages %}       
+			<div class="alert alert-danger">
+				{{msg.message}}
+			</div>
+		{% endfor %}
+	{% endif %}
+	<!-- Start of For loop - For each p in products add a row -->
+	{% for order in orders %}
+		<p>Order Number: {{order.id}}</p>
+		<p>Order Date: {{order.created}}</p>
+		<table class="table table-bordered table-hover table-condensed w-75">					
+			<thead>
+			<!-- The header row-->
+				<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order_item  in order.get_items %}
+				<tr>
+					<td>{{order.id}}</td>
+					<td>{{order_item.product}}</td>
+					<td>{{order_item.quantity}}</td>
+					<td>&euro; {{order_item.price}}</td>		
+				</tr>
+				{% endfor %}
+				<!-- End of For loop -->			
+			</tbody>
+		</table>
+				<p class="text-left"><strong>Order Total: &euro; 
+                                {{order.get_total_cost}}</strong></p>
+		<div class="col-sm-2"></div>
+		<div class="row">
+        <div>
+        <p>
+            <a href="{% url 'cancel_order' order.id %}"><button class="btn btn-primary mx-3">Cancel Order</button></a>
+		</p>
+		</div>
+		{% if order.paid == False %}
+		<div>
+		<p>
+            <a href="{% url 'payment' order.id %}"><button class="btn btn-success">Pay Now</button></a>
+		</p>
+		</div>
+		{% else %}
+		<div>
+		<p>
+			<button class="btn btn-success" disabled>Item is paid</button>
+		</p>
+		</div>
+		{% endif %}
+	</div> 
+	{% endfor %}
+	</div>
+	</div>
+</div>
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8 my-3">
+		{% if orders.paginator.num_pages > 1 %}
+			<div class="text-center">
+				{% for pg in orders.paginator.page_range %}
+					<a href="?page={{pg}}" class="btn btn-light btn-sm
+						{% if orders.number == pg %}
+							active
+						{% endif %}">{{pg}}
+					</a>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+	<div class="col-sm-2"></div>
+
+{% endblock content %}

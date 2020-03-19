@@ -50,7 +50,9 @@ class ProfileView(View):
     user_profile = Profile.objects.get(user=request.user)
     users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates,
+      'form':form, 'profile': profile,
+      'user_profile': user_profile, 'users':users,
+      'mates': mates,
     }
     return render(request, self.template_name, context)
 
