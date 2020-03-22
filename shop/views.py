@@ -37,6 +37,7 @@ def product_list(request, category_slug=None):
     return render(request, 'products/products.html', context)
 
 def product_detail(request, id, slug):
+    user_profile = Profile.objects.get(user=request.user)
     product = get_object_or_404(Product,
                                 id=id,
                                 slug=slug,
@@ -45,4 +46,5 @@ def product_detail(request, id, slug):
     return render(request,
                   'products/product_detail.html',
                   {'product': product,
-                  'cart_product_form': cart_product_form})   
+                  'cart_product_form': cart_product_form,
+                  'user_profile': user_profile})   

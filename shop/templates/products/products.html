@@ -9,49 +9,74 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3 mt-3">
-            <form class="w-75 my-5 box-signup" action="" method="get">
+        <div class="col-2 col-sm-3 col-md-2 col-lg-3">
+            <div class="icon-bar float-right mr-4">
+                <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
+                <a href="#"><i class="fa fa-users"></i></a> 
+                <a href="{% url 'shop:product_list' %}"><i class="fa fa-shopping-bag"></i></a> 
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <form class="w-50 my-5 font-weight-bold" action="" method="get">
                 {{ filter.form|crispy }}
-                <input class="custom-button bg-white" type="submit">
+                <input class="custom-button" type="submit">
             </form>
         </div>
-            <div class="col-sm-5">
-            <h1 class="text-center mt-5 ml-3">Products</h1>
-            <div class="row ml-5">
-                    {% for product in products %}
-                        <div class="card w-25 m-4 p-2 text-center ">
-                            <a class="product-name card-body" href="{{ product.get_absolute_url }}">
-                                <img src="{% if product.image %}
-                                            {{ product.image_thumbnail.url }}
-                                        {% else %}
-                                            {% static 'img/no_image.png' %}
-                                        {% endif %}"alt = "{{product.name}}">
-                            </a>
-                            <a class="align-text-bottom" href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
-                            €{{ product.price }}
-                        </div>
-                    {% endfor %}
+        <div class="col-sm-4">
+            <div>
+            <h3 class="d-inline">Mercahndise:</h3>
+            <span class="d-inline float-right mr-5 mt-2">
+                {% with total_items=cart|length %}
+                  {% if cart|length > 0 %}
+                  <a class="text-decoration-none" href="{% url 'cart:cart_detail' %}">
+                        <i class="fas fa-shopping-cart"></i>
+                    {{ total_items }} Item{{ total_items|pluralize }}
+                    €{{ cart.get_total_price }}
+                  </a>
+                  {% else %}
+                    <i class="fas fa-shopping-cart"></i>
+                    0 item(s)
+                  {% endif %}
+                {% endwith %}
+            </span>
+            <hr class="w-100">
             </div>
-        </div>
-</div>
-    <div class="col-sm-2"></div>
-        <div class="row">
-            <div class="col-sm-7"></div>
-            <div class="col-sm-3 ml-4">
-            {% if products.paginator.num_pages > 1 %}
-                <div class=" text-left my-4">
-                    {% for pg in products.paginator.page_range %}
-                        <a href="?page={{pg}}" class="btn btn-light btn-sm
-                            {% if products.number == pg %}
-                                active
-                            {% endif %}">{{pg}}
+            <div class="row">
+                {% for product in products %}
+                    <div id="items" class="card w-25 m-4 pb-2 text-center item">
+                        <a class="product-name card-body" href="{{ product.get_absolute_url }}">
+                            <img class="card-img-top w-100" src="{% if product.image %}
+                                        {{ product.image_thumbnail.url }}
+                                    {% else %}
+                                        {% static 'img/no_image.png' %}
+                                    {% endif %}"alt = "{{product.name}}">
                         </a>
-                    {% endfor %}
-                </div>
-            {% endif %}
+                        <a class="align-text-bottom" href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                        €{{ product.price }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="col-sm-2"></div>
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8 mr-5 ml-3">
+                    {% if products.paginator.num_pages > 1 %}
+                        <div class="text-center mr-5">
+                            <div class="mr-5 my-3">
+                                {% for pg in products.paginator.page_range %}
+                                    <a href="?page={{pg}}" class="btn btn-light btn-sm
+                                        {% if products.number == pg %}
+                                            active
+                                        {% endif %}">{{pg}}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
         </div>
 </div>
+<script src="{% static 'js/shop.js' %}"></script>
 {% endblock content %}

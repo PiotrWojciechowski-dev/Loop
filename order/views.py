@@ -23,9 +23,6 @@ def order_create(request, total=0):
         form = IEPostalAddressForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
-            if cart.voucher:
-                order.voucher = cart.voucher
-                order.discount = cart.voucher.discount
             if request.user.is_authenticated:
                 username = str(request.user.username)
                 order.username = username
@@ -37,12 +34,12 @@ def order_create(request, total=0):
                                     price=order_item['price'],
                                     quantity=order_item['quantity'])
         cart.clear()
-        total = Cart.get_total_price_after_discount(cart)
+        total = Cart.get_total_price(cart)
         Email.sendOrderConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-        return render(request, 'order_created.html', {'order': order, 'total':total})
+        return render(request, 'order/order_created.html', {'order': order, 'total':total})
     else: 
         form = IEPostalAddressForm()
-    return render(request, 'order.html',{'cart':cart, 'form':form})
+    return render(request, 'order/order.html',{'cart':cart, 'form':form})
 
 def order_created(request):
     order = get_object_or_404(Order, id=order_id)
@@ -50,7 +47,7 @@ def order_created(request):
     order.paid = True
     order.save()
     Email.sendOrderConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-    return render(request, 'order_created.html', {'order':order})
+    return render(request, 'order/order_created.html', {'order':order})
 
 @login_required()
 def order_history(request):
@@ -70,7 +67,7 @@ def order_history(request):
         context = {
             'orders': orders,
         }
-    return render(request, 'order_list.html', context)
+    return render(request, 'order/order_list.html', context)
 
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -100,10 +97,10 @@ def payment_method(request, total=0):
             description='Credit card charge',
             source=request.POST['stripetoken']
         )
-    return render(request, 'order_created.html', {'order_id':order_id})
+    return render(request, 'order/order_created.html', {'order_id':order_id})
 
 def order_created(request):
-    return render(request, 'order_created.html')
+    return render(request, 'order/order_created.html')
 
 def payment_method(request, order_id):
     print(order_id)
@@ -129,7 +126,7 @@ def payment_method(request, order_id):
     form = PayPalPaymentsForm(initial=paypal_dict)
     
     
-    return render(request, 'payment.html', {'form':form, 'order':order, 'data_key':data_key, 'stripe_total':stripe_total, 'description':description})
+    return render(request, 'payment/payment.html', {'form':form, 'order':order, 'data_key':data_key, 'stripe_total':stripe_total, 'description':description})
 
 @csrf_exempt
 def payment_made(request, order_id):
@@ -145,7 +142,7 @@ def payment_made(request, order_id):
     order.paid = True
     order.save()
     Email.sendPaymentConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-    return render(request, 'payment_made.html', {'order':order})
+    return render(request, 'payment/payment_made.html', {'order':order})
 
 @csrf_exempt
 def payment_made_paypal(request):
@@ -154,8 +151,8 @@ def payment_made_paypal(request):
     order.paid = True
     order.save()
     Email.sendPaymentConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-    return render(request, 'payment_made_paypal.html')
+    return render(request, 'payment/payment_made.html')
 
 @csrf_exempt
 def payment_cancelled(request):
-    return render(request, 'cancelled.html')
+    return render(request, 'payment/payment_canceled.html')

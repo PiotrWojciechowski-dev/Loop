@@ -4,6 +4,7 @@ from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
 from django.conf import settings
+from profiles.models import Profile
 import stripe
 
 # Create your views here.
@@ -27,9 +28,10 @@ def cart_remove(request, product_id):
     return redirect('cart:cart_detail')
 
 def cart_detail(request):
+    user_profile = Profile.objects.get(user=request.user)
     cart = Cart(request)
     for item in cart:
             item['update_quantity_form'] = CartAddProductForm(
                     initial={'quantity': item['quantity'],
                     'update': True})
-    return render(request, 'cart.html', {'cart': cart})
+    return render(request, 'cart.html', {'cart': cart, 'user_profile': user_profile})

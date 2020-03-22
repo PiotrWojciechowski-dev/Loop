@@ -32,7 +32,7 @@
                         <div id="sb-search" class="sb-search">
                             <div class="search-container">
                                 <form class="searchbox input-group" action="{% url 'search_result' %}" method="GET">
-                                    <input type="search" placeholder="Search...." name="q" class="searchbox-input" onkeyup="buttonUp();">
+                                    <input type="search" placeholder="Search...." name="q" class="searchbox-input" maxlength="30">
                                     <span type="submit" class="searchbox-submit"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     <span class="searchbox-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                 </form>
@@ -52,6 +52,7 @@
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
                                 <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
+                                <a href="{% url 'order_history' %}">View Orders</a>
                                 <a href="{% url 'signout' %}">Logout</a>
                             </div>
                         </div>
