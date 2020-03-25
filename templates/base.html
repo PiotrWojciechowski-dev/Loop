@@ -43,10 +43,10 @@
                 <div class="col-2 col-sm-4 col-md-3 col-lg-3">
                     <div class="my-3">
                         {% if user.is_authenticated %}
-                            {% if user_profile.profile_image %}
-                            <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
-                            {% else %}
+                            {% if user_profile.profile_image == 'default.jpg' %}
                             <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                            {% else %}
+                            <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% endif %}
                         <div class="settings">
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         {% else %}
-                        <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid rounded-circle w-25 h-100"></a>
+                        <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                         <div class="settings">
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">

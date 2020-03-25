@@ -9,7 +9,10 @@ from profiles.models import Profile
 # Create your views here.
 
 def product_list(request, category_slug=None):
-    user_profile = Profile.objects.get(user=request.user)
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     category = None
     categories = Category.objects.all()
     products = Product.objects.all()
@@ -37,7 +40,10 @@ def product_list(request, category_slug=None):
     return render(request, 'products/products.html', context)
 
 def product_detail(request, id, slug):
-    user_profile = Profile.objects.get(user=request.user)
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     product = get_object_or_404(Product,
                                 id=id,
                                 slug=slug,

@@ -40,19 +40,28 @@ class ProfileView(View):
   template_name = 'profile.html'
 
   def get(self, request, username, *args, **kwargs):
+    if Profile.objects.filter(username=request.user).exists():
+      user_profile = Profile.objects.get(user=request.user)
+    else:
+      user_profile = None
     form = ProfileForm()
     profile = get_object_or_404(Profile, username=username)
+    if User.objects.filter(username=request.user).exists():
+      username = request.user
+      user_profile = Profile.objects.get(user=request.user)
+      #users = get_user_model().objects.exclude(id=request.user.id)
+    else:
+      username = None
     try:
-      mate = Mates.objects.get(current_user=request.user)
+
+      mate = Mates.objects.get(current_user=username)
       mates = mate.users.all()
     except ObjectDoesNotExist:
       mates = None
-    user_profile = Profile.objects.get(user=request.user)
-    users = get_user_model().objects.exclude(id=request.user.id)
     context = {
       'form':form, 'profile': profile,
-      'user_profile': user_profile, 'users':users,
-      'mates': mates,
+      'mates': mates, 'user_profile': user_profile,
+      #'users': users,
     }
     return render(request, self.template_name, context)
 
