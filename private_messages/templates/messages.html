@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+<form method="post" class="w-75 post-form" type="input">
+    {% csrf_token %}
+    {{ form }} 
+    <br>
+    <button type="submit" class="custom-button">Send</button>
+</form>
+{%endblock content%}

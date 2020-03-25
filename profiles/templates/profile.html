@@ -7,7 +7,7 @@
 {% load countries %}
 {% get_country profile.location as country %}
 
-{% if not user in blocked_users %}   
+{% if not u in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
 <div class="col-lg-2">
@@ -27,12 +27,14 @@
                 {% endif %}
                 
             {% else %}
+                
                 {% if user in profile_mates%}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-                    {% else %}
-                    <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
-                    {% endif %}
+                <button><a href="{% url 'messages:messaging' user profile.user%}">message</a></button>
+                {% else %}
+                <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
                 {% endif %}
+            {% endif %}
             {% if profile.user in blocked_profiles %}
             <button><a href="{% url 'profiles:block_user' 'unblock' profile.username %}">UnBlock</a></button>
             {% else %}

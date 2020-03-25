@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'profiles.apps.ProfilesConfig',
     'likes.apps.LikesConfig',
+    'private_messages.apps.PrivateMessagesConfig',
     #'imagekit',
     'crispy_forms',
     'django_countries',

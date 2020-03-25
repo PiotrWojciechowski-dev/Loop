@@ -156,10 +156,10 @@ class MatesView(View):
             unconfirmed_mate.current_user = m
             unconfirmed_mate.save()
           unconfirmed_mates.append(unconfirmed_mate.current_user)
-    users = Profile.objects.get
-    print(users)
-    for user in users:
-      print(user)
+    #users = Profile.objects.get
+    #print(users)
+    #for user in users:
+      #print(user)
     mate_requests = None
     context = {
       'mates':mates, 'confirmed_mates':confirmed_mates, 'unconfirmed_mates':unconfirmed_mates, 'blocked_users':blocked_users, 'mate_requests':mate_requests

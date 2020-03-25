@@ -33,6 +33,7 @@ urlpatterns = [
     path('search/', include('search.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('likes/', include('likes.urls')),
+    path('messages/', include('private_messages.urls', namespace='messaging'))
 ]
 
 if settings.DEBUG:
