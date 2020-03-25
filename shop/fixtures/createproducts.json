@@ -1,0 +1,162 @@
+[
+    {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+    "category_id":1,
+    "name": "T-Shirt",
+    "description": "A basic T-shirt made to show your love for Loop.",
+    "price": 9.99
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+    "category_id":1,
+    "name": "Hoodie",
+    "description": "Nothing says that you're a Loop fan like our fine sewed hoodie which displays our logo at the friend and then our well-known slogan. Available for men and women.",
+    "price": 20.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+    "category_id":1,
+    "name": "Longsleeve",
+    "description": "Sometimes you feel like haveing that extra sleeve length. It's just a small want but we're here to make your wants a reality. We think this longsleeve will be just perfect. Available for men and women.",
+    "price": 11.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+    "category_id":1,
+    "name": "Crop Top",
+    "description": "Now this item is just for the ladies out there. We know you want to have something to call your own and this crop top will do just that. Fashnioble all year round! Available for women only.",
+    "price": 10.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+    "category_id":2,
+    "name": "Beanie",
+    "description": "Our stylish beanies are made of 100% cotton and 100% satisfaction. You will make yourself stand out from everyone in no time. Comes in two colours",
+    "price": 12.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+    "category_id":2,
+    "name": "Baseball Cap",
+    "description": "Black baseball cap to wear for those warm summer days. You're not supporting a baseball team you're supporting Loop.",
+    "price": 10.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+    "category_id":3,
+    "name": "Flip Flops",
+    "description": "Wear these anytime you're going to the pool or the beach.",
+    "price": 15.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+    "category_id":4,
+    "name": "Socks",
+    "description": "Know that you will feel warm and in comfort with these Loop oriented socks. Perfect for all conditions. These socks are the perfect choice.",
+    "price": 4.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S7 Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S7 users",
+    "price": 5.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S7 Edge Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S7 Edge users",
+    "price": 5.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S10 Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S10 users",
+    "price": 5.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S20 Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S20 users",
+    "price": 5.00
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 13,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S20 Plus Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S20 Plus users",
+    "price": 5.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 14,
+    "fields": {
+    "category_id":5,
+    "name": "Samusng Galaxy S20 Ultra Case",
+    "description": "A loop covered phone case made specifically for Samsung Galaxy S20 Ultra users",
+    "price": 5.00
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 15,
+    "fields": {
+    "category_id":5,
+    "name": "iPhone 7 Case",
+    "description": "Newly added to our phone case line up. Loop is finally expanding their collection of cases to our dear iphone users with this iPhone 7 Case covered in heart glitter to show our love.",
+    "price": 7.00
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 16,
+    "fields": {
+    "category_id":6,
+    "name": "Loop Bag",
+    "description": "This bag is the pinaccle of our entire collection. Show of to everyone you meet when you're outside with our stylish backpack. Carry all your important belongings like laptops, chargers, books, folders and whatever else you can fit into it. The Loop Bag contains a front pocket, back pocket and a main pocket where all your items can be stored saftley.",
+    "price": 35.00
+    }
+}
+]

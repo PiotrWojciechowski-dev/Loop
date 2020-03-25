@@ -42,10 +42,19 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'profiles.apps.ProfilesConfig',
     'likes.apps.LikesConfig',
+<<<<<<< HEAD
     'private_messages.apps.PrivateMessagesConfig',
+=======
+    'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
+    'order.apps.OrderConfig',
+>>>>>>> piotr
     #'imagekit',
     'crispy_forms',
     'django_countries',
+    'django_filters',
+    'paypal.standard.ipn',
+    'stripe',
     
 ]
 
@@ -69,6 +78,9 @@ TEMPLATES = [
                                                     os.path.join(BASE_DIR, 'user', 'templates/'),
                                                     os.path.join(BASE_DIR, 'search', 'templates/'),
                                                     os.path.join(BASE_DIR, 'profiles', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'shop', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'cart', 'templates/'),
+                                                    os.path.join(BASE_DIR, 'order', 'templates/'),
                                                     ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -77,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -152,3 +165,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Other Files Configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+CART_SESSION_ID = 'cart'
+
+#django-paypal settings
+PAYPAL_RECEIVER_EMAIL = 'x00154002@mytudublin.ie'
+PAYPAL_TEST = True
+
+
+#django-stripe keys
+STRIPE_SECRET_KEY = 'sk_test_6umaOLKEqvEpQEyCPrHO73U100CTgwZNE8'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_qBVMPqWOiLNRYgzNowY4zBnE004YK6BQRC'

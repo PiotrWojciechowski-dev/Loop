@@ -32,7 +32,7 @@
                         <div id="sb-search" class="sb-search">
                             <div class="search-container">
                                 <form class="searchbox input-group" action="{% url 'search_result' %}" method="GET">
-                                    <input type="search" placeholder="Search...." name="q" class="searchbox-input" onkeyup="buttonUp();">
+                                    <input type="search" placeholder="Search...." name="q" class="searchbox-input" maxlength="30">
                                     <span type="submit" class="searchbox-submit"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     <span class="searchbox-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                 </form>
@@ -43,21 +43,22 @@
                 <div class="col-2 col-sm-4 col-md-3 col-lg-3">
                     <div class="my-3">
                         {% if user.is_authenticated %}
-                            {% if user_profile.profile_image %}
-                            <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
-                            {% else %}
+                            {% if user_profile.profile_image == 'default.jpg' %}
                             <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                            {% else %}
+                            <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% endif %}
                         <div class="settings">
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
                                 <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
+                                <a href="{% url 'order_history' %}">View Orders</a>
                                 <a href="{% url 'signout' %}">Logout</a>
                                 <a href="">Delete Profile</a>
                             </div>
                         </div>
                         {% else %}
-                        <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid rounded-circle w-25 h-100"></a>
+                        <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                         <div class="settings">
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
