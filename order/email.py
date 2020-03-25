@@ -9,7 +9,7 @@ class Email:
     def sendOrderConfirmation(request, to_user_email, to_order_id, to_addressline1, to_addressline2, to_code, to_city, to_county, to_country, to_total):
         msg = MIMEMultipart("alternative")
         msg["Subject"] = "Order Confirmation Email"
-        msg["From"] = "sales@fresh.ie"
+        msg["From"] = "sales@loop.ie"
         msg['Date'] = formatdate(localtime=settings.EMAIL_USE_LOCALTIME)
         msg["To"] = str(to_user_email)
         # Create the plain-text and html version of your message
@@ -28,7 +28,7 @@ class Email:
     def sendPaymentConfirmation(request, to_user_email, to_order_id, to_addressline1, to_addressline2, to_code, to_city, to_county, to_country, to_total):
         msg = MIMEMultipart("alternative")
         msg["Subject"] = "Payment Confirmation Email"
-        msg["From"] = "sales@fresh.ie"
+        msg["From"] = "sales@loop.ie"
         msg['Date'] = formatdate(localtime=settings.EMAIL_USE_LOCALTIME)
         msg["To"] = str(to_user_email)
         # Create the plain-text and html version of your message
@@ -47,7 +47,7 @@ class Email:
     def sendCancelationConfirmation(request, to_user_email, to_order_id, to_addressline1, to_addressline2, to_code, to_city, to_county, to_country):
         msg = MIMEMultipart("alternative")
         msg["Subject"] = "Order Cancelation Confirmation Email"
-        msg["From"] = "sales@fresh.ie"
+        msg["From"] = "sales@loop.ie"
         msg['Date'] = formatdate(localtime=settings.EMAIL_USE_LOCALTIME)
         msg["To"] = str(to_user_email)
         # Create the plain-text and html version of your message
@@ -66,6 +66,6 @@ class Email:
     def send_email(request, message):
         port = 25
         smtp_server = "localhost"
-        sender_email = "sales@fresh.ie"
+        sender_email = "sales@loop.ie"
         server = smtplib.SMTP(smtp_server)
         server.sendmail("rrrrrrrrr@hotmail.com", str(request), message.as_string())
