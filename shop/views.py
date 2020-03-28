@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product
+from .models import Category, Product, ProductDetailImages
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnInteger
 from cart.forms import CartAddProductForm
@@ -48,9 +48,13 @@ def product_detail(request, id, slug):
                                 id=id,
                                 slug=slug,
                                 available=True)
+    images = product.detail_images.all()
+    for image in images:
+        print(image.detail_image)
     cart_product_form = CartAddProductForm()
     return render(request,
                   'products/product_detail.html',
                   {'product': product,
                   'cart_product_form': cart_product_form,
-                  'user_profile': user_profile})   
+                  'user_profile': user_profile,
+                  'images': images})   

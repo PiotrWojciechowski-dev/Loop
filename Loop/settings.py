@@ -42,13 +42,10 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'profiles.apps.ProfilesConfig',
     'likes.apps.LikesConfig',
-<<<<<<< HEAD
     'private_messages.apps.PrivateMessagesConfig',
-=======
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
->>>>>>> piotr
     #'imagekit',
     'crispy_forms',
     'django_countries',
