@@ -33,14 +33,10 @@ urlpatterns = [
     path('search/', include('search.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('likes/', include('likes.urls')),
-<<<<<<< HEAD
-    path('messages/', include('private_messages.urls', namespace='messaging'))
-=======
     path('paypal/', include('paypal.standard.ipn.urls')),
     path('', include('shop.urls', namespace='shop')),
     path('order/', include('order.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
->>>>>>> piotr
 ]
 
 if settings.DEBUG:
