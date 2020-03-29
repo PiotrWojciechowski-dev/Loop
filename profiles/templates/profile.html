@@ -31,7 +31,7 @@
                 
                 {% if user in profile_mates%}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-                <button><a href="{% url 'messages:messaging' user profile.user%}">message</a></button>
+                <button><a href="{% url 'messages:messaging' user profile.user %}">message</a></button>
                 {% else %}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
                 {% endif %}

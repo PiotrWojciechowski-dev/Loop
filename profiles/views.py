@@ -39,7 +39,7 @@ def create_profile(request):
 class ProfileView(View):
   template_name = 'profile.html'
 
-  def get(self, request, username, *args, **kwargs):
+  def get(self, request,username, *args, **kwargs):
     if Profile.objects.filter(username=request.user).exists():
       user_profile = Profile.objects.get(user=request.user)
     else:
