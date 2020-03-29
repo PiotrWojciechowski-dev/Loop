@@ -19,14 +19,47 @@ class Cart(object):
         """
         Add a product to the cart or update its quantity
         """
-
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
+            self.cart[product_id] = {'quantity': 0,  'price': str(product.price)}
+        print("Print1",self.cart)
+        if update_quantity:
+            self.cart[product_id]['quantity'] = quantity
+            print("Update")
+        else:
+            self.cart[product_id]['quantity'] += quantity
+            print("Update1")
+        self.save()
+
+    def add2(self, product, gender="Male", size="Small", quantity=1, update_quantity=False):
+        """
+        Add a product to the cart or update its quantity, gender or size
+        """
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.cart[product_id] = {'gender': str(gender), 'size': str(size), 'quantity': 0, 'price': str(product.price)}
+        print("Print2",self.cart)
+        if update_quantity:
+            self.cart[product_id]['quantity'] = quantity
+            print("Update2")
+        else:
+            self.cart[product_id]['quantity'] += quantity
+            print("Update3")
+        self.save()
+    
+    def add3(self, product, colour, quantity=1, update_quantity=False):
+        """
+        Add a product to the cart or update its quantity
+        """
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.cart[product_id] = {'colour': str(colour), 'quantity': 0,  'price': str(product.price)}
+        print("Print3",self.cart)
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
             self.cart[product_id]['quantity'] += quantity
+            print("yes")
         self.save()
 
     def save(self):

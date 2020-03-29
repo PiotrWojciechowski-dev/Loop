@@ -13,18 +13,18 @@
                 </div>
             </div>
             <div class="col-6 col-sm-4 col-md-7 col-lg-6">
-                <h2 class="text-left my-3">Users</h2>
+                <h2 class="text-left my-3">Users:</h2>
                 {% for profile in profiles %}
                 <div id="items" class="card w-100 m-4 p-2 item flex-row flex-wrap">
                     {% if profile.profile_image == 'default.jpg' %}
                     <a class="float-left" href="{% url 'profiles:profile_detail' profile.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 109px; height: 112px; border-radius: 100px;"></a>
-                    <a class="align-self-center ml-5" href="{% url 'profiles:profile_detail' profile.username %}">
-                        <h3>{{ profile.username }}</h3>
+                    <a class="align-self-center ml-5 text-decoration-none" href="{% url 'profiles:profile_detail' profile.username %}">
+                        <h3 style="color: black;">{{ profile.username }}</h3>
                     </a>
                     {% else %}
                     <a class="ml-1 d-block" href="{% url 'profiles:profile_detail' profile.username %}"><img src="{{profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid img-responsive" style="width: 95px; height: 92px; border-radius: 100px;"></a>
-                    <a class="align-self-center ml-5" href="{% url 'profiles:profile_detail' profile.username %}">
-                        <h3>{{ profile.username }}</h3>
+                    <a class="align-self-center ml-5 text-decoration-none" href="{% url 'profiles:profile_detail' profile.username %}">
+                        <h3 style="color: black;">{{ profile.username }}</h3>
                     </a>
                     {% endif %}
                 </div>
