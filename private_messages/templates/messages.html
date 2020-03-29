@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 {%block content%}
-<form method="post" class="w-75 post-form" type="input">
+{% for message in messages%}
+    {% if message.sender == buser%}
+
+        <p>  {{message.sender}}: {{message.text}}</p>
+        {% if message.image %}
+        <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
+        {% endif %}
+    {% else %}
+        <p>  {{message.sender}}: {{message.text}}</p>
+        {% if message.image %}
+        <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+<form method="post" class="w-75 post-form" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }} 
     <br>

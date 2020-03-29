@@ -7,10 +7,9 @@
 {% load countries %}
 {% get_country profile.location as country %}
 
-{% if not u in blocked_users %}   
+{% if not user in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
-<<<<<<< HEAD
 <div class="col-lg-2">
     <div class="row">
         <img src="{{profile.profile_image.url}}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
@@ -31,7 +30,7 @@
                 
                 {% if user in profile_mates%}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-                <button><a href="{% url 'messages:messaging' user profile.user%}">message</a></button>
+                <button><a href="{% url 'messages:messaging' user profile.user %}">message</a></button>
                 {% else %}
                 <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
                 {% endif %}
@@ -53,31 +52,6 @@
     <h3>Gender {{profile.gender}}</h3>
     <h4>Bio: {{profile.bio}}</h4>
 </div>
-=======
-    <div class="col-lg-2">
-        <div class="row">
-            <img src="{{profile.profile_image.url}}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
-            {% if profile.username == user.username %}
-                <div class="text-left ml-4 my-2">
-                    <button class="register-button"><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
-                </div>
-            {% elif not profile.user in mates  %}
-                <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
-            {% else %}
-                <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-            {% endif %}
-            <p>Created: {{profile.created_at}}</p>
-    </div>
-    <div class="col-lg-4">
-        <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-        <h2>Username: {{profile.username}}</h2>
-        <h3>Country: {{ country.name }}</h3>
-        <h3>Date of Birth: {{profile.dob}}</h3>
-        <h3>Relationship Status: {{profile.status}}</h3>
-        <h3>Gender {{profile.gender}}</h3>
-        <h4>Bio: {{profile.bio}}</h4>
-    </div>
->>>>>>> piotr
 </div>
 {% else %}
 <h3>This user has blocked you</h3>
