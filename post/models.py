@@ -18,7 +18,15 @@ class Post(models.Model):
     def get_like_url(self, *args, **kwargs):
         return reverse('likes:post-likes', kwargs={'id': self.pk})
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=500, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self, *args, **kwargs):
+	    return self.comment
     
 
     

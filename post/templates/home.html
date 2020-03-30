@@ -23,6 +23,8 @@
                         {{ form.post }}
                         <br>
                         <button type="submit" class="custom-button">Post</button>
+                        <input name="submit-form" value="1" type="hidden">
+
                     </form>
                     {% for post in posts %}
                     {% if not mates %}
@@ -43,6 +45,31 @@
                             <p class="card-text"><p>{{ post.post }}</p>
                             {{ post.created }}
                             <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                            <form method="post" class="w-75 post-form" type="input">
+                                {% csrf_token %}
+                                {{ form.comment }}
+                                <br>
+                                <button type="submit" class="custom-button">Comment</button>
+                                <input name="submit-form" value="2" type="hidden">
+                            </form>
+
+                            {% if post.comment_set.all %}
+                            <div class="card-footer">
+                              <div class="container">
+                                <h5 class="m-0">Comments</h5>
+                                <hr>
+                                {% for comment in post.comment_set.all %}
+                                <div class="mb-2 d-flex">
+                                  <div>
+                                    <span class="">{{comment.comment}}</span><br>
+                                    <small>{{comment.user}}</small>
+                                  </div>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                              </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% else %}
@@ -70,6 +97,31 @@
                             <p class="card-text"><p>{{ post.post }}</p>
                             {{ post.created }}
                             <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                            <form method="post" class="w-75 post-form" type="input">
+                                {% csrf_token %}
+                                {{ form.comment }}
+                                <br>
+                                <button type="submit" class="custom-button">Comment</button>
+                                <input name="submit-form" value="2" type="hidden">
+                            </form>
+
+                            {% if post.comment_set.all %}
+                            <div class="card-footer">
+                              <div class="container">
+                                <h5 class="m-0">Comments</h5>
+                                <hr>
+                                {% for comment in post.comment_set.all %}
+                                <div class="mb-2 d-flex">
+                                  <div>
+                                    <span class="">{{comment.comment}}</span><br>
+                                    <small>{{comment.user}}</small>
+                                  </div>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                              </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% endif %}

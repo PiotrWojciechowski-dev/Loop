@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 class PostForm(forms.ModelForm):
   post = forms.CharField(widget=forms.TextInput(
@@ -15,5 +15,15 @@ class PostForm(forms.ModelForm):
 
     
         
+class CommentForm(forms.ModelForm):
+  comment = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Write a comment...'
+        }
+    ))
 
+  class Meta:
+    model = Comment
+    fields = ('comment',)
     

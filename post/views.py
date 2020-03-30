@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
-from .models import Post
+from .models import Post, Comment
 from profiles.models import Profile, Mates
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -52,14 +52,25 @@ class HomeView(LoginRequiredMixin, View):
       return redirect(reverse('profiles:create_profile'))
 
   def post(self, request, *args, **kwargs):
-    form = PostForm(request.POST)
-    if form.is_valid():
-      post = form.save(commit=False)
-      post.user = request.user
-      post.save()
-      text = form.cleaned_data['post']
-      form = PostForm()
-      return redirect('home')
+    if request.POST.get("submit-form") == "1":
+      form = PostForm(request.POST)
+      if form.is_valid():
+        post = form.save(commit=False)
+        post.user = request.user
+        post.save()
+        text = form.cleaned_data['post']
+        form = PostForm()
+
+    if request.POST.get("submit-form") == "2":
+      form = CommentForm(request.POST) 
+      if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.save()
+        text = form.cleaned_data['comment']
+        form = CommentForm()
+
+    return redirect('home')
 
     args = {'form': form, 'text': text}
     return render(request, self.template_name, args)
