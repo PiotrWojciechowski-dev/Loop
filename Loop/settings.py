@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -167,7 +168,6 @@ CART_SESSION_ID = 'cart'
 #django-paypal settings
 PAYPAL_RECEIVER_EMAIL = 'x00154002@mytudublin.ie'
 PAYPAL_TEST = True
-
 
 #django-stripe keys
 STRIPE_SECRET_KEY = 'sk_test_6umaOLKEqvEpQEyCPrHO73U100CTgwZNE8'

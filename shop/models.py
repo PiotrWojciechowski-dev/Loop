@@ -54,7 +54,43 @@ class Product(models.Model):
 
     def get_absolute_url(self):
             return reverse('shop:product_detail',
-                           args=[self.id, self.slug])    
+                           args=[self.id, self.slug])
+
+class ProductDetailImages(models.Model):
+
+    def upload_path(self, filename):
+        print(filename)
+        if "hat" in filename:
+            return 'product_images/loopHat/' + "%s" %( filename)
+        elif "beanie" in filename:
+            return 'product_images/loopBeanie/' + "%s" %( filename)
+        elif "croptop" in filename:
+            return 'product_images/loopCropTop/' + "%s" %( filename)
+        elif "hoodie" in filename:
+            return 'product_images/loopHoodies/' + "%s" %( filename)
+        elif "tshirt" in filename:
+            return 'product_images/loopShirt/' + "%s" %( filename)
+        elif "longsleeve" in filename:
+            return 'product_images/loopLongsleeve/' + "%s" %( filename)
+        elif "socks" in filename:
+            return 'product_images/loopSocks/' + "%s" %( filename)
+        elif "ff" in filename:
+            return 'product_images/loopFlipFlops/' + "%s" %( filename)
+        elif "i7" in filename:
+            return 'product_images/loopIphoneCover/' + "%s" %( filename)
+        elif "SG" in filename:
+            return 'product_images/loopPhoneCovers/' + "%s" %( filename)
+        elif "bag" in filename:
+            return 'product_images/loopBag/' + "%s" %( filename)
+        else:
+            return 'product_images/'
+
+    product = models.ForeignKey(Product, default=None, 
+                                related_name='detail_images',
+                                on_delete=models.CASCADE)
+    detail_image = models.ImageField(upload_to=upload_path,
+                                    blank=True)    
+    image_thumbnail = ImageSpecField(source='detail_image', processors=[ResizeToFill(90,90)], format='PNG', options={'quality': 60})
 
 
 class Review(models.Model):
