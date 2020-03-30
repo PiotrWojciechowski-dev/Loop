@@ -22,7 +22,7 @@
                 <input class="custom-button" type="submit">
             </form>
         </div>
-        <div class="col-sm-5 col-lg-5">
+        <div class="col-sm-4 col-lg-5">
             <div>
             <h3 class="d-inline">Merchandise:</h3>
             <span class="d-inline float-right mr-5 mt-2">
@@ -41,9 +41,9 @@
             </span>
             <hr class="w-100">
             </div>
-            <div class="row">
+            <div class="row ml-5">
                 {% for product in products %}
-                    <div id="items" class="card w-25 m-4 pb-2 text-center item">
+                    <div id="items" class="card w-25 m-3 pb-2 text-center item">
                         <a class="product-name card-body" href="{{ product.get_absolute_url }}">
                             <img class="card-img-top w-100" src="{% if product.image %}
                                         {{ product.image_thumbnail.url }}

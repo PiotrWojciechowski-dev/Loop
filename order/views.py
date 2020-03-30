@@ -88,21 +88,6 @@ def cancel_order(request, order_id):
                     'Sorry, it is too late to cancel this order')
     return redirect('order_history')
 
-def payment_method(request, total=0):
-    if Profile.objects.filter(username=request.user).exists():
-        user_profile = Profile.objects.get(user=request.user)
-    else:
-        user_profile = None
-    order_id = order.id
-    total = order_create.total
-    if request.method == 'POST':
-        charge = stripe.Charge.create(
-            amount=str(int(total * 100)),
-            currency='EUR',
-            description='Credit card charge',
-            source=request.POST['stripetoken']
-        )
-    return render(request, 'payment/payment.html', {'order_id':order_id, 'user_profile':user_profile})
 
 def payment_method(request, order_id):
     if Profile.objects.filter(username=request.user).exists():
@@ -117,7 +102,6 @@ def payment_method(request, order_id):
     description = "Online Shop"
     data_key = settings.STRIPE_PUBLISHABLE_KEY
 
-    
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': total,

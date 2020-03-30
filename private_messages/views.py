@@ -13,13 +13,13 @@ class MessageView(View):
     def get(self, request, recipient, sender, *args, **kwargs):
         form = MessageForm()
         sender_user = Profile.objects.all().get(username=sender)
-        buser = request.user
+        user = request.user
         try:
             messages = Message.objects.filter(Q(recipient=request.user, sender=sender_user.user) | Q(recipient=sender_user.user, sender=request.user)).order_by('created')
         except ObjectDoesNotExist:
             messages = None
         context = {
-            'form': form, 'messages': messages, 'buser': buser
+            'form': form, 'messages': messages, 'user': user
         }
         return render(request, self.template_name, context)
 

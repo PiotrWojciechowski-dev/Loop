@@ -30,11 +30,9 @@ class HomeView(LoginRequiredMixin, View):
       try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
-        posts = Post.objects.filter(Q(user__in=mates) | Q(user=request.user)).order_by('-created')
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
-      
       if mates != None:
         for m in mates:
           try:
@@ -42,6 +40,7 @@ class HomeView(LoginRequiredMixin, View):
             confirmed_mates.append(confirmed_mate.current_user)
           except ObjectDoesNotExist: 
             confirmed_mate = None
+        posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
       context = {
               'form': form, 'posts': posts,
               'users': users, 'user_profile': user_profile,
