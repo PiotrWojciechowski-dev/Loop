@@ -20,7 +20,7 @@
       {% for image in product.detail_images.all %}
       <div class="mySlides product-image">
         <a class="prev float-left mt-5" onclick="minusSlides(-1)">❮</a>
-        <a class="next float-right" onclick="plusSlides(+1)">❯</a>
+        <a class="next float-right" onclick="plusSlides(1)">❯</a>
         <img class="" src="{{ image.detail_image.url }}">
       </div>
       {% endfor %}

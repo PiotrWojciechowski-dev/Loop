@@ -148,7 +148,7 @@ body {
 	margin-right: 50px;
 	transition: all 0.3s ease;
 	color: white;
-	background-color: #c8bef2;
+	background-color:  #c8bef2;
 	border: 1px solid black;
 	border-radius: 80px;
 	font-size: 40px;
@@ -209,10 +209,7 @@ body {
 }
 
 footer {
-    border: 1px solid black;
-    border-radius: 30px;
-    padding: 5px;
-    background-color: #c8bef2;
+    
 }
 
 ul {
@@ -321,4 +318,25 @@ label[for=id_quantity] {
  }
  .choices .asteriskField {
     display: none;
+}
+
+#left, #right {
+    position: fixed;
+    width: 10%;
+    height: 100%;
+    top: 0
+}
+#left {
+    background: #F2F3F5;
+    left: 0;
+}
+#right {
+    background: #F2F3F5;
+    right: 0
+}
+#container {
+    background: white;
+    width: 100%;
+    margin: 0 auto;
+    position: relative
 }
