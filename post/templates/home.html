@@ -63,6 +63,8 @@
                                   <div>
                                     <span class="">{{comment.comment}}</span><br>
                                     <small>{{comment.user}}</small>
+                                    <a href="{% url 'change_comment' comment.id %}">Edit</a>
+                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
                                   </div>
                                 </div>
                                 <hr>
@@ -115,6 +117,10 @@
                                   <div>
                                     <span class="">{{comment.comment}}</span><br>
                                     <small>{{comment.user}}</small>
+                                    
+                                     <a href="{% url 'change_comment' comment.id %}">Edit</a>
+                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                    
                                   </div>
                                 </div>
                                 <hr>

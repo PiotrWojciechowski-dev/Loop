@@ -94,19 +94,38 @@ class OwnerPostMixin(OwnerMixin, LoginRequiredMixin):
   fields =['post']
   success_url = reverse_lazy('home')
 
+class OwnerCommentMixin(OwnerMixin, LoginRequiredMixin):
+  model = Comment
+  fields =['comment']
+  success_url = reverse_lazy('home')
+
+
 class OwnerPostEditMxin(OwnerPostMixin, OwnerEditMixin):
   fields = ['post']
   success_url = reverse_lazy('home')
   template_name = 'post/edit_post.html'
 
+class OwnerCommentEditMxin(OwnerCommentMixin, OwnerEditMixin):
+  fields = ['comment']
+  success_url = reverse_lazy('home')
+  template_name = 'post/edit_comment.html'
+
 
 class PostUpdateView(PermissionRequiredMixin, OwnerPostEditMxin, UpdateView):
   permission_required = 'post.change_post'
+
+class CommentUpdateView(PermissionRequiredMixin, OwnerCommentEditMxin, UpdateView):
+  permission_required = 'post.change_comment'
 
 class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   template_name = 'post/delete_post.html'
   success_url = reverse_lazy('home')
   permission_required = 'post.delete_post'
   
+
+class CommentDeleteView(PermissionRequiredMixin ,OwnerCommentEditMxin, DeleteView):
+  template_name = 'post/delete_comment.html'
+  success_url = reverse_lazy('home')
+  permission_required = 'post.delete_comment'
 
 
