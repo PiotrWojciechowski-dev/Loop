@@ -14,7 +14,6 @@ import stripe
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
-    print(request.POST)
     if request.POST.get("submit-form") == "1":
         form = CartClothesForm(request.POST)
         if form.is_valid():
