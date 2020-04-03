@@ -95,7 +95,7 @@
                         </div>
                         <form method="post" class="w-75 post-form" type="input">
                             {% csrf_token %}
-                            {{ comment_post }}
+                            {{ comment_form.comment }}
                             <br>
                             <button type="submit" class="custom-button">Comment</button>
                             <input name="submit-form" value="2" type="hidden">
@@ -104,7 +104,7 @@
                             <div class="container">
                                 <h5 class="m-0">Comments</h5>
                                 <hr>
-                                {% for comment in post.comment_set.all %}
+                                {% for comment in comments %}
                                 <div class="mb-2 d-flex">
                                 <div>
                                     <span class="">{{comment.comment}}</span><br>
