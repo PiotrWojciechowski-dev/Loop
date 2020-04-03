@@ -8,18 +8,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/6ee1ecfcc2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'css/loopstyle.css' %}">
-        <script src="{% static 'js/menu.js' %}"></script>
-        <script src="{% static 'js/menu2.js' %}"></script>
-        <script src="{% static 'js/search.js' %}"></script> 
-        <script type="text/javascript">
-            var clicky_custom = clicky_custom || {};
-            clicky_custom.outbound_disable = 1;
-          </script>
         <title>Loop</title>
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row">
+        <div class="container-fluid bg-white" id="container">
+            <div id="left"></div>
+            <div id="right"></div>
+            <div class="row bg-white">
                 <div class="col-3 col-sm-4 col-md-2 col-lg-3">
                     <div class="my-3 mx-3">
                         <a href="{% url 'home' %}">
@@ -68,11 +63,15 @@
                         {% endif %}
                     </div>
                 </div>
+            </div>   
         </div>
         <hr class="w-75">                     
         {% block content %}
         {% endblock content %}
+        <hr class="w-75 fixed-bottom py-2">   
         <footer class="footer fixed-bottom text-center font-weight-bold mx-auto w-75">
             ©IRISHSOFT LLC
         </footer>
+        <script src="{% static 'js/menu.js' %}"></script>
+        <script src="{% static 'js/search.js' %}"></script> 
     </body>

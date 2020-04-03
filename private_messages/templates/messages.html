@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 {%block content%}
-<form method="post" class="w-75 post-form" type="input">
-    {% csrf_token %}
-    {{ form }} 
-    <br>
-    <button type="submit" class="custom-button">Send</button>
-</form>
+<div class="float-right  mx-auto w-50">
+    {% for message in messages%}
+        {% if message.sender == user%}
+            <p>  {{message.sender}}: {{message.text}}</p>
+            {% if message.image %}
+            <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
+            {% endif %}
+        {% else %}
+            <p>  {{message.sender}}: {{message.text}}</p>
+            {% if message.image %}
+            <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    <form method="post" class="w-75 post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }} 
+        <br>
+        <button type="submit" class="custom-button">Send</button>
+    </form>
+</div>
 {%endblock content%}
