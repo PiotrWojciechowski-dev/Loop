@@ -55,8 +55,13 @@ def order_history(request):
         username = str(request.user.get_username())
         user_profile = Profile.objects.get(user=request.user)
         order_details = Order.objects.filter(username=username)
+        for order in order_details:
+            if order.paid is False:
+                order_id = get_object_or_404(Order, id=order.id)
+                order_id = order_id
+                order.delete()
         '''Pagination code'''
-        paginator = Paginator(order_details, 3)
+        paginator = Paginator(order_details, 6)
         try:
             page = int(request.GET.get('page','1'))
         except:

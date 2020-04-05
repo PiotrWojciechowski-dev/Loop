@@ -5,123 +5,108 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2 col-sm-3 col-md-2 col-lg-3">
-            <div class="icon-bar float-right mr-5">
-                <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
-                <a href="{% url 'profiles:mates_list' user.username %}"><i class="fa fa-users"></i></a> 
-                <a href="{% url 'shop:product_list' %}"><i class="fa fa-shopping-bag"></i></a> 
-            </div>
-        </div>
-        <div class="col-9 col-sm-6 col-md-8 col-lg-7">
-            <div class="row">
-                <div class="col-9 col-sm-6 col-md-8 col-lg-9">
-                    <h2 class="text-left">My Dashboard</h2>
+        <div class="col-2 col-sm-3 col-md-2 col-lg-2"></div>
+            <div class="col-9 col-sm-6 col-md-8 col-lg-6 float-left">
+                <h2 class="text-left">My Dashboard</h2>
+                <form method="post" class="w-75 post-form" type="input">
+                    {% csrf_token %}
+                    {{ post_form.post }}
+                    <br>
+                    <button type="submit" class="btn post-button">Post</button>
+                    <input name="submit-form" value="1" type="hidden">
+                </form>
+                {% for post in posts %}
+                    {% if not mates %}
+                    <div class="card my-4 w-75" id={{post.id}}>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                    {% if user == post.user %}
+                                    <div class="settings float-right">
+                                        <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                            <div id="mySettings" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                    {% endif %}
+                                    </div>
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
+                            </h5>
+                            <p class="card-text"><p>{{ post.post }}</p>
+                            {{ post.created }}
+                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                        </div>
+                    </div>
                     <form method="post" class="w-75 post-form" type="input">
                         {% csrf_token %}
-                        {{ post_form.post }}
+                        {{ comment_form.comment }}
                         <br>
-                        <button type="submit" class="custom-button">Post</button>
-                        <input name="submit-form" value="1" type="hidden">
+                        <button type="submit" value="{{post.id}}" name="id_value" class="btn comment-button">Comment</button>
+                        <input name="submit-form" value="2" type="hidden">
                     </form>
-                    {% for post in posts %}
-                        {% if not mates %}
-                        <div class="card my-4 w-75" >
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                        {% if user == post.user %}
-                                        <div class="settings float-right">
-                                            <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
-                                                <div id="myBrain" class="settings-options">
-                                                    <a href="{% url 'change_post' post.id %}">Edit</a>
-                                                    <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                                </div>
-                                        {% endif %}
-                                        </div>
-                                    <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
-                                </h5>
-                                <p class="card-text"><p>{{ post.post }}</p>
-                                {{ post.created }}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
-                            </div>
-                        </div>
-                        <form method="post" class="w-75 post-form" type="input">
-                            {% csrf_token %}
-                            {{ comment_form.comment }}
-                            <br>
-                            <button type="submit" class="custom-button">Comment</button>
-                            <input name="submit-form" value="2" type="hidden">
-                        </form>
-                        <div class="">
-                            <div class="container">
-                                <h5 class="m-0">Comments</h5>
-                                <hr>
-                                {% for comment in comments %}
-                                <div class="mb-2 d-flex">
+                    <div class="container">
+                        <h5 class="m-0">Comments</h5>
+                        {% for comment in post.comment_set.all %}
+                            <div class="mb-2 d-flex" value="{{comment.post.id}}">
                                 <div>
                                     <span class="">{{comment.comment}}</span><br>
                                     <small>{{comment.user}}</small>
                                     <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                    <a href="{% url 'delete_comment' comment.id %}">Delete</a>
                                 </div>
-                                <hr>
-                                {% endfor %}
                             </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="card my-4 w-75" >
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                    {% if user == post.user %}
+                                    <div class="settings float-right">
+                                        <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="settings float-right">
+                                        <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="">Report</a>
+                                            </div>
+                                    </div>
+                                    {% endif %}
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' post.user.username%}">{{ post.user }}</a>
+                            </h5>
+                            <p class="card-text"><p>{{ post.post }}</p>
+                            {{ post.created }}
+                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
                         </div>
-                        {% else %}
-                        <div class="card my-4 w-75" >
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                        {% if user == post.user %}
-                                        <div class="settings float-right">
-                                            <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
-                                                <div id="myBrain" class="settings-options">
-                                                    <a href="{% url 'change_post' post.id %}">Edit</a>
-                                                    <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                                </div>
-                                        </div>
-                                        {% else %}
-                                        <div class="settings float-right">
-                                            <button class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
-                                                <div id="myBrain" class="settings-options">
-                                                    <a href="">Report</a>
-                                                </div>
-                                        </div>
-                                        {% endif %}
-                                    <p>Posted by <a href="{% url 'profiles:profile_detail' post.user.username%}">{{ post.user }}</a>
-                                </h5>
-                                <p class="card-text"><p>{{ post.post }}</p>
-                                {{ post.created }}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
-                            </div>
-                        </div>
-                        <form method="post" class="w-75 post-form" type="input">
-                            {% csrf_token %}
-                            {{ comment_form.comment }}
-                            <br>
-                            <button type="submit" class="custom-button">Comment</button>
-                            <input name="submit-form" value="2" type="hidden">
-                        </form>
-                        <div class="">
-                            <div class="container">
-                                <h5 class="m-0">Comments</h5>
-                                <hr>
-                                {% for comment in comments %}
+                    </div>
+                    <form method="post" class="w-75 post-form" type="input">
+                        {% csrf_token %}
+                        {{ comment_form.comment }}
+                        <br>
+                        <button type="submit" class="custom-button">Comment</button>
+                        <input name="submit-form" value="2" type="hidden">
+                    </form>
+                        <div class="container">
+                            <h5 class="">Comments</h5>
+                            {% for comment in post.comment_set.all %}
                                 <div class="mb-2 d-flex">
-                                <div>
-                                    <span class="">{{comment.comment}}</span><br>
-                                    <small>{{comment.user}}</small>
-                                     <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                    <div>
+                                        <span class="">{{comment.comment}}</span><br>
+                                        <small>{{comment.user}}</small>
+                                            <a href="{% url 'change_comment' comment.id %}">Edit</a>
+                                            <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                    </div>
                                 </div>
-                                <hr>
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
                         </div>
                     {% endif %}
-                    {% endfor %}
-                    <span class="my-5"></span>
-                </div>
-                <div class="col-9 col-sm-6 col-md-8 col-lg-3">
+                {% endfor %}     
+            </div>
+                <div class="col-9 col-sm-6 col-md-8 col-lg-2">
                     <br>
                     <br>
                     <br>
@@ -165,11 +150,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-1 col-sm-3 col-md-2 col-lg-3">
-            
-        </div>
+            <div class="col-9 col-sm-6 col-md-8 col-lg-2"></div>
     </div>
 </div>
 <script src="{% static 'js/post.js' %}"></script>

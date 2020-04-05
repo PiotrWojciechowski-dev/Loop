@@ -16,53 +16,47 @@
 	{% endif %}
 	<!-- Start of For loop - For each p in products add a row -->
 	{% for order in orders %}
-		<p>Order Number: {{order.id}}</p>
-		<p>Order Date: {{order.created}}</p>
-		<table class="table table-bordered table-hover table-condensed w-75">					
-			<thead>
-			<!-- The header row-->
-				<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Quantity</th>
-				<th>Price</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for order_item  in order.get_items %}
-				<tr>
-					<td>{{order.id}}</td>
-					<td>{{order_item.product}}</td>
-					<td>{{order_item.quantity}}</td>
-					<td>&euro; {{order_item.price}}</td>		
-				</tr>
-				{% endfor %}
-				<!-- End of For loop -->			
-			</tbody>
-		</table>
-				<p class="text-left"><strong>Order Total: &euro; 
-                                {{order.get_total_cost}}</strong></p>
-		<div class="col-sm-2"></div>
-		<div class="row">
-        <div>
-        <p>
-            <a href="{% url 'cancel_order' order.id %}"><button class="btn btn-primary mx-3">Cancel Order</button></a>
-		</p>
-		</div>
-		{% if order.paid == False %}
-		<div>
-		<p>
-            <a href="{% url 'payment' order.id %}"><button class="btn btn-success">Pay Now</button></a>
-		</p>
-		</div>
-		{% else %}
-		<div>
-		<p>
-			<button class="btn btn-success" disabled>Item is paid</button>
-		</p>
-		</div>
-		{% endif %}
-	</div> 
+		{% if order.paid == True %}
+			<p>Order Number: {{order.id}}</p>
+			<p>Order Date: {{order.created}}</p>
+			<table class="table table-bordered table-hover table-condensed w-75">					
+				<thead>
+				<!-- The header row-->
+					<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order_item  in order.get_items %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order_item.product}}</td>
+						<td>{{order_item.quantity}}</td>
+						<td>&euro; {{order_item.price}}</td>		
+					</tr>
+					{% endfor %}
+					<!-- End of For loop -->			
+				</tbody>
+			</table>
+					<p class="text-left"><strong>Order Total: &euro; 
+									{{order.get_total_cost}}</strong></p>
+			<div class="col-sm-2"></div>
+			<div class="row">
+				<div>
+					<p>
+						<a href="{% url 'cancel_order' order.id %}"><button class="btn btn-primary mx-3">Cancel Order</button></a>
+					</p>
+				</div>
+				<div>
+					<p>
+						<button class="btn btn-success" disabled>Item is paid</button>
+					</p>
+				</div>
+			</div>
+		{% endif %} 
 	{% endfor %}
 	</div>
 	</div>

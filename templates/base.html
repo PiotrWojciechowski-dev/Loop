@@ -5,16 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/6ee1ecfcc2.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="{% static 'css/loopstyle.css' %}">
         <title>Loop</title>
     </head>
     <body>
-        <div class="container-fluid bg-white" id="container">
+        <div class="container-fluid" id="container">
             <div id="left"></div>
             <div id="right"></div>
-            <div class="row bg-white">
+            <div class="row">
                 <div class="col-3 col-sm-4 col-md-2 col-lg-3">
                     <div class="my-3 mx-3">
                         <a href="{% url 'home' %}">
@@ -22,29 +25,39 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-6 col-sm-4 col-md-7 col-lg-6">
-                    <div class="my-3 w-75">
-                        <div id="sb-search" class="sb-search">
-                            <div class="search-container">
-                                <form class="searchbox input-group" action="{% url 'search_result' %}" method="GET">
-                                    <input type="search" placeholder="Search...." name="q" class="searchbox-input" maxlength="30">
-                                    <span type="submit" class="searchbox-submit"><i class="fa fa-search" aria-hidden="true"></i></span>
-                                    <span class="searchbox-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                                </form>
-                            </div>
+                <div class="col-6 col-sm-4 col-md-7 col-lg-3">
+                    <div class="my-3">
+                        <div class="search-container input-group">
+                            <form class="searchbox w-50" action="{% url 'search_result' %}" method="GET">
+                                <input type="search" placeholder="Search...." name="q" class="searchbox-input" maxlength="30">
+                                <button type="submit" class="searchbox-submit"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-2 col-sm-4 col-md-3 col-lg-3">
-                    <div class="my-3">
+                <div class="col-2 col-sm-4 col-md-3 col-lg-5 my-3">
+                    <ul class="icon-bar float-left d-flex flex-row my-2">
+                        <li>
+                            <a class="btn nav-button p-3" href="{% url 'home' %}"><i class="fa fa-home fa-lg"></i></a>
+                        </li>
+                        <li>
+                            {% if user.is_authenticated %}
+                                <a class="btn nav-button mx-3 p-3" href="{% url 'profiles:mates_list' user.username %}"><i class="fa fa-users fa-lg"></i></a> 
+                            {% endif %}
+                        </li>
+                        <li>
+                            <a class="btn nav-button p-3" href="{% url 'shop:product_list' %}"><i class="fa fa-shopping-bag fa-lg"></i></a> 
+                        </li>
+                    </ul>
+                    <div class="float-right mr-5">
                         {% if user.is_authenticated %}
                             {% if user_profile.profile_image == 'default.jpg' %}
-                            <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                            <a class="mr-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% else %}
-                            <a class="mr-4 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                            <a class="mr-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% endif %}
-                        <div class="settings">
-                            <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
+                        <div class="settings mr-4 my-2">
+                            <button onclick="OpenSettings()" class="btn settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
                                 <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
                                 <a href="{% url 'order_history' %}">View Orders</a>
@@ -53,7 +66,7 @@
                             </div>
                         </div>
                         {% else %}
-                        <a class="mr-4 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                        <a class="mr-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                         <div class="settings">
                             <button onclick="OpenSettings()" class="settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
@@ -68,10 +81,9 @@
         <hr class="w-75">                     
         {% block content %}
         {% endblock content %}
-        <hr class="w-75 fixed-bottom py-2">   
-        <footer class="footer fixed-bottom text-center font-weight-bold mx-auto w-75">
+        <footer class="footer fixed-bottom text-center font-weight-bold mx-auto w-75 mt-5">
             ©IRISHSOFT LLC
         </footer>
         <script src="{% static 'js/menu.js' %}"></script>
-        <script src="{% static 'js/search.js' %}"></script> 
+        <script src="{% static 'js/order.js' %}"></script>
     </body>

@@ -34,7 +34,7 @@ class HomeView(LoginRequiredMixin, View):
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
-        comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
+        comments = Comment.objects.filter(Q(user=request.user)).order_by('-created')
       if mates != None:
         for m in mates:
           try:
@@ -55,6 +55,7 @@ class HomeView(LoginRequiredMixin, View):
       return redirect(reverse('profiles:create_profile'))
 
   def post(self, request, *args, **kwargs):
+    #post = get_object_or_404(Post, pk=self.kwargs.get('id'))
     if request.POST.get("submit-form") == "1":
       post_form = PostForm(request.POST)
       if post_form.is_valid():
@@ -67,13 +68,21 @@ class HomeView(LoginRequiredMixin, View):
       comment_form = CommentForm(request.POST) 
       if comment_form.is_valid():
         comment = comment_form.save(commit=False)
+        post_id = request.POST.get("id_value", "")
+        comment.post_id = post_id
         comment.user = request.user
-        comment.save()
         text = comment_form.cleaned_data['comment']
+        comment.save()
         comment_form = CommentForm()
     return redirect('home')
     args = {'post_form': post_form, 'comment_form': comment_form, 'text': text}
     return render(request, self.template_name, args)
+
+  def get_object(self, *args, **kwargs):
+    return get_object_or_404(
+      Post,
+      pk=self.kwargs.get('id')
+    )
 
   def get_queryset(self):
     qs = super(HomeView, self).get_queryset()

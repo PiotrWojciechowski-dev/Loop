@@ -9,20 +9,14 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2 col-sm-3 col-md-2 col-lg-3">
-            <div class="icon-bar float-right mr-5">
-                <a class="active" href="{% url 'home' %}"><i class="fa fa-home"></i></a> 
-                <a href="#"><i class="fa fa-users"></i></a> 
-                <a href="{% url 'shop:product_list' %}"><i class="fa fa-shopping-bag"></i></a> 
-            </div>
-        </div>
-        <div class="col-sm-2 col-lg-2">
-            <form class="w-100 my-5 font-weight-bold" action="" method="get">
+        <div class="col-2 col-sm-3 col-md-2 col-lg-2"></div>
+        <div class="col-2 col-sm-3 col-md-2 col-lg-2">
+            <form class="w-75 my-5 font-weight-bold" action="" method="get">
                 {{ filter.form|crispy }}
                 <input class="custom-button" type="submit">
             </form>
         </div>
-        <div class="col-sm-4 col-lg-5">
+        <div class="col-2 col-sm-4 col-md-2 col-lg-6">
             <div>
             <h3 class="d-inline">Merchandise:</h3>
             <span class="d-inline float-right mr-5 mt-2">
@@ -43,15 +37,15 @@
             </div>
             <div class="row ml-5">
                 {% for product in products %}
-                    <div id="items" class="card w-25 m-3 pb-2 text-center item">
+                    <div id="items" class="card w-25 m-4 pb-2 text-center item">
                         <a class="product-name card-body" href="{{ product.get_absolute_url }}">
-                            <img class="card-img-top w-100" src="{% if product.image %}
+                            <img class="card-img-top w-75" src="{% if product.image %}
                                         {{ product.image_thumbnail.url }}
                                     {% else %}
                                         {% static 'img/no_image.png' %}
                                     {% endif %}"alt = "{{product.name}}">
                         </a>
-                        <a class="align-text-bottom" href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                        <a class="align-text-bottom text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
                         €{{ product.price }}
                     </div>
                 {% endfor %}
