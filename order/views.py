@@ -5,6 +5,7 @@ from .forms import IEPostalAddressForm
 from cart.models import Cart, CartItem
 from cart.cart import Cart
 from shop.models import Product
+from profiles.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timezone
 from django.contrib import messages
@@ -18,44 +19,49 @@ from .email import Email
 # Create your views here.
 
 def order_create(request, total=0):
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     cart = Cart(request)
-    if request.method == 'POST':
-        form = IEPostalAddressForm(request.POST)
-        if form.is_valid():
-            order = form.save(commit=False)
-            if request.user.is_authenticated:
-                username = str(request.user.username)
-                order.username = username
-            order = form.save()
-            order.save()
-        for order_item in cart:
-            OrderItem.objects.create(order=order,
-                                    product=order_item['product'],
-                                    price=order_item['price'],
-                                    quantity=order_item['quantity'])
-        cart.clear()
-        total = Cart.get_total_price(cart)
-        Email.sendOrderConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-        return render(request, 'order/order_created.html', {'order': order, 'total':total})
-    else: 
-        form = IEPostalAddressForm()
-    return render(request, 'order/order.html',{'cart':cart, 'form':form})
-
-def order_created(request):
-    order = get_object_or_404(Order, id=order_id)
-    total = order.get_total_cost()
-    order.paid = True
-    order.save()
-    Email.sendOrderConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-    return render(request, 'order/order_created.html', {'order':order})
+    if cart:
+        if request.method == 'POST':
+            form = IEPostalAddressForm(request.POST)
+            if form.is_valid():
+                order = form.save(commit=False)
+                if request.user.is_authenticated:
+                    username = str(request.user.username)
+                    order.username = username
+                order = form.save()
+                order.save()
+            for order_item in cart:
+                OrderItem.objects.create(order=order,
+                                        product=order_item['product'],
+                                        price=order_item['price'],
+                                        quantity=order_item['quantity'])
+            cart.clear()
+            total = Cart.get_total_price(cart)
+            Email.sendOrderConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
+            return redirect('payment', order_id=order.id)
+        else: 
+            form = IEPostalAddressForm()
+            return render(request, 'order/order.html',{'cart':cart, 'form':form, 'user_profile': user_profile})
+    else:
+        return redirect('shop:product_list')
 
 @login_required()
 def order_history(request):
     if request.user.is_authenticated:
         username = str(request.user.get_username())
+        user_profile = Profile.objects.get(user=request.user)
         order_details = Order.objects.filter(username=username)
+        for order in order_details:
+            if order.paid is False:
+                order_id = get_object_or_404(Order, id=order.id)
+                order_id = order_id
+                order.delete()
         '''Pagination code'''
-        paginator = Paginator(order_details, 3)
+        paginator = Paginator(order_details, 6)
         try:
             page = int(request.GET.get('page','1'))
         except:
@@ -66,6 +72,7 @@ def order_history(request):
             orders = paginator.page(paginator.num_pages)
         context = {
             'orders': orders,
+            'user_profile': user_profile,
         }
     return render(request, 'order/order_list.html', context)
 
@@ -84,26 +91,14 @@ def cancel_order(request, order_id):
     else:
         messages.add_message(request, messages.INFO,
                     'Sorry, it is too late to cancel this order')
-    Email.sendCancelationConfirmation(request, order.emailAddress, order_id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country)
     return redirect('order_history')
 
-def payment_method(request, total=0):
-    order_id = order.id
-    total = order_create.total
-    if request.method == 'POST':
-        charge = stripe.Charge.create(
-            amount=str(int(total * 100)),
-            currency='EUR',
-            description='Credit card charge',
-            source=request.POST['stripetoken']
-        )
-    return render(request, 'order/order_created.html', {'order_id':order_id})
-
-def order_created(request):
-    return render(request, 'order/order_created.html')
 
 def payment_method(request, order_id):
-    print(order_id)
+    if Profile.objects.filter(username=request.user).exists():
+        user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     order = get_object_or_404(Order, id=order_id)
     host = request.get_host()
     total = order.get_total_cost()
@@ -112,7 +107,6 @@ def payment_method(request, order_id):
     description = "Online Shop"
     data_key = settings.STRIPE_PUBLISHABLE_KEY
 
-    
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': total,
@@ -124,12 +118,15 @@ def payment_method(request, order_id):
         'cancel_return': 'http://{}{}'.format(host, reverse('cancelled')),  
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
-    
-    
-    return render(request, 'payment/payment.html', {'form':form, 'order':order, 'data_key':data_key, 'stripe_total':stripe_total, 'description':description})
+    return render(request, 'payment/payment.html', {'form':form, 'order':order, 'data_key':data_key, 'stripe_total':stripe_total, 'description':description, 'user_profile':user_profile})
 
 @csrf_exempt
 def payment_made(request, order_id):
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
+    order = get_object_or_404(Order, id=order_id)
     if request.method == 'POST':
         charge = stripe.Charge.create(
             amount=str(int(total * 100)),
@@ -137,12 +134,11 @@ def payment_made(request, order_id):
             description='Credit card charge',
             source=request.POST['stripetoken']
         )
-    order = get_object_or_404(Order, id=order_id)
     total = order.get_total_cost()
     order.paid = True
     order.save()
     Email.sendPaymentConfirmation(request, order.emailAddress, order.id, order.addressline1, order.addressline2, order.code, order.city, order.county, order.country, total)
-    return render(request, 'payment/payment_made.html', {'order':order})
+    return render(request, 'payment/payment_made.html', {'order':order, 'user_profile':user_profile})
 
 @csrf_exempt
 def payment_made_paypal(request):

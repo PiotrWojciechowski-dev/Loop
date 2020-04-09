@@ -69,14 +69,12 @@ class ProfileView(View):
     except ObjectDoesNotExist:
       blocked_users = None
     try:
-      blocked_by_me= Blocked.objects.get(current_user=request.user)
+      blocked_by_me= Blocked.objects.get(current_user=username)
       blocked_profiles = blocked_by_me.users.all()
     except ObjectDoesNotExist:
       blocked_profiles = None
-    user_profile = Profile.objects.get(user=request.user)
-    users = get_user_model().objects.exclude(id=request.user.id)
     context = {
-      'form':form, 'profile': profile, 'user_profile': user_profile, 'users':users, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
+      'form':form, 'profile': profile, 'user_profile': user_profile, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
       'blocked_users': blocked_users
     }
     return render(request, self.template_name, context)

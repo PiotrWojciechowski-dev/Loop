@@ -16,10 +16,6 @@ class UserAdmin(BaseUserAdmin):
         ('Permissions', {'fields': ('admin', 'staff', 'active', 'groups')})
     )
 
-    add_fieldsets = (
-        ('Permissions', {'fields': ('groups',)})
-    )
-
     search_fields = ['email']
     ordering = ('email',)
     filter_horizontal = ()

@@ -1,0 +1,131 @@
+[
+    {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+    "product_id":1,
+    "detail_image": "product_images/loopShirt/loop_tshirt.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+    "product_id":2,
+    "detail_image": "product_images/loopHoodies/loop_hoodie.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+    "product_id":3,
+    "detail_image": "product_images/loopLongsleeve/loop_longsleeve.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+    "product_id":4,
+    "detail_image": "product_images/loopCropTop/loop_croptop.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+    "product_id":5,
+    "detail_image": "product_images/loopBeanie/loop_beanie_black.png"
+
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+    "product_id":6,
+    "detail_image": "product_images/loopHat/loop_hat.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+    "product_id":7,
+    "detail_image": "product_images/loopFlipFlops/loop_ff_4.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+    "product_id":8,
+    "detail_image": "product_images/loopSocks/loop_socks.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+    "product_id":9,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS7.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+    "product_id":10,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS7E.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+    "product_id":11,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS10.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+    "product_id":12,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS20.png"
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 13,
+    "fields": {
+    "product_id":13,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS20P.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 14,
+    "fields": {
+    "product_id":14,
+    "detail_image": "product_images/loopPhoneCovers/loop_SGS20U.png"
+    }
+},
+    {   
+    "model": "shop.product",
+    "pk": 15,
+    "fields": {
+    "product_id":15,
+    "detail_image": "product_images/loopIphoneCover/loop_i7_case.png"
+    }
+},
+    {
+    "model": "shop.product",
+    "pk": 16,
+    "fields": {
+    "product_id":16,
+    "detail_image": "product_images/loopBag/loop_bag_front.png"
+    }
+}
+]
