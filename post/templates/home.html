@@ -7,10 +7,11 @@
         </div>
             <div class="col-9 col-sm-6 col-md-8 col-lg-6 float-left">
                 <h2 class="text-left">My Dashboard</h2>
-                <form method="post" class="w-75 text" type="input">
+                <form method="post" class="w-75 text" type="input" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ post_form.post }}
                     <br>
+                    <input type="file" name="myfile">
                     <button type="submit" class="btn post-button">Post</button>
                     <input name="submit-form" value="1" type="hidden">
                 </form>
@@ -31,7 +32,16 @@
                                 <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
                             </h5>
                             <p class="card-text"><p>{{ post.post }}</p>
-                            {{ post.created }}
+                            {% if post.user_file %}
+                            <img src="{{post.user_file.url}}">
+                            {% endif %}
+                            {% if post.user_file %}
+                            <video width='400' controls>
+                                <source src='{{ MEDIA_URL }}{{post.user_file.url}}' type='video/mp4'>
+                                Your browser does not support the video tag.
+                            </video>
+                            {% endif %}
+                            <p>{{ post.created }}</p>
                             <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
                         </div>
                     </div>

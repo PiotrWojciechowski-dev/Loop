@@ -59,7 +59,6 @@ class Product(models.Model):
 class ProductDetailImages(models.Model):
 
     def upload_path(self, filename):
-        print(filename)
         if "hat" in filename:
             return 'product_images/loopHat/' + "%s" %( filename)
         elif "beanie" in filename:

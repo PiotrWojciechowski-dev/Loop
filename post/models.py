@@ -7,8 +7,13 @@ from django.urls import reverse
 
 
 class Post(models.Model):
+    
+    def upload_path(self, filename):
+        return 'user_files/{0}/{1}'.format(self.user.username, filename)
+
     post = models.CharField(max_length=500, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user_file = models.FileField(upload_to=upload_path, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -22,6 +27,9 @@ class Post(models.Model):
         return Comment.objects.filter(post=self)
     
 
+class PostFile(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="posts")
+    user_file = models.ForeignKey(Post, on_delete=models.CASCADE)
 
 class Comment(models.Model):
     comment = models.CharField(max_length=500, null=True)
