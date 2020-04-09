@@ -66,15 +66,8 @@ class Order(models.Model):
         blank=True,
         null=True,
     )
-    discount = models.IntegerField(default=0,
-                                   validators=[MinValueValidator(0),
-                                               MaxValueValidator(100)])
 
     paid = models.BooleanField(default=False)
-
-    discount = models.IntegerField(default=0,
-                                    validators=[MinValueValidator(0),
-                                    MaxValueValidator(100)])
 
     created = models.DateTimeField(auto_now_add=True)
 
@@ -89,7 +82,7 @@ class Order(models.Model):
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
-        return total_cost - total_cost * (self.discount / Decimal('100'))
+        return total_cost
     
     def get_total(self):
         return sum(item.get_cost() for item in self.items.all())

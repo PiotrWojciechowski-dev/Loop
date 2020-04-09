@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_shortcuts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -159,6 +160,62 @@ LOGIN_REDIRECT_URL = 'home'
 # Media Files Configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Admin Configuration
+ADMIN_SHORTCUTS = [
+    {
+        'shortcuts': [
+            { 
+                'title': 'Home Page',     
+                'url': '/',
+                'open_new_window': True,
+            },
+            {
+                'url_name': 'admin:logout',
+            },
+            {
+                'title': 'Index',
+                'url_name': 'admin:index',
+            },
+            {
+                'title': 'Users',
+                'url_name': 'admin:user_customuser_changelist',
+                'count': 'user.utils.count_users',
+            },
+            {
+                'title': 'Groups',
+                'url_name': 'admin:auth_group_changelist',
+                'count': 'user.utils.count_groups',
+            },
+            {
+                'title': 'Add user',
+                'url_name': 'admin:user_customuser_add',
+                'has_perms': 'example.utils.has_perms_to_users',
+            },
+        ]
+    },
+    {
+        'title': 'Quick Acess',
+        'shortcuts': [
+            {
+                'title': 'Products',
+                'url_name': 'admin:shop_product_changelist',
+            },
+            {
+                'title': 'Orders',
+                'url_name': 'admin:order_order_changelist',
+                'count': '',
+            },
+        ]
+    },
+]
+
+ADMIN_SHORTCUTS_SETTINGS = {
+    'show_on_all_pages': True,
+    'hide_app_list': False,
+    'open_new_window': False,
+}
 
 # Other Files Configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
