@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
-from .models import Post, Comment
+from .models import Post, Comment, PostFile
 from profiles.models import Profile, Mates
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, FileForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -11,10 +11,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-#from django.core.files.storage import FileSystemStorage
-
+from django.utils.datastructures import MultiValueDictKeyError
+from django.forms import modelformset_factory
 # Create your views here.
-
 
 class HomeView(LoginRequiredMixin, View):
   template_name = 'home.html'
@@ -22,9 +21,11 @@ class HomeView(LoginRequiredMixin, View):
 
   def get(self, request, *args, **kwargs):
     username = request.user.username
+    FileFormSet = modelformset_factory(PostFile, form=FileForm, extra=1)
     if Profile.objects.filter(username=username).exists():
       post_form = PostForm()
       comment_form = CommentForm()
+      formset = FileFormSet()
       user_profile = Profile.objects.get(user=request.user)
       users = get_user_model().objects.exclude(id=request.user.id)
       confirmed_mates = []
@@ -34,6 +35,7 @@ class HomeView(LoginRequiredMixin, View):
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
+        files = PostFile.objects.filer(Q(user=request.user))
         comments = Comment.objects.filter(Q(user=request.user)).order_by('-created')
       if mates != None:
         for m in mates:
@@ -44,40 +46,48 @@ class HomeView(LoginRequiredMixin, View):
             confirmed_mate = None
         posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
+        files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
       context = {
               'post_form': post_form, 'comment_form' : comment_form,
               'posts': posts, 'users': users, 
               'user_profile': user_profile, 'mates': mates, 
               'confirmed_mates': confirmed_mates, 'comments': comments,
+              'formset': formset, 'files':files,
           }
       return render(request, self.template_name, context)
     else:
       return redirect(reverse('profiles:create_profile'))
 
   def post(self, request, *args, **kwargs):
-    #post = get_object_or_404(Post, pk=self.kwargs.get('id'))
-    print(request.method)
+    user = request.user
+    FileFormSet = modelformset_factory(PostFile, form=FileForm)
     if request.POST.get("submit-form") == "1":
-      post_form = PostForm(request.POST, request.FILES)
+      post_form = PostForm(request.POST)
+      formset = FileFormSet(request.POST or None, request.FILES or None)
       if post_form.is_valid():
         post = post_form.save(commit=False)
-        if request.method == 'FILES':
-          post.user_file = request.FILES['myfile']
-        post.user = request.user
+        post.user = user
         post.save()
-        text = post_form.cleaned_data['post']
-        post_form = PostForm()
+        if formset.is_valid():
+          for form in formset:
+            form = form.cleaned_data
+            print(form)
+            file = form['files']
+            c_type = file.content_type.split("/")
+            file_instance = PostFile(files=file, post=post, user=user, content_type=c_type[0])
+            file_instance.save()
+          return redirect('home')
     if request.POST.get("submit-form") == "2":
       comment_form = CommentForm(request.POST) 
       if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         post_id = request.POST.get("id_value", "")
         comment.post_id = post_id
-        comment.user = request.user
+        comment.user = user
         text = comment_form.cleaned_data['comment']
         comment.save()
         comment_form = CommentForm()
-    return redirect('home')
+      return redirect('home')
     args = {'post_form': post_form, 'comment_form': comment_form, 'text': text}
     return render(request, self.template_name, args)
 

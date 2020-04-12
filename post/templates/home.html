@@ -10,8 +10,13 @@
                 <form method="post" class="w-75 text" type="input" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ post_form.post }}
+                    {{ formset.management_form }}
+                        {% for form in formset %}
+                            <table class='no_error'>
+                                {{ form }}
+                            </table>
+                        {% endfor %}
                     <br>
-                    <input type="file" name="myfile">
                     <button type="submit" class="btn post-button">Post</button>
                     <input name="submit-form" value="1" type="hidden">
                 </form>
@@ -19,29 +24,33 @@
                     {% if not mates %}
                     <div class="card my-4 w-75" id={{post.id}}>
                         <div class="card-body">
-                            <h5 class="card-title">
-                                    {% if user == post.user %}
+                            <div class="card-title">
+                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></p>
+                                {% if user == post.user %}
                                     <div class="settings float-right">
                                         <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
-                                            <div id="myBrain" class="settings-options">
-                                                <a href="{% url 'change_post' post.id %}">Edit</a>
-                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                            </div>
-                                    {% endif %}
+                                        <div id="myBrain" class="settings-options">
+                                            <a href="{% url 'change_post' post.id %}">Edit</a>
+                                            <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                        </div>
                                     </div>
-                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a>
-                            </h5>
-                            <p class="card-text"><p>{{ post.post }}</p>
-                            {% if post.user_file %}
-                            <img src="{{post.user_file.url}}">
-                            {% endif %}
-                            {% if post.user_file %}
-                            <video width='400' controls>
-                                <source src='{{ MEDIA_URL }}{{post.user_file.url}}' type='video/mp4'>
-                                Your browser does not support the video tag.
-                            </video>
-                            {% endif %}
-                            <p>{{ post.created }}</p>
+                                {% endif %}
+                            </div>
+                            <p class="card-text">
+                            {% for file in files %}
+                                {% if file.content_type  == "image"  %}
+                                    <img class="w-100" src="{{file.files.url}}">
+                                    <p>{{ post.post }}</p>
+                                {% elif file.content_type  == "video" %}
+                                    <video width='600' controls> <source src="{{postfile.files.url}}"> </video>
+                                    <p>{{ post.post }}</p>
+                                {% elif file.content_type == None %}
+                                    <p>{{ post.post }}</p>
+                                {% else %}
+                                    <div> Unsupported Media Format </div>
+                                {% endif %}
+                            {% endfor %}
+                                <p>{{post.created}}</p>
                             <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
                         </div>
                     </div>
@@ -115,7 +124,7 @@
                     {% endif %}
                 {% endfor %}     
             </div>
-                <div class="col-9 col-sm-6 col-md-8 col-lg-2">
+                <div class="col-9 col-sm-6 col-md-8 col-lg-2" style ="position: fixed; right: 0; margin-right: 300px;">
                     <br>
                     <br>
                     <br>

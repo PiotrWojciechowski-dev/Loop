@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, PostFile
+
 class PostForm(forms.ModelForm):
   post = forms.CharField(widget=forms.Textarea(
         attrs={
@@ -12,15 +13,15 @@ class PostForm(forms.ModelForm):
   class Meta:
     model = Post
     fields = ('post',)
-'''
-  post = forms.CharField(widget=forms.TextInput(
-        attrs={
-            'class': 'form-control',
-            'placeholder': 'Write a post...',
-            'style': 'resize: none;'
+
+
+class FileForm(forms.ModelForm):
+  class Meta:
+    model = PostFile
+    fields = ['files']
+    widgets = {
+            'files': forms.FileInput(attrs={'multiple': True}),
         }
-    ))
-'''
 
 class CommentForm(forms.ModelForm):
   comment = forms.CharField(widget=forms.TextInput(
