@@ -10,48 +10,213 @@
                 <form method="post" class="w-75 text" type="input" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ post_form.post }}
-                    {{ formset.management_form }}
-                        {% for form in formset %}
-                            <table class='no_error'>
-                                {{ form }}
-                            </table>
-                        {% endfor %}
-                    <br>
-                    <button type="submit" class="btn post-button">Post</button>
+                    {{ file_form.files }}
+                    <button type="submit" class="btn post-button float-right d-inline my-3">Post</button>
                     <input name="submit-form" value="1" type="hidden">
                 </form>
                 {% for post in posts %}
                     {% if not mates %}
-                    <div class="card my-4 w-75" id={{post.id}}>
-                        <div class="card-body">
-                            <div class="card-title">
-                                <p>Posted by <a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></p>
-                                {% if user == post.user %}
-                                    <div class="settings float-right">
-                                        <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
-                                        <div id="myBrain" class="settings-options">
-                                            <a href="{% url 'change_post' post.id %}">Edit</a>
-                                            <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                        </div>
+                    <div class="card mt-5 w-75 posts" id={{post.id}}>
+                        <div class="card-title mx-4 my-3">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    {% if user_profile.profile_image == 'default.jpg' %}
+                                    <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                    {% else %}
+                                    <a class="ml-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                    {% endif %}
                                     </div>
-                                {% endif %}
+                                <div class="col-sm-8">
+                                    <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
+                                    <p>Created: {{post.created}}</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    {% if user == post.user %}
+                                        <div class="settings float-right">
+                                            <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <p class="card-text">
-                            {% for file in files %}
+                        </div>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-sm-12 my-1">
+                                    <p class="mx-5">{{post.post}}</p>
+                                </div>     
+                            </div>
+                            {% for file in post.file_posted.all %}
                                 {% if file.content_type  == "image"  %}
-                                    <img class="w-100" src="{{file.files.url}}">
-                                    <p>{{ post.post }}</p>
+                                    <img class=" card-img-bottom" src="{{ file.files.url }}">
                                 {% elif file.content_type  == "video" %}
-                                    <video width='600' controls> <source src="{{postfile.files.url}}"> </video>
-                                    <p>{{ post.post }}</p>
-                                {% elif file.content_type == None %}
-                                    <p>{{ post.post }}</p>
+                                    <video class="w-100 card-img-bottom" controls> <source src="{{file.files.url}}"> </video>
                                 {% else %}
                                     <div> Unsupported Media Format </div>
                                 {% endif %}
                             {% endfor %}
-                                <p>{{post.created}}</p>
-                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-3 ml-5">
+                                {% if post.like_set.all.exists %}
+                                <button type="button" class="btn like" data-toggle="modal" data-target="#like-list" data-id="{{ post.id }}"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}</button>
+                                {% endif %}
+                                <div class="modal fade" id="like-list">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content d-inline">
+                                        <h4 class="ml-4 mt-2">Liked By:</h4>
+                                        {% for like in post.like_set.all %}
+                                            {% for profile in profiles %}
+                                                {% if profile.user == like.user %}
+                                                    {% if profile.profile_image == 'default.jpg' %}
+                                                        <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                                        <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ like.user }}</a></h5>
+                                                    {% else %}
+                                                        <a class="ml-3 profile-image d-inline" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid my-3" style="width: 60px; height: 60px; border-radius: 100px;"></a>
+                                                        <h5 class="ml-3 d-inline my-3"><a href="{% url 'profiles:profile_detail' user.username%}">{{ like.user }}</a></h5>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
+                            </div>
+                        </div>
+                        <hr class="mx-auto post-line">
+                        <div class="row">
+                            <div class="col-sm-3 ml-4 mb-3">
+                                {% if post.like_set.all %}
+                                <a href="{{post.get_like_url}}" class="btn btn-sm ml-3 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
+                                {% else %}
+                                <a href="{{post.get_like_url}}" class="btn btn-sm like ml-3" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="comments mt-3" style="display:none;">
+                        {% for comment in post.comment_set.all %}
+                        <div class="row mr-1">
+                            <div class="col-sm-10">
+                                <div class="card w-75 comment-box float-right mr-5 my-1">
+                                    <div class="card-title mx-4 my-2">
+                                        {% if user_profile.profile_image == 'default.jpg' %}
+                                        <a class="mr-3 profile-image d-inline" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% else %}
+                                        <a class="mr-3 profile-image d-inline" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% endif %}
+                                        <h5 class="d-inline"><a href="{% url 'profiles:profile_detail' user.username%}">{{ comment.user }}</a></h5>
+                                        {% if user == post.user %}
+                                        <div class="settings float-right">
+                                            <button class="btn comment-opt-btn"><i class="fas fa-angle-down fa-sm"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_comment' comment.id %}">Edit</a>
+                                                <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-text">
+                                        <p class="mx-5">{{comment.comment}}</p> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
+                        {% endfor %}
+                        </div>
+                        <form method="post" class="w-75 post-form mt-4" type="input">
+                            {% csrf_token %}
+                            {{ comment_form.comment }}
+                            <button type="submit" value="{{post.id}}" name="id_value" class="btn comment-button float-right mt-3">Comment</button>
+                            <input name="submit-form" value="2" type="hidden">
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="card my-5 w-75 posts" id={{post.id}}>
+                        <div class="card-title mx-4">
+                            <div class="row">
+                                <div class="col-sm-2 my-3">
+                                    {% for profile in profiles %}
+                                    {% if profile.user == post.user %}
+                                    {% if profile.profile_image == 'default.jpg' %}
+                                    <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                    {% else %}
+                                    <a class="ml-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-sm-8 my-4">
+                                    <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
+                                    <p>Created: {{post.created}}</p>
+                                </div>
+                                <div class="col-sm-2 my-2">
+                                    {% if user == post.user %}
+                                        <div class="settings float-right">
+                                            <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_post' post.id %}">Edit</a>
+                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                    <div class="settings float-right">
+                                        <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="">Report</a>
+                                            </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-sm-12 my-1">
+                                    <p class="mx-5">{{post.post}}</p>
+                                </div>     
+                            </div>
+                            {% for file in post.file_posted.all %}
+                                {% if file.content_type  == "image"  %}
+                                    <img class=" card-img-bottom" src="{{ file.files.url }}">
+                                {% elif file.content_type  == "video" %}
+                                    <video class="w-100 card-img-bottom" controls> <source src="{{file.files.url}}"> </video>
+                                {% else %}
+                                    <div> Unsupported Media Format </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-3 ml-5">
+                                <i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}
+                            </div>
+                            <div class="col-sm-5"></div>
+                            <div class="col-sm-2">
+                                {{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}
+                            </div>
+                        </div>
+                        <hr class="mx-auto post-line">
+                        <div class="row">
+                            <div class="col-sm-3 ml-4 mb-3">
+                                {% if post.like_set.all %}
+                                <a href="{{post.get_like_url}}" class="btn btn-sm ml-3 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
+                                {% else %}
+                                <a href="{{post.get_like_url}}" class="btn btn-sm like ml-3" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     <form method="post" class="w-75 post-form" type="input">
@@ -74,64 +239,17 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% else %}
-                    <div class="card my-4 w-75" >
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                    {% if user == post.user %}
-                                    <div class="settings float-right">
-                                        <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>
-                                            <div id="myBrain" class="settings-options">
-                                                <a href="{% url 'change_post' post.id %}">Edit</a>
-                                                <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                            </div>
-                                    </div>
-                                    {% else %}
-                                    <div class="settings float-right">
-                                        <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>
-                                            <div id="myBrain" class="settings-options">
-                                                <a href="">Report</a>
-                                            </div>
-                                    </div>
-                                    {% endif %}
-                                <p>Posted by <a href="{% url 'profiles:profile_detail' post.user.username%}">{{ post.user }}</a>
-                            </h5>
-                            <p class="card-text"><p>{{ post.post }}</p>
-                            {{ post.created }}
-                            <a href="{{post.get_like_url}}" class="btn btn-sm">Like {{post.like_set.all|length}}</a>
-                        </div>
-                    </div>
-                    <form method="post" class="w-75 post-form" type="input">
-                        {% csrf_token %}
-                        {{ comment_form.comment }}
-                        <br>
-                        <button type="submit" class="btn comment-button">Comment</button>
-                        <input name="submit-form" value="2" type="hidden">
-                    </form>
-                        <div class="container">
-                            <h5 class="">Comments</h5>
-                            {% for comment in post.comment_set.all %}
-                                <div class="mb-2 d-flex">
-                                    <div>
-                                        <span class="">{{comment.comment}}</span><br>
-                                        <small>{{comment.user}}</small>
-                                            <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                            <a href="{% url 'delete_comment' comment.id %}">Delete</a>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
                     {% endif %}
                 {% endfor %}     
             </div>
-                <div class="col-9 col-sm-6 col-md-8 col-lg-2" style ="position: fixed; right: 0; margin-right: 300px;">
+                <div class="col-9 col-sm-6 col-md-8 col-lg-2">
                     <br>
                     <br>
                     <br>
                     <hr class="w-100">
                     <h2 class="text-center mb-3">Mates List</h2>
-                    <div class="card w-100">
-                        <div class="card-body mh-100 friend-box text-center">
+                    <div class="card w-100 mates-box">
+                        <div class="card-body mh-100 text-center">
                             {% if not confirmed_mates %}
                                 <br>
                                 <br>
@@ -172,6 +290,7 @@
     </div>
 </div>
 <script src="{% static 'js/post.js' %}"></script>
+<script src="{% static 'js/comments.js' %}"></script>
 <script src="{% static 'js/jquery.emojiFace.js' %}"></script>
 <script>
 $(function(){
@@ -183,5 +302,3 @@ $('textarea').emojiInit();
 </script>
 
 {% endblock content %}
-
-

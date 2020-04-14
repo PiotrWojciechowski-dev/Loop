@@ -79,6 +79,21 @@ body {
     background-color: #c8bef2;
 }
 
+.comment-opt-btn {
+    background-color: #c8bef2;
+    color: white;
+    padding-right: 4px;
+    padding-left: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.comment-opt-btn:hover, .post-opt-btn:focus {
+    background-color: #c8bef2;
+}
+
 .settings-options.two {
     display: none;
     position: absolute;
@@ -174,11 +189,6 @@ body {
     overflow: auto;
     border: none;
     cursor: pointer;
-}
-
-.profile-image{
-	border-radius: 90%;
-	background-color: red;
 }
 
 ul {
@@ -372,4 +382,30 @@ label[for=id_quantity] {
 
 .cart-btn:hover {
     background-color: #c8bef2;
+}
+
+.posts {
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.comment-box {
+    border-radius: 20px;
+    box-shadow: 0px 8px 4px 0px rgba(0,0,0,0.2);
+}
+
+.mates-box {
+    box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+}
+
+.post-line {
+    width: 90%;
+}
+
+#heart {
+    transition-timing-function: ease-in;
+}
+
+.btn.like:focus {
+    box-shadow: none;
 }

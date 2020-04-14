@@ -7,7 +7,7 @@ class PostForm(forms.ModelForm):
             'rows':'5', 'cols':'10', 'wrap':'hard',
             'class': 'post-form  form-control pt-3',
             'placeholder': 'Write a post...',
-            'style':'resize:none;',
+            'style':'resize:none; box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);',
         }
     ))
   class Meta:
@@ -16,18 +16,24 @@ class PostForm(forms.ModelForm):
 
 
 class FileForm(forms.ModelForm):
+  files = forms.FileField(required=False, widget=forms.FileInput(
+        attrs={
+          'multiple': True,
+          'class': 'd-inline mt-3',
+          }
+    ))
+
   class Meta:
     model = PostFile
     fields = ['files']
-    widgets = {
-            'files': forms.FileInput(attrs={'multiple': True}),
-        }
 
 class CommentForm(forms.ModelForm):
-  comment = forms.CharField(widget=forms.TextInput(
+  comment = forms.CharField(widget=forms.Textarea(
         attrs={
-            'class': 'form-control',
-            'placeholder': 'Write a comment...'
+            'rows':'2', 'cols':'10', 'wrap':'hard',
+            'class': 'post-form  form-control pt-3',
+            'placeholder': 'Write a comment...',
+            'style':'resize:none; box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);',
         }
     ))
 
