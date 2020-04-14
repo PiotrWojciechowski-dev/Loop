@@ -13,8 +13,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
-from django.forms import modelformset_factory
 # Create your views here.
+
+User = get_user_model()
 
 class HomeView(LoginRequiredMixin, View):
   template_name = 'home.html'
@@ -101,11 +102,6 @@ class HomeView(LoginRequiredMixin, View):
     qs = super(HomeView, self).get_queryset()
     return qs.filter(owner=self.request.user)
 
-  def form_valid(self, form):
-        for each in form.cleaned_data['files']:
-            PostFile.objects.create(file=each)
-        return super(UploadView, self).form_valid(form)
-
 class OwnerMixin(object):
   def get_queryset(self):
     qs = super(OwnerMixin, self).get_queryset()
@@ -139,19 +135,36 @@ class OwnerCommentEditMxin(OwnerCommentMixin, OwnerEditMixin):
 
 class PostUpdateView(PermissionRequiredMixin, OwnerPostEditMxin, UpdateView):
   permission_required = 'post.change_post'
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)    
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    return context
+  
 
 class CommentUpdateView(PermissionRequiredMixin, OwnerCommentEditMxin, UpdateView):
   permission_required = 'post.change_comment'
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)    
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    return context
 
 class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   template_name = 'post/delete_post.html'
   success_url = reverse_lazy('home')
   permission_required = 'post.delete_post'
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)    
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    return context
   
 
 class CommentDeleteView(PermissionRequiredMixin ,OwnerCommentEditMxin, DeleteView):
   template_name = 'post/delete_comment.html'
   success_url = reverse_lazy('home')
   permission_required = 'post.delete_comment'
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)    
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    return context
 
 
