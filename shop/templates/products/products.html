@@ -24,6 +24,9 @@
         </div>
         <div class="col-sm-4 col-lg-5">
             <div>
+            {% if username == "admin" %}
+                <a href="{% url 'admin_product' %}">Add Product</a>
+            {% endif %}
             <h3 class="d-inline">Merchandise:</h3>
             <span class="d-inline float-right mr-5 mt-2">
                 {% with total_items=cart|length %}

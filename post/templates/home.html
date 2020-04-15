@@ -58,10 +58,11 @@
                                 {% for comment in comments %}
                                 <div class="mb-2 d-flex">
                                 <div>
-                                    <span class="">{{comment.comment}}</span><br>
                                     <small>{{comment.user}}</small>
+                                    <span class="">{{comment.comment}}</span><br>
+                                    
                                     <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                    <a href="{% url 'delete_comment' comment.id %}">Delete</a>
                                 </div>
                                 <hr>
                                 {% endfor %}

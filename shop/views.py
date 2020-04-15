@@ -59,3 +59,6 @@ def product_detail(request, id, slug):
                   'user_profile': user_profile,
                   'current_category':current_category,
                   'images': images})   
+
+def admin_product(redirect):
+    return redirect('admin_product')
