@@ -37,7 +37,7 @@ class HomeView(LoginRequiredMixin, View):
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
-        files = PostFile.objects.filer(Q(user=request.user))
+        files = PostFile.objects.filter(Q(user=request.user))
         comments = Comment.objects.filter(Q(user=request.user)).order_by('-created')
       if mates != None:
         for m in mates:
