@@ -1,32 +1,39 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, PostFile
+
 class PostForm(forms.ModelForm):
   post = forms.CharField(widget=forms.Textarea(
         attrs={
             'rows':'5', 'cols':'10', 'wrap':'hard',
             'class': 'post-form  form-control pt-3',
             'placeholder': 'Write a post...',
-            'style':'resize:none;',
+            'style':'resize:none; box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);',
         }
     ))
   class Meta:
     model = Post
     fields = ('post',)
-'''
-  post = forms.CharField(widget=forms.TextInput(
+
+
+class FileForm(forms.ModelForm):
+  files = forms.FileField(required=False, widget=forms.FileInput(
         attrs={
-            'class': 'form-control',
-            'placeholder': 'Write a post...',
-            'style': 'resize: none;'
-        }
+          'multiple': True,
+          'class': 'd-inline mt-3',
+          }
     ))
-'''
+
+  class Meta:
+    model = PostFile
+    fields = ['files']
 
 class CommentForm(forms.ModelForm):
-  comment = forms.CharField(widget=forms.TextInput(
+  comment = forms.CharField(widget=forms.Textarea(
         attrs={
-            'class': 'form-control',
-            'placeholder': 'Write a comment...'
+            'rows':'2', 'cols':'10', 'wrap':'hard',
+            'class': 'post-form  form-control pt-3',
+            'placeholder': 'Write a comment...',
+            'style':'resize:none; box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);',
         }
     ))
 

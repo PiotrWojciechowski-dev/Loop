@@ -52,8 +52,7 @@ INSTALLED_APPS = [
     'django_countries',
     'django_filters',
     'paypal.standard.ipn',
-    'stripe',
-    
+    'stripe',  
 ]
 
 
