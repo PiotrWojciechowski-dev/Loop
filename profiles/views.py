@@ -29,6 +29,7 @@ def create_profile(request):
       if form.cleaned_data['profile_image'] is not None:
         profile.profile_image = form.cleaned_data['profile_image']
       profile.user = request.user
+      profile.privacy_settings = 'open'
       profile = form.save()
       profile.save()
     return render(request, 'profile.html', {'profile': profile})

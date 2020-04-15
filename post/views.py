@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-
+#from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -56,10 +56,13 @@ class HomeView(LoginRequiredMixin, View):
 
   def post(self, request, *args, **kwargs):
     #post = get_object_or_404(Post, pk=self.kwargs.get('id'))
+    print(request.method)
     if request.POST.get("submit-form") == "1":
-      post_form = PostForm(request.POST)
+      post_form = PostForm(request.POST, request.FILES)
       if post_form.is_valid():
         post = post_form.save(commit=False)
+        if request.method == 'FILES':
+          post.user_file = request.FILES['myfile']
         post.user = request.user
         post.save()
         text = post_form.cleaned_data['post']

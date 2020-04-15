@@ -19,7 +19,14 @@ STATUS_CHOICES = [
     ('Single', 'Single'),
     ('Its Complicated', 'Its Complicated'),
     ('Engaged', 'Engaged'),
-    ('Dating', 'Dating')
+    ('Dating', 'Dating'),
+    ('In a relationship', 'In a relationship')
+]
+
+PRIVACY_CHOICES = [
+    ('Open','Open'),
+    ('Restricted', 'Restricted'),
+    ('Strict', 'Strict')
 ]
 
 class Profile(models.Model):
@@ -50,6 +57,7 @@ class Profile(models.Model):
     )
     username = models.TextField(max_length=30, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    privacy_settings = models.TextField(max_length=10,default='open',choices=PRIVACY_CHOICES)
 
     def __str__(self):
         return self.user.__str__()

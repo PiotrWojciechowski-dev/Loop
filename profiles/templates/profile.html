@@ -43,7 +43,8 @@
             {% endif %}
         {% endif %}
         {% endif %}
-        <p>Created: {{profile.created_at}}</p>
+        <p>Joined: {{profile.created_at}}</p>
+        <p>Birthday:  {{profile.dob}}</p>
 </div>
 <div class="col-lg-4">
     <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
@@ -52,7 +53,7 @@
     <h3>Date of Birth: {{profile.dob}}</h3>
     <h3>Relationship Status: {{profile.status}}</h3>
     <h3>Gender {{profile.gender}}</h3>
-    <h4>Bio: {{profile.bio}}</h4>
+    <h4 class="card-body">Bio: {{profile.bio}}</h4>
 </div>
 </div>
 {% else %}
