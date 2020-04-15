@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_shortcuts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,8 +52,7 @@ INSTALLED_APPS = [
     'django_countries',
     'django_filters',
     'paypal.standard.ipn',
-    'stripe',
-    
+    'stripe',  
 ]
 
 
@@ -87,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'cart.context_processors.cart',
             ],
         },
@@ -159,6 +160,64 @@ LOGIN_REDIRECT_URL = 'home'
 # Media Files Configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# File Storage Configuration
+#DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Admin Configuration
+ADMIN_SHORTCUTS = [
+    {
+        'shortcuts': [
+            { 
+                'title': 'Home Page',     
+                'url': '/',
+                'open_new_window': True,
+            },
+            {
+                'url_name': 'admin:logout',
+            },
+            {
+                'title': 'Index',
+                'url_name': 'admin:index',
+            },
+            {
+                'title': 'Users',
+                'url_name': 'admin:user_customuser_changelist',
+                'count': 'user.utils.count_users',
+            },
+            {
+                'title': 'Groups',
+                'url_name': 'admin:auth_group_changelist',
+                'count': 'user.utils.count_groups',
+            },
+            {
+                'title': 'Add user',
+                'url_name': 'admin:user_customuser_add',
+                'has_perms': 'example.utils.has_perms_to_users',
+            },
+        ]
+    },
+    {
+        'title': 'Quick Acess',
+        'shortcuts': [
+            {
+                'title': 'Products',
+                'url_name': 'admin:shop_product_changelist',
+            },
+            {
+                'title': 'Orders',
+                'url_name': 'admin:order_order_changelist',
+                'count': '',
+            },
+        ]
+    },
+]
+
+ADMIN_SHORTCUTS_SETTINGS = {
+    'show_on_all_pages': True,
+    'hide_app_list': False,
+    'open_new_window': False,
+}
 
 # Other Files Configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

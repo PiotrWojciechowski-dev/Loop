@@ -62,3 +62,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_active(self, *args, **kwargs):
 	    return self.active
+
+    

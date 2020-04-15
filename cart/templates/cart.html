@@ -8,14 +8,14 @@
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8 ml-3">
-            <h1 class="my-3">Your shopping cart</h1>
+            <h1 class="my-3">Your Shopping Cart:</h1>
     <table class="table table-bordered table-hover table-condensed">
         <thead>
             <tr>
                 <th>Image</th>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Gender</th>
+                <th>Extra Detail</th>
                 <th>Remove</th>
                 <th>Unit price</th>
                 <th>Price</th>
@@ -40,7 +40,7 @@
                         {% csrf_token %}
                         {{ item.update_form.quantity }}
                         {{ item.update_form.update }}
-                        <input class="custom-button" type="submit" value="Update">
+                        <input class="btn yes-btn" type="submit" value="Update">
                         <input name="submit-form" value="3" type="hidden">
                     </form>
                 </td>
@@ -71,9 +71,8 @@
     </tbody>
     </table>
     <p class="text-left return my-5">
-        <a href="{% url 'shop:product_list' %}"
-            class="custom-button m-3 p-2 text-left">Continue shopping</a>
-        <a href="{% url 'order_create' %}" class="custom-button m-3 p-2 text-left">Checkout</a>
+        <a href="{% url 'shop:product_list' %}" class="btn cart-btn text-left text-decoration-none text-dark mx-3">Continue shopping</a>
+        <a href="{% url 'order_create' %}" class="btn cart-btn text-left text-decoration-none text-dark">Checkout</a>
     </p>
     </div>
     <div class="col-sm-1"></div>
