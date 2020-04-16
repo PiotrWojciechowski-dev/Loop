@@ -45,14 +45,17 @@
                     </form>
                 </td>
                 <td>
-                    <!---
-                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
-                        {% csrf_token %}
-                        {{ item.update_gender_form.gender }}
-                        {{ item.update_gender_form.update }}
-                        <input class="custom-button" type="submit" value="Update">
-                    </form>
-                -->
+                    {% if item.colour %}
+                    Colour: {{item.colour}}
+                    {% endif %}
+                    <br>
+                    {% if item.gender %}
+                    Gender: {{item.gender}}
+                    {% endif %}
+                    <br>
+                    {% if item.size %}
+                    Size: {{item.size}}
+                    {% endif %}
                 </td>
                 <td><a href="{% url 'cart:cart_remove' product.id %}">
                         Remove</a></td>

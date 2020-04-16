@@ -49,13 +49,28 @@ class HomeView(LoginRequiredMixin, View):
         posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
+        like = None
+        current_user = None
+        other_user = None
+        if Like.objects.exists():
+          like = None
+          for post in posts:
+            likes = Like.objects.filter(post=post)
+            for like in likes:
+              if like.user != request.user:
+                other_user = like.user
+                print(other_user)
+              if like.user == request.user:
+                current_user = like.user
+                print(current_user)
       context = {
               'post_form': post_form, 'comment_form' : comment_form,
               'posts': posts, 'users': users, 
               'user_profile': user_profile, 'mates': mates, 
               'confirmed_mates': confirmed_mates, 'comments': comments,
-              'file_form': file_form, 'files':files,
-              'profiles': profiles
+              'file_form': file_form, 'files': files, 
+              'profiles': profiles, 'like': like,
+              'other_user': other_user, 'current_user': current_user,
           }
       return render(request, self.template_name, context)
     else:

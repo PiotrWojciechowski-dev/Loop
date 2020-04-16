@@ -18,16 +18,17 @@ class PostLikeView(View):
   def get_object(self, *args, **kwargs):
     return get_object_or_404(Post, pk=self.kwargs.get(self.lookup))
 
-  def get(self, request, id=None, *args, **kwargs):
+  def get(self, request, state=None, id=None, *args, **kwargs):
     is_liked = Like.objects.find_is_liked(
       self.get_object(),
       request.user,
+      state,
     )
     if is_liked.exists():
       is_liked.delete()
       messages.error(request, 'Post has already been unliked!')
       return redirect(reverse('home'))
     else:
-      Like.objects.create_like(self.get_object(), request.user)
+      Like.objects.create_like(self.get_object(), request.user, state)
       messages.success(request, 'Post has been liked!')
       return redirect(reverse('home'))
