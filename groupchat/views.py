@@ -10,11 +10,12 @@ from profiles.models import Profile
 class GroupMessageView(View):
     template_name = 'groupchats.html'
 
-    def get(self, request, sender, recipient, *args, **kwargs):
+    def get(self, request, groupchat_id, groupchat_name, *args, **kwargs):
         form = GroupMessageForm()
         user = request.user
+        groupchat = GroupChat.objects.all().get(id=groupchat_id)
         try:
-            messages = GroupMessage.objects.filter(Q(recipient=request.user, sender=sender_user.user) | Q(recipient=sender_user.user, sender=request.user)).order_by('created')
+            messages = GroupMessage.objects.filter(Q(recipient=groupchat))
         except ObjectDoesNotExist:
             messages = None
         context = {
@@ -22,20 +23,20 @@ class GroupMessageView(View):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, recipient, sender, *args, **kwargs):
+    def post(self, request, groupchat_id, groupchat_name, *args, **kwargs):
         groupchat = GroupChat.objects.all().get(name=recipient)
         form = GroupMessageForm(request.POST, request.FILES)
         if form.is_valid():
-            message = form.save(commit=False)
-            message.sender = request.user
-            message.recipient = groupchat
+            GroupMessage = form.save(commit=False)
+            GroupMessage.sender = request.user
+            GroupMessage.recipient = groupchat
             text = form.cleaned_data['text']
             if form.cleaned_data['image'] is not None:
                 print('hello')
-                message.image = form.cleaned_data['image']
+                GroupMessage.image = form.cleaned_data['image']
             form = GroupMessageForm()
-            message.save()
-            return redirect('messages:messaging', request.user, recipient_user.user)
+            GroupMessage.save()
+            return redirect('groupchat:messaging', groupchat.PK)
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
