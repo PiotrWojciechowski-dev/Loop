@@ -11,11 +11,11 @@ from post.models import Post
 User = get_user_model()
 
 class LikeManager(models.Manager):
-  def find_is_liked(self, post, user):
+  def find_is_liked(self, post, user, state):
     return self.filter(post=post, user=user)
 
-  def create_like(self, post, user):
-    like = self.create(post=post, user=user)
+  def create_like(self, post, user, state):
+    like = self.create(post=post, user=user, state=True)
     like.save()
 
 class Like(models.Model):
@@ -30,6 +30,8 @@ class Like(models.Model):
     default=1,
     on_delete=models.CASCADE
   )
+
+  state = models.BooleanField(null=True)
 
   objects = LikeManager()
 
