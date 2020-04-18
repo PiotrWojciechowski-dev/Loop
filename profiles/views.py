@@ -29,6 +29,7 @@ def create_profile(request):
       if form.cleaned_data['profile_image'] is not None:
         profile.profile_image = form.cleaned_data['profile_image']
       profile.user = request.user
+      profile.privacy_settings = 'open'
       profile = form.save()
       profile.save()
     return render(request, 'profile.html', {'profile': profile})
@@ -73,9 +74,13 @@ class ProfileView(View):
       blocked_profiles = blocked_by_me.users.all()
     except ObjectDoesNotExist:
       blocked_profiles = None
+    confirmed_mate = False
+    if profile.user in mates:
+      if username in profile_mates:
+        confirmed_mate = True
     context = {
       'form':form, 'profile': profile, 'user_profile': user_profile, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
-      'blocked_users': blocked_users
+      'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate
     }
     return render(request, self.template_name, context)
 
@@ -101,17 +106,7 @@ class OwnerProfileMixin(OwnerMixin, LoginRequiredMixin):
   success_url = reverse_lazy('profile:create_profile')
 
 class OwnerProfileEditMixin(OwnerProfileMixin, OwnerEditMixin):
-  """
-  def get_username():
-    username = get_user_model().username
-    print(username)
-    return username
-  """
-  
-  fields = ['fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image',]
-  #profile = get_object_or_404(Profile, username=username)
-  #username = get_username()
-  #success_url = reverse_lazy('profiles:profile_detail', args=[username])
+  fields = ['fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image', 'privacy_settings','workplace','education']
   success_url = reverse_lazy('home')
   template_name = 'profile_update.html'
 
