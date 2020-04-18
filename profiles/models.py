@@ -58,6 +58,8 @@ class Profile(models.Model):
     username = models.TextField(max_length=30, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     privacy_settings = models.TextField(max_length=10,default='open',choices=PRIVACY_CHOICES)
+    workplace = models.TextField(max_length=50, unique=True, null=True, blank=True)
+    education = models.TextField(max_length=50, unique=True, null=True, blank=True)
 
     def __str__(self):
         return self.user.__str__()

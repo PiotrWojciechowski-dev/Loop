@@ -38,6 +38,7 @@ urlpatterns = [
     path('shop/', include('shop.urls', namespace='shop')),
     path('order/', include('order.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
+    path('groupchat/', include('groupchat.urls', namespace='groupchat'))
 ]
 
 if settings.DEBUG:

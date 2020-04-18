@@ -46,9 +46,14 @@ class HomeView(LoginRequiredMixin, View):
             confirmed_mates.append(confirmed_mate.current_user)
           except ObjectDoesNotExist: 
             confirmed_mate = None
-        posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
-        comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
-        files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
+        try:
+          posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
+          comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
+          files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
+        except ObjectDoesNotExist:
+          posts = None
+          comments = None
+          files = None
       context = {
               'post_form': post_form, 'comment_form' : comment_form,
               'posts': posts, 'users': users, 
