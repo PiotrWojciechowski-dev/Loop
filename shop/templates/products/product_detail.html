@@ -13,10 +13,12 @@
     </div>
     <div class="col-sm-3 col-lg-3 mx-2 my-3">
       {% for image in product.detail_images.all %}
+      <div class="slideshow-container">
       <div class="mySlides product-image">
-        <a class="prev float-left mt-5" onclick="minusSlides(-1)">❮</a>
+        <a class="prev float-left" onclick="minusSlides(-1)">❮</a>
         <a class="next float-right" onclick="plusSlides(1)">❯</a>
         <img value="{{image.id}}" src="{{ image.detail_image.url }}" data-toggle="modal" data-target="#productImg{{ forloop.counter }}" data-id="{{ image.id }}">
+      </div>
       </div>
       <!-- The Modal -->
       <div class="modal fade" id="productImg{{ forloop.counter }}">

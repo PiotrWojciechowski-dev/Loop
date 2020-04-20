@@ -1,25 +1,60 @@
 {% extends "base.html" %}
 {% load static %}
 {%block content%}
-<div class="float-right  mx-auto w-50">
-    {% for message in messages%}
-        {% if message.sender == user%}
-            <p>  {{message.sender}}: {{message.text}}</p>
-            {% if message.image %}
-            <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
-            {% endif %}
-        {% else %}
-            <p>  {{message.sender}}: {{message.text}}</p>
-            {% if message.image %}
-            <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-    <form method="post" class="w-75 post-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }} 
-        <br>
-        <button type="submit" class="custom-button">Send</button>
-    </form>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="container-fluid">
+            <h3 class="text-center my-3">This is the beginning of your conversation with {{sender_user.username}}</h3>
+            {% for message in messages%}
+                {% if message.sender == user %}
+                <p class="d-flex justify-content-end text-muted" style="margin-right: 90px;">{{message.sender}}</p>
+                {% if sender_user.profile_image == 'default.jpg' %}
+                <a href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                {% else %}
+                <a href="{% url 'profiles:profile_detail' recipient_user.username %}"><img src="{{recipient_user.profile_image.url}}" alt="{{message.sender}}" class="img-fluid float-right my-2 ml-3" style="width: 65px; height: 65px; border-radius: 100px;"></a>
+                {% endif %}
+                    <div class="card w-25 ml-auto card msgs my-3">
+                        <div class="card-body ml-auto msg-body">
+                            {{message.text}}
+                        </div>
+                    </div>
+                    {% if message.image %}
+                    <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3">
+                    {% endif %}
+                {% else %}
+                        <p class="text-muted" style="margin-left: 90px;">{{message.sender}}</p>
+                        {% if sender_user.profile_image == 'default.jpg' %}
+                        <a href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                        {% else %}
+                        <a href="{% url 'profiles:profile_detail' sender_user.username %}"><img src="{{sender_user.profile_image.url}}" alt="{{message.sender}}" class="img-fluid float-left mr-3 mt-1" style="width: 65px; height: 65px; border-radius: 100px;"></a>
+                        {% endif %}
+                        <div class="card w-25 msgs ml-5">
+                            <div class="card-body msg-body">
+                                {{message.text}}
+                            </div>
+                        </div>
+                    {% if message.image %}
+                    <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3">
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
 </div>
+    <div class="row mt-5">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 d-flex justify-content-center">
+            <form method="post" class="w-75 post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.text }} 
+                {{ form.image }}
+                <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    </div>
+    
 {%endblock content%}

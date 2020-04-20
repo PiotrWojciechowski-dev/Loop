@@ -59,10 +59,8 @@ class HomeView(LoginRequiredMixin, View):
             for like in likes:
               if like.user != request.user:
                 other_user = like.user
-                print(other_user)
               if like.user == request.user:
                 current_user = like.user
-                print(current_user)
       context = {
               'post_form': post_form, 'comment_form' : comment_form,
               'posts': posts, 'users': users, 
