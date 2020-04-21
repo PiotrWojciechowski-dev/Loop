@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from .models import GroupChat, GroupMessage
 from profiles.models import Profile
+from profiles.models import Mates
 
 class GroupMessageView(View):
     template_name = 'groupchats.html'
@@ -24,22 +25,62 @@ class GroupMessageView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, groupchat_id, groupchat_name, *args, **kwargs):
-        groupchat = GroupChat.objects.all().get(name=recipient)
+        groupchat = GroupChat.objects.all().get(id=groupchat_id)
         form = GroupMessageForm(request.POST, request.FILES)
         if form.is_valid():
             GroupMessage = form.save(commit=False)
             GroupMessage.sender = request.user
-            GroupMessage.recipient = groupchat
+            GroupMessage.recipient =  GroupChat.objects.all().get(id=groupchat_id)
             text = form.cleaned_data['text']
             if form.cleaned_data['image'] is not None:
                 print('hello')
                 GroupMessage.image = form.cleaned_data['image']
             form = GroupMessageForm()
             GroupMessage.save()
-            return redirect('groupchat:messaging', groupchat.PK)
+            return redirect('groupchat:messaging', groupchat.id, groupchat.name)
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
     def get_queryset(self):
         queryset = super(OwnerMixin, self).get_queryset()
         return queryset.filter(recipient=self.request.user)
+
+def create_group(request):
+    confirmed_mates = []
+    try:
+        mate = Mates.objects.get(current_user=request.user)
+        mates = mate.users.all()
+    except ObjectDoesNotExist:
+        mates = None
+        posts = Post.objects.filter(Q(user=user)).order_by('-created')
+        files = PostFile.objects.filter(Q(user=user))
+        comments = Comment.objects.filter(Q(user=user)).order_by('-created')
+    if mates != None:
+        for m in mates:
+            try:
+                confirmed_mate = Mates.objects.get(current_user=m, users=request.user)
+                confirmed_mates.append(confirmed_mate.current_user.username)
+            except ObjectDoesNotExist: 
+                confirmed_mate = None
+
+    if request.method == 'POST':
+        print("Hello")
+        form = GroupChatForm(confirmed_mates, request.POST, request.FILES)
+        if form.is_valid():
+            print("hey there")
+            groupchat = form.save(commit=False)
+            if request.user.is_authenticated:
+                owner = request.user
+                groupchat.owner = owner
+            if form.cleaned_data['groupchatImage'] is not None:
+                groupchat.groupImage = form.cleaned_data['groupchatImage']
+            groupchat.name = form.cleaned_data['name']
+            groupchat = form.save()
+            groupchat.save()
+            members = form.cleaned_data['members']
+            groupchat.members.set(form.cleaned_data['members'])
+            groupchat.save()
+            return redirect('groupchat:messaging', groupchat.id, groupchat.name)
+    else:
+        form = GroupChatForm(confirmed_mates)
+    return render(request, 'createGroupchats.html', {'form':form})
