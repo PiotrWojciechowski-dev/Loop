@@ -75,9 +75,10 @@ class ProfileView(View):
     except ObjectDoesNotExist:
       blocked_profiles = None
     confirmed_mate = False
-    if profile.user in mates:
-      if username in profile_mates:
-        confirmed_mate = True
+    if mates:
+      if profile.user in mates:
+        if username in profile_mates:
+          confirmed_mate = True
     context = {
       'form':form, 'profile': profile, 'user_profile': user_profile, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
       'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate
