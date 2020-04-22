@@ -37,23 +37,24 @@ class Profile(models.Model):
     )
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
-    dob = models.DateField(null=True, blank=True)
     gender = models.CharField(
         max_length=14,
         default=1,
-        choices=GENDER_CHOICES
+        choices=GENDER_CHOICES,
+        blank=True,
     )
     status = models.CharField(
         max_length=17,
         default=1,
-        choices=STATUS_CHOICES
+        choices=STATUS_CHOICES,
+        blank=True,
     )
-    location = CountryField(blank_label='Select Country', null=True)
+    location = CountryField(blank_label='Select Country', null=True, blank=True)
     bio = models.TextField(blank=True, default='I have no bio yet :(')
     profile_image = models.ImageField(
         upload_to='profiles/',
         default='default.jpg',
-        blank=True
+        blank=True,
     )
     username = models.TextField(max_length=30, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

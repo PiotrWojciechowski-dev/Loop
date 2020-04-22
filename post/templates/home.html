@@ -58,10 +58,10 @@
                                     <div class="userSlides">
                                         <a class="post-prev float-left" onclick="minusSlides(-1)">❮</a>
                                         <a class="post-next float-right" onclick="plusSlides(1)">❯</a>
-                                        <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                        <img class="card-img-bottom" style="height: 550px;"  id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
                                     </div>
                                     {% else %}
-                                    <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                    <img class="card-img-bottom" style="height: 550px;"  id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
                                     {% endif %}
                                     <!-- The Modal -->
                                     <div class="modal fade" id="userImg{{forloop.counter}}">
@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-sm-4"></div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
+                                <button type="button" id="{{post.id}}" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
                             </div>
                         </div>
                         <hr class="mx-auto post-line">
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="container">
-                        <div class="comments mt-3" style="display:none;">
+                        <div class="comments{{post.id}} mt-3" style="display:none;">
                         {% for comment in post.comment_set.all %}
                         <div class="row mr-1">
                             <div class="col-sm-10">
@@ -228,10 +228,10 @@
                                 <div class="userSlides">
                                     <a class="post-prev float-left" onclick="minusSlides(-1)">❮</a>
                                     <a class="post-next float-right" onclick="plusSlides(1)">❯</a>
-                                    <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                    <img class="card-img-bottom" style="height: 550px;" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
                                 </div>
                                 {% else %}
-                                <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                <img class="card-img-bottom" style="height: 550px;"  id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
                                 {% endif %}
                                     <!-- The Modal -->
                                     <div class="modal fade" id="userImg{{forloop.counter}}">
@@ -287,7 +287,7 @@
                             </div>
                             <div class="col-sm-4"></div>
                             <div class="col-sm-3 ml-5">
-                                <button type="button" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
+                                <button type="button" id="{{post.id}}" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
                             </div>
                         </div>
                         <hr class="mx-auto post-line">
@@ -306,7 +306,7 @@
                         </div>
                     </div>
                     <div class="container">
-                        <div class="comments" style="display:none;">
+                        <div class="comments{{post.id}}" style="display:none;">
                         {% for comment in post.comment_set.all %}
                         <div class="row mr-1">
                             <div class="col-sm-10">
