@@ -24,6 +24,9 @@ class HomeView(LoginRequiredMixin, View):
 
   def get(self, request, *args, **kwargs):
     username = request.user.username
+    like = None
+    current_user = None
+    other_user = None
     if Profile.objects.filter(username=username).exists():
       post_form = PostForm()
       comment_form = CommentForm()
@@ -50,9 +53,6 @@ class HomeView(LoginRequiredMixin, View):
         posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
-        like = None
-        current_user = None
-        other_user = None
         if Like.objects.exists():
           like = None
           for post in posts:

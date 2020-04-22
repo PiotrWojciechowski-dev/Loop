@@ -44,7 +44,7 @@ class Profile(models.Model):
         choices=GENDER_CHOICES
     )
     status = models.CharField(
-        max_length=15,
+        max_length=17,
         default=1,
         choices=STATUS_CHOICES
     )
