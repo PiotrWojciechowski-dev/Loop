@@ -10,7 +10,7 @@
                 {% if message.sender == user %}
                 <p class="d-flex justify-content-end text-muted" style="margin-right: 90px;">{{message.sender}}</p>
                 {% if sender_user.profile_image == 'default.jpg' %}
-                <a href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                <a href="{% url 'profiles:profile_detail' recipient_user.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-right my-2 ml-3" style="width: 65px; height: 65px; border-radius: 100px;"></a>
                 {% else %}
                 <a href="{% url 'profiles:profile_detail' recipient_user.username %}"><img src="{{recipient_user.profile_image.url}}" alt="{{message.sender}}" class="img-fluid float-right my-2 ml-3" style="width: 65px; height: 65px; border-radius: 100px;"></a>
                 {% endif %}
@@ -25,7 +25,7 @@
                 {% else %}
                         <p class="text-muted" style="margin-left: 90px;">{{message.sender}}</p>
                         {% if sender_user.profile_image == 'default.jpg' %}
-                        <a href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                        <a href="{% url 'profiles:profile_detail' sender_user.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-left mr-3 mt-1" style="width: 65px; height: 65px; border-radius: 100px;"></a>
                         {% else %}
                         <a href="{% url 'profiles:profile_detail' sender_user.username %}"><img src="{{sender_user.profile_image.url}}" alt="{{message.sender}}" class="img-fluid float-left mr-3 mt-1" style="width: 65px; height: 65px; border-radius: 100px;"></a>
                         {% endif %}

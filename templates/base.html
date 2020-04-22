@@ -66,7 +66,7 @@
                                 <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
                                 <a href="{% url 'order_history' %}">View Orders</a>
                                 <a href="{% url 'signout' %}">Logout</a>
-                                <a href="">Delete Profile</a>
+                                <a href="{% url 'delete_user' %}">Delete Profile</a>
                             </div>
                         </div>
                         {% else %}
