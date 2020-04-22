@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'admin_shortcuts',
+    'admin_shortcuts' ,
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django_countries',
     'django_filters',
     'paypal.standard.ipn',
-    'stripe',  
+    'stripe',
 ]
 
 

@@ -6,6 +6,9 @@
         <div class="col-2 col-sm-3 col-md-2 col-lg-2">
         </div>
             <div class="col-9 col-sm-6 col-md-8 col-lg-6 float-left">
+                {% if request.user.is_admin %}
+                    <button type="submit" class="btn signup-button mt-4 font-weight-bold"><a href="{% url 'report_list' %}">Reports</button></a>
+                {% endif %}
                 <h2 class="text-left">My Dashboard</h2>
                 <form method="post" class="w-75 text" type="input" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -31,7 +34,7 @@
                                     <p>Created: {{post.created}}</p>
                                 </div>
                                 <div class="col-sm-2">
-                                    {% if user == post.user %}
+                                    {% if user == post.user  %}
                                         <div class="settings float-right">
                                             <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
                                             <div id="myBrain" class="settings-options">
@@ -43,36 +46,11 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <form method="post" class="w-75 post-form" type="input">
-                            {% csrf_token %}
-                            {{ comment_form.comment }}
-                            <br>
-                            <button type="submit" class="custom-button">Comment</button>
-                            <input name="submit-form" value="2" type="hidden">
-                        </form>
-                        <div class="">
-                            <div class="container">
-                                <h5 class="m-0">Comments</h5>
-                                <hr>
-                                {% for comment in comments %}
-                                <div class="mb-2 d-flex">
-                                <div>
-                                    <small>{{comment.user}}</small>
-                                    <span class="">{{comment.comment}}</span><br>
-                                    
-                                    <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                    <a href="{% url 'delete_comment' comment.id %}">Delete</a>
-                                </div>
-                                <hr>
-                                {% endfor %}
-=======
                         <div class="card-text">
                             <div class="row">
                                 <div class="col-sm-12 my-1">
                                     <p class="mx-5">{{post.post}}</p>
                                 </div>     
->>>>>>> d3eae7fb8d595e10ca1b8ed928be0d4f522692bb
                             </div>
                             {% for file in post.file_posted.all %}
                                 {% if file.content_type  == "image"  %}
@@ -197,11 +175,20 @@
                                                 <a href="{% url 'delete_post' post.id %}">Delete</a>
                                             </div>
                                         </div>
+
+                                    {% elif request.user.is_admin %}
+                                    <div class="settings float-right">
+                                        <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                        <div id="myBrain" class="settings-options">
+                                            <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                            <a href="{% url 'report_post' post.id %}">Report</a>
+                                        </div>
+                                    </div> 
                                     {% else %}
                                     <div class="settings float-right">
                                         <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>
                                             <div id="myBrain" class="settings-options">
-                                                <a href="">Report</a>
+                                                <a href="{% url 'report_post' post.id %}">Report</a>
                                             </div>
                                     </div>
                                     {% endif %}
@@ -258,8 +245,10 @@
                                 <div>
                                     <span class="">{{comment.comment}}</span><br>
                                     <small>{{comment.user}}</small>
+                                {% if user == comment.user %}
                                     <a href="{% url 'change_comment' comment.id %}">Edit</a>
                                     <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

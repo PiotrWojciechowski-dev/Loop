@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView, DeleteView, UpdateView, CreateView
 from django.http import HttpResponseRedirect
-from .models import Post, Comment, PostFile
+from .models import Post, Comment, PostFile, Report
 from profiles.models import Profile, Mates
 from likes.models import Like
-from .forms import PostForm, CommentForm, FileForm
+from .forms import PostForm, CommentForm, FileForm, ReportForm
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from user.models import  CustomUser
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -37,7 +38,7 @@ class HomeView(LoginRequiredMixin, View):
       except ObjectDoesNotExist:
         mates = None
         posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
-        files = PostFile.objects.filer(Q(user=request.user))
+        files = PostFile.objects.filter(Q(user=request.user))
         comments = Comment.objects.filter(Q(user=request.user)).order_by('-created')
       if mates != None:
         for m in mates:
@@ -88,6 +89,7 @@ class HomeView(LoginRequiredMixin, View):
         text = comment_form.cleaned_data['comment']
         comment.save()
         comment_form = CommentForm()
+
     return redirect('home')
     args = {'post_form': post_form, 'comment_form': comment_form, 'text': text, 'file_form':file_form}
     return render(request, self.template_name, args)
@@ -106,6 +108,7 @@ class OwnerMixin(object):
   def get_queryset(self):
     qs = super(OwnerMixin, self).get_queryset()
     return qs.filter(user=self.request.user)
+
 
 class OwnerEditMixin(object):
   def from_valid(self, form):
@@ -154,7 +157,7 @@ class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   permission_required = 'post.delete_post'
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)    
-    context['profiles'] = Profile.objects.get(user=self.request.user)
+    context['profiles'] = Profile.objects.get(user=self.request.user ) 
     return context
   
 
@@ -166,5 +169,38 @@ class CommentDeleteView(PermissionRequiredMixin ,OwnerCommentEditMxin, DeleteVie
     context = super().get_context_data(**kwargs)    
     context['profiles'] = Profile.objects.get(user=self.request.user)
     return context
+
+def report_post(request, pk, **kwargs):
+    if request.method == 'POST':
+      form = ReportForm(request.POST)
+      if form.is_valid():
+        post_report = form.save(commit=False)
+        #post_id = request.POST.get("id_value", "")
+        post_id = pk
+        post_report.post_id = post_id
+        report_reason = form.cleaned_data['report']
+        post_report.save()
+        form = ReportForm()
+        
+        return redirect('home')
+    else:
+        form = ReportForm()
+    
+    context = {
+            'form': form,
+        }
+
+    return render(request, 'post/report_post.html', context)
+
+def get_report(request, **kwargs):
+  form = ReportForm()
+  reports = Report.objects.all()
+  context = {
+    'form':form, 'reports':reports,
+  }
+  return render(request, 'post/report_list.html', context)
+
+
+#def ignore_report(request, **kwargs):
 
 
