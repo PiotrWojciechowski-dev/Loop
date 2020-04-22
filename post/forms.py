@@ -1,5 +1,15 @@
 from django import forms
-from .models import Post, Comment, PostFile
+from .models import Post, Comment, PostFile, Report
+
+REPORT_CHOICES = [
+    ('Language', 'Language'),
+    ('Violence', 'Violence'),
+    ('Spam', 'Spam'),
+    ('Harassment', 'Harassment'),
+    ('Terrorism', 'Terrorism'),
+    ('Hate Speech', 'Hate Speech'),
+    ('Unauthorized Sales', 'Unauthorized Sales')
+]
 
 class PostForm(forms.ModelForm):
   post = forms.CharField(widget=forms.Textarea(
@@ -41,3 +51,26 @@ class CommentForm(forms.ModelForm):
     model = Comment
     fields = ('comment',)
     
+class ReportForm(forms.ModelForm):
+
+  report_reason = forms.CharField(widget=forms.Textarea(
+      attrs={
+          'rows':'5', 'cols':'10', 'wrap':'hard',
+          'class': 'post-form  form-control pt-3',
+          'placeholder': 'Write a report...',
+          'style':'resize:none; box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);',
+      }
+  ))
+
+  report = forms.ChoiceField(
+      choices=REPORT_CHOICES,
+      widget=forms.Select(
+          attrs={
+              'class': 'form-control form-control-lg',
+          }
+      )
+  )
+
+  class Meta:
+    model = Report
+    fields = ('report_reason','report')

@@ -52,7 +52,10 @@ def cart_remove(request, product_id):
         return redirect('shop:product_list')
 
 def cart_detail(request):
-    user_profile = Profile.objects.get(user=request.user)
+    if Profile.objects.filter(username=request.user).exists():
+      user_profile = Profile.objects.get(user=request.user)
+    else:
+      user_profile = None
     cart = Cart(request) 
     current_cat = []
     for item in cart:

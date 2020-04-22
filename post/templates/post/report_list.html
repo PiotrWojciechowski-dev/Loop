@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+<div class="mx-auto w-50">
+    <div class="row">
+        <div class="col-sm-4 my-1">
+            <h1>Reports</h1>
+        </div>         
+    </div>
+    {% for report in reports %}
+    <div class="card mt-5 w-75 posts">
+        <div class="card-title mx-4 my-3">
+            <div class="row">
+                <div class="col-sm-10 my-1">
+                    <p class="mx-5">Post: {{report.post}}</p>
+                
+                
+                    <p class="mx-5">Report: {{report.report}}</p>
+                   
+                
+                    <p class="mx-5">Report Reason: {{report.report_reason}}</p>
+               
+                    <a href="{% url 'delete_post' report.post.id %}">Delete</a>
+                </div>        
+         
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock content%}

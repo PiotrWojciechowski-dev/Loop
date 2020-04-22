@@ -6,7 +6,16 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
 # Create your models here.
-
+REPORT_CHOICES = [
+    ('Language', 'Language'),
+    ('Violence', 'Violence'),
+    ('Spam', 'Spam'),
+    ('Harassment', 'Harassment'),
+    ('Terrorism', 'Terrorism'),
+    ('Hate Speech', 'Hate Speech'),
+    ('Unauthorized Sales', 'Unauthorized Sales')
+]
+    
 
 class Post(models.Model):
     post = models.CharField(max_length=500, null=True)
@@ -58,5 +67,19 @@ try:
           files.user_file = False
 '''
     
+class Report(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, default = None)
+    
+    report_reason = models.CharField(max_length=500, null=True)
+    
+    report = models.CharField(
+        max_length=18,
+        default=1,
+        choices=REPORT_CHOICES
+    )
 
+   
+
+    def __str__(self, *args, **kwargs):
+	    return self.report
     

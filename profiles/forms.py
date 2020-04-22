@@ -113,7 +113,8 @@ class ProfileForm(forms.ModelForm):
             attrs={
                 'class': 'form-control form-control-lg',
                 'placeholder': 'Enter Workplace',
-                'rows': 1
+                'rows': 1,
+                'style':'resize:none;',
             }
         )
     )
@@ -124,7 +125,8 @@ class ProfileForm(forms.ModelForm):
             attrs={
                 'class': 'form-control form-control-lg',
                 'placeholder': 'Enter Workplace',
-                'rows': 1
+                'rows': 1,
+                'style':'resize:none;',
             }
         )
     )

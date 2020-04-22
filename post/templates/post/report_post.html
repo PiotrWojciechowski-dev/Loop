@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+  <div class="col-2 col-sm-3 col-md-2 col-lg-3"></div>
+  <div class="col-9 col-sm-6 col-md-8 col-lg-6">
+    <div class="post-update">
+      <h3>Report Post</h3>
+      {{ post.id }}
+      <form action="" method="POST" class="font-weight-bold"> 
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" name="id_value" value="{{ post.id }}" class="btn yes-btn font-weight-bold">Report</button>
+        <buttom type="submit" class="btn no-btn"><a href="{{post.get_absolute_url}}" class="text-dark font-weight-bold text-decoration-none">Return</a></buttom>
+      </form>
+    </div>
+  </div>
+  <div class="col-2 col-sm-3 col-md-2 col-lg-3"></div>
+</div>
+{% endblock content %}

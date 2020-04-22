@@ -18,6 +18,13 @@
         </div>
         <div class="col-2 col-sm-4 col-md-2 col-lg-6">
             <div>
+            {% if request.user.is_admin %}    
+                <button type="submit" class="btn signup-button mt-4 font-weight-bold"><a href="{% url 'admin:index' %}">Add product</button></a>
+            {% endif %}
+
+                <!-- <div class="text-center">
+                    <button type="submit" class="btn signup-button mt-4 font-weight-bold"><a href="{% url 'shop:admin_add_product' %}">Add product</button></a>
+                </div> -->
             <h3 class="d-inline">Merchandise:</h3>
             <span class="d-inline float-right mr-5 mt-2">
                 {% with total_items=cart|length %}

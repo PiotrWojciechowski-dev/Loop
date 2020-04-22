@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage, PageNotAnIn
 from cart.forms import CartAddProductForm, CartClothesForm, CartHatsForm
 from .filters import ProductFilter
 from profiles.models import Profile
+from .forms import ProductForm
 
 # Create your views here.
 
@@ -59,3 +60,20 @@ def product_detail(request, id, slug):
                   'user_profile': user_profile,
                   'current_category':current_category,
                   'images': images})   
+
+
+def admin_add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+        if form.cleaned_data['image'] is not None:
+            forms.image = form.cleaned_data['image']
+    else:
+        form = ProductForm()
+    
+    context = {
+            'form': form,
+        }
+
+    return render(request, 'products/admin_add_product.html', context)
