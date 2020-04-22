@@ -30,7 +30,7 @@
                                     {% endif %}
                                     </div>
                                 <div class="col-sm-8">
-                                    <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
+                                    <h5><a class="text-dark" href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
                                     <p>Created: {{post.created}}</p>
                                 </div>
                                 <div class="col-sm-2">
@@ -49,12 +49,32 @@
                         <div class="card-text">
                             <div class="row">
                                 <div class="col-sm-12 my-1">
-                                    <p class="mx-5">{{post.post}}</p>
+                                    <p class="mx-5">{{post.post | urlize}}</p>
                                 </div>     
                             </div>
                             {% for file in post.file_posted.all %}
                                 {% if file.content_type  == "image"  %}
-                                    <img class=" card-img-bottom" src="{{ file.files.url }}">
+                                    {% if post.file_posted.count > 1 %}
+                                    <div class="userSlides">
+                                        <a class="post-prev float-left" onclick="minusSlides(-1)">❮</a>
+                                        <a class="post-next float-right" onclick="plusSlides(1)">❯</a>
+                                        <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                    </div>
+                                    {% else %}
+                                    <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                    {% endif %}
+                                    <!-- The Modal -->
+                                    <div class="modal fade" id="userImg{{forloop.counter}}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <img src="{{ file.files.url }}" class="w-100">
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                            <button type="button" class="close font-weight-bold" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
                                 {% elif file.content_type  == "video" %}
                                     <video class="w-100 card-img-bottom" controls> <source src="{{file.files.url}}"> </video>
                                 {% else %}
@@ -67,6 +87,7 @@
                                 {% if post.like_set.all.exists %}
                                 <button type="button" class="btn like" data-toggle="modal" data-target="#like-list" data-id="{{ post.id }}"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}</button>
                                 {% endif %}
+                                <!-- Modal Content -->
                                 <div class="modal fade" id="like-list">
                                     <div class="modal-dialog modal-dialog-centered">
                                       <div class="modal-content d-inline">
@@ -99,11 +120,11 @@
                         </div>
                         <hr class="mx-auto post-line">
                         <div class="row">
-                            <div class="col-sm-3 ml-4 mb-3">
+                            <div class="col-sm-3 ml-5 mb-3">
                                 {% if post.like_set.all %}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm ml-3 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
+                                <a href="{{post.get_like_url}}" class="btn btn-sm ml-1 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
                                 {% else %}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm like ml-3" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
+                                <a href="{{post.get_like_url}}" class="btn btn-sm like ml-1" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -148,7 +169,7 @@
                         </form>
                     </div>
                     {% else %}
-                    <div class="card my-5 w-75 posts" id={{post.id}}>
+                    <div class="card mb-4 mt-5 w-75 posts" id={{post.id}}>
                         <div class="card-title mx-4">
                             <div class="row">
                                 <div class="col-sm-2 my-3">
@@ -157,13 +178,13 @@
                                     {% if profile.profile_image == 'default.jpg' %}
                                     <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                                     {% else %}
-                                    <a class="ml-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                    <a class="ml-3 profile-image" href="{% url 'profiles:profile_detail' post.user %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                                     {% endif %}
                                     {% endif %}
                                     {% endfor %}
                                 </div>
                                 <div class="col-sm-8 my-4">
-                                    <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ post.user }}</a></h5>
+                                    <h5><a class="text-dark" href="{% url 'profiles:profile_detail' post.user %}">{{ post.user }}</a></h5>
                                     <p>Created: {{post.created}}</p>
                                 </div>
                                 <div class="col-sm-2 my-2">
@@ -198,12 +219,32 @@
                         <div class="card-text">
                             <div class="row">
                                 <div class="col-sm-12 my-1">
-                                    <p class="mx-5">{{post.post}}</p>
+                                    <p class="mx-5">{{post.post|urlize}}</p>
                                 </div>     
                             </div>
                             {% for file in post.file_posted.all %}
                                 {% if file.content_type  == "image"  %}
-                                    <img class=" card-img-bottom" src="{{ file.files.url }}">
+                                {% if post.file_posted.count > 1 %}
+                                <div class="userSlides">
+                                    <a class="post-prev float-left" onclick="minusSlides(-1)">❮</a>
+                                    <a class="post-next float-right" onclick="plusSlides(1)">❯</a>
+                                    <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                </div>
+                                {% else %}
+                                <img class="card-img-bottom" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                                {% endif %}
+                                    <!-- The Modal -->
+                                    <div class="modal fade" id="userImg{{forloop.counter}}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <img src="{{ file.files.url }}" class="w-100">
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
                                 {% elif file.content_type  == "video" %}
                                     <video class="w-100 card-img-bottom" controls> <source src="{{file.files.url}}"> </video>
                                 {% else %}
@@ -213,45 +254,99 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-sm-3 ml-5">
-                                <i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}
+                                {% if post.like_set.all.exists %}
+                                <button type="button" class="btn like" data-toggle="modal" data-target="#like-list" data-id="{{ post.id }}"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}</button>
+                                {% endif %}
+                                <!-- Modal Content -->
+                                <div class="modal fade" id="like-list">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content d-block">
+                                        <h4 class="ml-4 mt-2">Liked By:</h4>
+                                        {% for like in post.like_set.all %}
+                                            {% for profile in profiles %}
+                                                {% if profile.user == like.user %}
+                                                    {% if profile.profile_image == 'default.jpg' %}
+                                                        <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                                                        <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ like.user }}</a></h5>
+                                                    {% else %}
+                                                    <div>
+                                                        <a class="ml-3 profile-image d-inline" href="{% url 'profiles:profile_detail' like.user %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid my-3" style="width: 60px; height: 60px; border-radius: 100px;"></a>
+                                                        <h5 class="ml-3 d-inline my-3"><a href="{% url 'profiles:profile_detail' like.user%}">{{ like.user }}</a></h5>
+                                                    </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-2">
-                                {{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-3 ml-5">
+                                <button type="button" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
                             </div>
                         </div>
                         <hr class="mx-auto post-line">
                         <div class="row">
-                            <div class="col-sm-3 ml-4 mb-3">
-                                {% if post.like_set.all %}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm ml-3 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
-                                {% else %}
-                                <a href="{{post.get_like_url}}" class="btn btn-sm like ml-3" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
+                            <div class="col-sm-3 ml-5 mb-3">
+                                {% if post.user != user %}
+                                    {% if like.user == current_user and like.state is True %}
+                                    <a href="{{post.get_like_url}}" class="btn btn-sm like ml-1" id="heart"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
+                                    {% elif post.user == other_user and like.user == current_user %}
+                                    <a href="{{post.get_like_url}}" class="btn btn-sm like ml-1" id="heart"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
+                                    {% else %}
+                                    <a href="{{post.get_like_url}}" class="btn btn-sm ml-1 like"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
                     </div>
-                    <form method="post" class="w-75 post-form" type="input">
-                        {% csrf_token %}
-                        {{ comment_form.comment }}
-                        <br>
-                        <button type="submit" value="{{post.id}}" name="id_value" class="btn comment-button">Comment</button>
-                        <input name="submit-form" value="2" type="hidden">
-                    </form>
                     <div class="container">
-                        <h5 class="m-0">Comments</h5>
+                        <div class="comments" style="display:none;">
                         {% for comment in post.comment_set.all %}
-                            <div class="mb-2 d-flex" value="{{comment.post.id}}">
-                                <div>
-                                    <span class="">{{comment.comment}}</span><br>
-                                    <small>{{comment.user}}</small>
-                                {% if user == comment.user %}
-                                    <a href="{% url 'change_comment' comment.id %}">Edit</a>
-                                    <a href="{% url 'delete_comment' comment.id %}">Delete</a>
-                                {% endif %}
+                        <div class="row mr-1">
+                            <div class="col-sm-10">
+                                <div class="card w-75 comment-box float-right mr-5 my-2">
+                                    <div class="card-title mx-4 my-2">
+                                        {% for profile in profiles %}
+                                        {% if profile.user == comment.user %}
+                                        {% if profile.profile_image == 'default.jpg' %}
+                                        <a class="mr-3 profile-image d-inline" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% else %}
+                                        <a class="mr-3 profile-image d-inline" href="{% url 'profiles:profile_detail' comment.user %}"><img src="{{profile.profile_image.url}}" alt="{{comment.user}}" class="img-fluid" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        <h5 class="d-inline"><a href="{% url 'profiles:profile_detail' comment.user %}">{{ comment.user }}</a></h5>
+                                        {% if user == comment.user %}
+                                        <div class="settings float-right">
+                                            <button class="btn comment-opt-btn"><i class="fas fa-angle-down fa-sm"></i></button>
+                                            <div id="myBrain" class="settings-options">
+                                                <a href="{% url 'change_comment' comment.id %}">Edit</a>
+                                                <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-text">
+                                        <p class="mx-5">{{comment.comment}}</p> 
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-sm-1"></div>
+                        </div>
                         {% endfor %}
+                        </div>
+                        <form method="post" class="w-75 post-form mt-4" type="input">
+                            {% csrf_token %}
+                            {{ comment_form.comment }}
+                            <button type="submit" value="{{post.id}}" name="id_value" class="btn comment-button float-right my-3">Comment</button>
+                            <input name="submit-form" value="2" type="hidden">
+                        </form>
                     </div>
                     {% endif %}
                 {% endfor %}     
@@ -289,8 +384,8 @@
                                 <br>
                             {% else %}
                                 {% for mate in confirmed_mates %}
-                                    <a href="{% url 'profiles:profile_detail' mate.username %}">
-                                        <h3>{{ mate.username }}</h3>
+                                    <a class="text-dark" href="{% url 'profiles:profile_detail' mate.username %}">
+                                        <h3 class="text-dark">{{ mate.username }}</h3>
                                     </a>
                                     <a href="{% url 'profiles:change_Mates' 'lose' mate.username %}">
                                         <button type="button" class="btn btn-default">Remove Friend</button>
@@ -305,6 +400,7 @@
 </div>
 <script src="{% static 'js/post.js' %}"></script>
 <script src="{% static 'js/comments.js' %}"></script>
+<script src="{% static 'js/post-image.js' %}"></script>
 <script src="{% static 'js/jquery.emojiFace.js' %}"></script>
 <script>
 $(function(){

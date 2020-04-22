@@ -226,33 +226,29 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 cursor: pointer;
 }
 
-/* Next & previous buttons */
-.next {
-cursor: pointer;
-position: absolute;
-top: 38%;
-width: auto;
-padding: 20px;
-margin-top: -50px;
-margin-right: 50px;
-font-weight: bold;
-font-size: 30px;
--webkit-user-select: none;
+/* Slideshow container */
+.slideshow-container {
+    position: relative;
 }
 
-.prev {
-cursor: pointer;
-position: absolute;
-top: 17%;
-width: auto;
-padding: 20px;
-margin-top: -50px;
-margin-left: -52px;
-font-weight: bold;
-font-size: 30px;
-user-select: none;
--webkit-user-select: none;
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -35px;
+    margin-right: 80px;
+    margin-left: -10px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
 }
+
 
 /* Position the "next button" to the right */
 .next {
@@ -265,6 +261,32 @@ border-radius: 3px 0 0 3px;
 .next:hover {
 background-color: rgba(148, 144, 144, 0.1);
 }
+
+.post-prev, .post-next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+/* Position the "next button" to the right */
+.post-next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.post-prev:hover, .post-next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
 
 label[for=id_quantity] {
     margin-right: 10px;
@@ -288,6 +310,12 @@ label[for=id_quantity] {
  }
  .choices .asteriskField {
     display: none;
+}
+
+.userSlides {
+    display: none;
+    color: #c8bef2;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 /*                Other Buttons              */
@@ -408,4 +436,10 @@ label[for=id_quantity] {
 
 .btn.like:focus {
     box-shadow: none;
+}
+
+.msgs {
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    margin: 0;
 }

@@ -2,8 +2,8 @@ from django import forms
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range (1, 11)]
 GENDER_CHOICES = (
-    ('M', 'Male'),
-    ('F', 'Female'),
+    ('Male', 'Male'),
+    ('Female', 'Female'),
 )
 SIZE_CHOICES = (
     ('Small', 'Small'),
@@ -13,7 +13,7 @@ SIZE_CHOICES = (
 )
 COLOURS_CHOICES = (
     ('Black', 'Black'),
-    ('Whie', 'White'),
+    ('White', 'White'),
 )
 
 

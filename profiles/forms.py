@@ -14,9 +14,35 @@ STATUS_CHOICES = [
     ('Single', 'Single'),
     ('Its Complicated', 'Its Complicated'),
     ('Engaged', 'Engaged'),
-    ('Dating', 'Dating')
+    ('Dating', 'Dating'),
+    ('In a relationship', 'In a relationship')
 
 ]
+PRIVACY_CHOICES = [
+    ('Open','Open'),
+    ('Restricted', 'Restricted'),
+    ('Strict', 'Strict')
+]
+class PrivacyForm(forms.ModelForm):
+    privacy_setting = forms.ChoiceField(choices=PRIVACY_CHOICES, widget=forms.RadioSelect)
+
+    class Meta:
+        model = Profile
+        fields = ('privacy_setting',)
+
+class ProfileImageForm(forms.ModelForm):
+    profile_image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+            }
+        )
+    )
+
+    class Meta:
+        model = Profile
+        fields = ('profile_image',)
 
 class ProfileForm(forms.ModelForm):
     fname = forms.CharField(
@@ -26,7 +52,7 @@ class ProfileForm(forms.ModelForm):
                 'placeholder': 'Enter First Name'
             }
         )
-    ) 
+    )
     lname = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -80,9 +106,32 @@ class ProfileForm(forms.ModelForm):
             }
         )
     )
-    
+
+    workplace = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Workplace',
+                'rows': 1
+            }
+        )
+    )
+
+    education = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Workplace',
+                'rows': 1
+            }
+        )
+    )
+
+    privacy_setting = forms.ChoiceField(choices=PRIVACY_CHOICES, widget=forms.RadioSelect)
     class Meta:
         model = Profile
-        fields = ('fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image',)
+        fields = ('fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image', 'privacy_setting', 'workplace', 'education')
 
     

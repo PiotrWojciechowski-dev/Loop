@@ -6,7 +6,6 @@
 {% block content %}
 {% load countries %}
 {% get_country profile.location as country %}
-
 {% if not user in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
@@ -43,18 +42,44 @@
             {% endif %}
         {% endif %}
         {% endif %}
-        <p>Created: {{profile.created_at}}</p>
+        <p>Joined: {{profile.created_at}}</p>
+        <p>Birthday:  {{profile.dob}}</p>
 </div>
 <div class="col-lg-4">
+{% if profile.username == user.username or confirmed_mate == True %}
     <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
     <h2>Username: {{profile.username}}</h2>
     <h3>Country: {{ country.name }}</h3>
     <h3>Date of Birth: {{profile.dob}}</h3>
     <h3>Relationship Status: {{profile.status}}</h3>
     <h3>Gender {{profile.gender}}</h3>
-    <h4>Bio: {{profile.bio}}</h4>
+    <h4 class="card-body">Bio: {{profile.bio}}</h4>
+{% else%}
+    {% if profile.privacy_settings == 'Open'%}
+    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
+    <h2>Username: {{profile.username}}</h2>
+    <h3>Country: {{ country.name }}</h3>
+    <h3>Date of Birth: {{profile.dob}}</h3>
+    <h3>Relationship Status: {{profile.status}}</h3>
+    <h3>Gender {{profile.gender}}</h3>
+    <h4 class="card-body">Bio: {{profile.bio}}</h4>
+    {% elif  profile.privacy_settings == 'Restricted'%}
+    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
+    <h2>Username: {{profile.username}}</h2>
+    <h3>Country: {{ country.name }}</h3>
+    <h3>Date of Birth: {{profile.dob}}</h3>
+    <h3>Relationship Status: {{profile.status}}</h3>
+    <h3>Gender {{profile.gender}}</h3>
+    <h4 class="card-body">Bio: {{profile.bio}}</h4>
+    {% elif  profile.privacy_settings == 'Strict'%}
+    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
+    <h2>Username: {{profile.username}}</h2>
+    <h1>This user is private become their freind to see more about them</h1>
+    {%endif %}
+{% endif %}
 </div>
 </div>
+
 {% else %}
 <h3>This user has blocked you</h3>
 {%endif %}
