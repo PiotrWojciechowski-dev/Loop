@@ -1,8 +1,9 @@
 $('.comment-btn').click(function() {
-    $('.comments').toggle('slow', function() {
+    var id = $(this).attr('id');
+    console.log(id);
+    $('.comments' + id).toggle('slow', function() {
     });
   });
-
 
 $(document).ready(function(){
     $(document).on('click','.comment-opt-btn',function(){
