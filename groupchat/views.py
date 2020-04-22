@@ -14,13 +14,17 @@ class GroupMessageView(View):
     def get(self, request, groupchat_id, groupchat_name, *args, **kwargs):
         form = GroupMessageForm()
         user = request.user
+        user_profile = Profile.objects.get(user=request.user)
+        sender_user = Profile.objects.get(user=request.user)
         groupchat = GroupChat.objects.all().get(id=groupchat_id)
+        profiles = Profile.objects.all()
         try:
             messages = GroupMessage.objects.filter(Q(recipient=groupchat))
         except ObjectDoesNotExist:
             messages = None
         context = {
-            'form': form, 'messages': messages, 'user': user
+            'form': form, 'messages': messages, 'user': user, 'groupchat':groupchat, 'user_profile':user_profile,
+            'sender_user': sender_user, 'profiles':profiles
         }
         return render(request, self.template_name, context)
 
@@ -33,7 +37,6 @@ class GroupMessageView(View):
             GroupMessage.recipient =  GroupChat.objects.all().get(id=groupchat_id)
             text = form.cleaned_data['text']
             if form.cleaned_data['image'] is not None:
-                print('hello')
                 GroupMessage.image = form.cleaned_data['image']
             form = GroupMessageForm()
             GroupMessage.save()

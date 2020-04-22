@@ -44,7 +44,8 @@ class GroupMessageForm(forms.ModelForm):
         required=False,
         widget=forms.FileInput(
             attrs={
-                'class': 'form-control form-control-lg',
+                'multiple': True,
+                'class': 'd-inline mt-3',
             }
         )
     )

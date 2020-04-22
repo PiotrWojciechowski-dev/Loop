@@ -11,7 +11,7 @@ from .forms import ProfileForm
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, View, DetailView, UpdateView
+from django.views.generic import ListView, View, DetailView, UpdateView, DeleteView
 from django.core.exceptions import ObjectDoesNotExist
 
 User = get_user_model()

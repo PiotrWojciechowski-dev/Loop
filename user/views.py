@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import SignUpForm, SignInForm
 from django.contrib.auth import login, authenticate, logout
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView, View, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from .models import CustomUser
+from django.contrib.auth.mixins import UserPassesTestMixin
 # from .email import email
 
 # Create your views here.
@@ -52,3 +54,13 @@ class SignOutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect(reverse('signin'))
+
+class UserDelete(UserPassesTestMixin, DeleteView):
+    model = 'CustomUser'
+    template_name = 'delete_user.html'
+    success_url = reverse_lazy('signin')
+    raise_exception = True
+
+    def test_func(self):
+        self.object = self.get_object()
+        return self.object.user == self.request.user
