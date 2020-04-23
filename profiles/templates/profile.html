@@ -9,79 +9,242 @@
 {% if not user in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
-<div class="col-lg-2">
-    <div class="row">
-        <img src="{{profile.profile_image.url}}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3"></div>
-        {% if user.is_authenticated %}
-        {% if profile.username == user.username %}
-            <div class="text-left ml-4 my-2">
-                <button class="register-button"><a href="{% url 'profiles:update_profile' profile.id %}">Edit</a></button>
+        <div class="col-lg-2 ml-5">
+            <div class="ml-4 mt-3">
+                {% if profile.profile_image == 'default.jpg' %}
+                <img src="{% static 'img/default.jpg' %}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px;" class="img-thumbnail img-fluid">
+                {% else %}
+                <img src="{{profile.profile_image.url}}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px;" class="img-thumbnail img-fluid">
+                {% endif %}
             </div>
-           
+            {% if user.is_authenticated %}
+            <p class="ml-3 mt-3">Joined: {{profile.created_at}}</p>
+                {% if profile.username == user.username %}
+                    <div class="text-center mr-5 my-2">
+                        <a class="btn yes-btn" href="{% url 'profiles:update_profile' profile.id %}">Update Profile</a>
+                    </div>
+                {% else%}
+                    {% if not profile.user in mates  %}
+                        {% if not user in profile_mates%}
+                        <div class="d-inline mx-4 my-3">
+                            <a class="btn yes-btn my-2" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a>
+                        </div>
+                        {% else %}
+                        <div class=" mr-5 my-2">
+                            <a class="btn yes-btn" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Accept Request</a>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        {% if user in profile_mates%}
+                        <a class="btn yes-btn my-1" href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a>
+                        <a class="btn yes-btn my-1" href="{% url 'messages:messaging' user profile.user %}">Message</a>
+                        {% else %}
+                        <a class="btn yes-btn my-1" href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a>
+                        {% endif %}
+                    {% endif %}
+                    {% if profile.user in blocked_profiles %}
+                    <div class="d-inline mx-3 my-1">
+                        <a class="btn yes-btn" href="{% url 'profiles:block_user' 'unblock' profile.username %}">Unblock</a>
+                    </div>
+                    {% else %}
+                    <div class="d-inline">
+                        <a class="btn yes-btn my-1" href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    <div class="col-lg-4 ml-5">
+        {% if profile.username == user.username or confirmed_mate == True %}
+            <h4 class="header">
+                <div class="headertitle">
+                Basic Information
+                </div>
+                <div class="divider"></div>
+            </h4>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
+                <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
+            </ul>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Gender:  <span class="font-weight-bold">{{profile.gender}}</span></li>
+                <li class="list-group-item w-100">Status:  <span class="font-weight-bold">{{profile.status}}</span></li>
+            </ul>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Country:  <span class="font-weight-bold">{{ country.name }}</span></li>
+                <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
+            </ul>
         {% else%}
-            {% if not profile.user in mates  %}
-                {% if not user in profile_mates%}
-                <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a></button>
-                {% else %}
-                <button><a href="{% url 'profiles:change_Mates' 'add' profile.username %}">Request pending</a></button>
-                {% endif %}
-                
-            {% else %}
-                
-                {% if user in profile_mates%}
-                <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a></button>
-                <button><a href="{% url 'messages:messaging' user profile.user %}">message</a></button>
-                {% else %}
-                <button><a href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a></button>
-                {% endif %}
-            {% endif %}
-            {% if profile.user in blocked_profiles %}
-            <button><a href="{% url 'profiles:block_user' 'unblock' profile.username %}">UnBlock</a></button>
-            {% else %}
-            <button><a href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a></button>
-            {% endif %}
+            {% if profile.privacy_settings == 'Open'%}
+                <h4 class="header">
+                    <div class="headertitle">
+                    Basic Information
+                    </div>
+                    <div class="divider"></div>
+                </h4>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
+                        <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Gender:  <span class="font-weight-bold">{{profile.gender}}</span></li>
+                        <li class="list-group-item w-100">Status:  <span class="font-weight-bold">{{profile.status}}</span></li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Country:  <span class="font-weight-bold">{{ country.name }}</span></li>
+                        <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
+                    </ul>
+            {% elif  profile.privacy_settings == 'Restricted'%}
+                <h4 class="header">
+                    <div class="headertitle">
+                    Basic Information
+                    </div>
+                    <div class="divider"></div>
+                </h4>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
+                        <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Gender:  <span class="font-weight-bold">{{profile.gender}}</span></li>
+                        <li class="list-group-item w-100">Status:  <span class="font-weight-bold">{{profile.status}}</span></li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal info my-2">
+                        <li class="list-group-item w-100">Country:  <span class="font-weight-bold">{{ country.name }}</span></li>
+                        <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
+                    </ul>
+            {% elif  profile.privacy_settings == 'Strict'%}
+                <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
+                <h2>Username: {{profile.username}}</h2>
+                <h1>This user is private become their freind to see more about them</h1>
+            {%endif %}
         {% endif %}
-        {% endif %}
-        <p>Joined: {{profile.created_at}}</p>
-        <p>Birthday:  {{profile.dob}}</p>
+    </div>
 </div>
-<div class="col-lg-4">
-{% if profile.username == user.username or confirmed_mate == True %}
-    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-    <h2>Username: {{profile.username}}</h2>
-    <h3>Country: {{ country.name }}</h3>
-    <h3>Date of Birth: {{profile.dob}}</h3>
-    <h3>Relationship Status: {{profile.status}}</h3>
-    <h3>Gender {{profile.gender}}</h3>
-    <h4 class="card-body">Bio: {{profile.bio}}</h4>
-{% else%}
-    {% if profile.privacy_settings == 'Open'%}
-    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-    <h2>Username: {{profile.username}}</h2>
-    <h3>Country: {{ country.name }}</h3>
-    <h3>Date of Birth: {{profile.dob}}</h3>
-    <h3>Relationship Status: {{profile.status}}</h3>
-    <h3>Gender {{profile.gender}}</h3>
-    <h4 class="card-body">Bio: {{profile.bio}}</h4>
-    {% elif  profile.privacy_settings == 'Restricted'%}
-    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-    <h2>Username: {{profile.username}}</h2>
-    <h3>Country: {{ country.name }}</h3>
-    <h3>Date of Birth: {{profile.dob}}</h3>
-    <h3>Relationship Status: {{profile.status}}</h3>
-    <h3>Gender {{profile.gender}}</h3>
-    <h4 class="card-body">Bio: {{profile.bio}}</h4>
-    {% elif  profile.privacy_settings == 'Strict'%}
-    <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-    <h2>Username: {{profile.username}}</h2>
-    <h1>This user is private become their freind to see more about them</h1>
-    {%endif %}
-{% endif %}
-</div>
-</div>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-2 ml-5">
+        <div class="card w-75 ml-3 mt-3 bio">
+            <div class="card-header text-center">
+                <h5 class="">{{profile.username}}'s bio:</h5>
+            </div>
+            <div class="card-body">
+                <p>{{profile.bio}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 ml-5">
+        <h4 class="header">
+            <div class="headertitle">
+            Posts
+            </div>
+            <div class="divider"></div>
+        </h4>
+        {% for post in posts %}
+        {% if post.user == profile.user %}
+        <div class="card mb-4 mt-3 w-100 posts" id={{post.id}}>
+            <div class="card-title mx-4">
+                <div class="row">
+                    <div class="col-sm-2 my-3">
+                        {% for profile in profiles %}
+                        {% if profile.user == post.user %}
+                        {% if profile.profile_image == 'default.jpg' %}
+                        <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                        {% else %}
+                        <a class="ml-3 profile-image" href="{% url 'profiles:profile_detail' post.user %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-8 my-4">
+                        <h5><a class="text-dark" href="{% url 'profiles:profile_detail' post.user %}">{{ post.user }}</a></h5>
+                        <p>Created: {{post.created}}</p>
+                    </div>
+                    <div class="col-sm-2 my-2">
+                        {% if user == post.user %}
+                            <div class="settings float-right">
+                                <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                <div id="myBrain" class="settings-options">
+                                    <a href="{% url 'change_post' post.id %}">Edit</a>
+                                    <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                </div>
+                            </div>
 
+                        {% elif request.user.is_admin %}
+                        <div class="settings float-right">
+                            <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                            <div id="myBrain" class="settings-options">
+                                <a href="{% url 'delete_post' post.id %}">Delete</a>
+                                <a href="{% url 'report_post' post.id %}">Report</a>
+                            </div>
+                        </div> 
+                        {% else %}
+                        <div class="settings float-right">
+                            <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>
+                                <div id="myBrain" class="settings-options">
+                                    <a href="{% url 'report_post' post.id %}">Report</a>
+                                </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="row">
+                    <div class="col-sm-12 my-1">
+                        <p class="mx-5">{{post.post|urlize}}</p>
+                    </div>     
+                </div>
+                {% for file in post.file_posted.all %}
+                    {% if file.content_type  == "image"  %}
+                    {% if post.file_posted.count > 1 %}
+                    <div class="userSlides">
+                        <a class="post-prev float-left" onclick="minusSlides(-1)">❮</a>
+                        <a class="post-next float-right" onclick="plusSlides(1)">❯</a>
+                        <img class="card-img-bottom" style="height: 550px;" id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                    </div>
+                    {% else %}
+                    <img class="card-img-bottom" style="height: 550px;"  id="{{file.id}}" src="{{ file.files.url }}" data-toggle="modal" data-target="#userImg{{forloop.counter}}" data-id="{{ file.id }}">
+                    {% endif %}
+                        <!-- The Modal -->
+                        <div class="modal fade" id="userImg{{forloop.counter}}">
+                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <img src="{{ file.files.url }}" class="w-100">
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    {% elif file.content_type  == "video" %}
+                        <video class="w-100 card-img-bottom" controls> <source src="{{file.files.url}}"> </video>
+                    {% else %}
+                        <div> Unsupported Media Format </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-3 ml-5">
+                    {% if post.liked_post.exists %}
+                    <button type="button" class="btn like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.liked_post.all|length}}</button>
+                    {% endif %}
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-3 ml-5">
+                    <button type="button" id="{{post.id}}" class="btn like comment-btn">{{post.comment_set.all|length}} Comment{{post.comment_set.all|length|pluralize}}</button>
+                </div>
+                <hr class="mx-auto post-line">
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 {% else %}
-<h3>This user has blocked you</h3>
+<h3 class="text-center">This user has blocked you</h3>
 {%endif %}
-
+<script src="{% static 'js/post.js' %}"></script>
+<script src="{% static 'js/post-image.js' %}"></script>
 {% endblock content %}

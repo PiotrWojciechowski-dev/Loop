@@ -19,7 +19,12 @@
         </ul>
     </div>
     <div class="col-sm-6">
-        <h3 id="mates">All Mates:</h3>
+        <h3 class="header">
+            <div class="headertitle">
+                All Mates:
+            </div>
+            <div class="divider"></div>
+        </h3>
         {% if mates %}
         <div class="d-flex flex-row">
             {% for m in confirmed_mates %}
@@ -42,8 +47,12 @@
         {% else %}
         <p>You have no mates currently</p>
         {% endif %}
-        <hr class="w-100"> 
-        <h3 id="pending">Pending Mates:</h3>
+        <h3 class="header">
+            <div class="headertitle">
+                Pending Mates:
+            </div>
+            <div class="divider"></div>
+        </h3>
         {% if unconfirmed_mates %}
         <div class="d-flex flex-row">
             {% for u in unconfirmed_mates %}
@@ -66,8 +75,12 @@
         {% else %}
         <p>You have no mate requests currently</p>
         {% endif %}
-        <hr class="w-100">
-        <h3 id="blocked">Blocked:</h3>
+        <h3 class="header">
+            <div class="headertitle">
+                Blocked:
+            </div>
+            <div class="divider"></div>
+        </h3>
         {% if blocked_users %}
         <div class="d-flex flex-row">
             {% for b in blocked_users %}

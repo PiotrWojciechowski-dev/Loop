@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .models import Profile, Mates, Blocked
+from post.models import Post, PostFile
 from .forms import ProfileForm
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
@@ -48,6 +49,9 @@ class ProfileView(View):
       user_profile = None
     form = ProfileForm()
     profile = get_object_or_404(Profile, username=username)
+    posts = Post.objects.all().order_by('-created')
+    files = PostFile.objects.filter(Q(user=request.user))
+    profiles = Profile.objects.all()
     if User.objects.filter(username=request.user).exists():
       username = request.user
       user_profile = Profile.objects.get(user=request.user)
@@ -55,7 +59,6 @@ class ProfileView(View):
     else:
       username = None
     try:
-
       mate = Mates.objects.get(current_user=username)
       mates = mate.users.all()
     except ObjectDoesNotExist:
@@ -82,7 +85,7 @@ class ProfileView(View):
           confirmed_mate = True
     context = {
       'form':form, 'profile': profile, 'user_profile': user_profile, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
-      'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate
+      'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate, 'posts': posts, 'profiles': profiles
     }
     return render(request, self.template_name, context)
 
