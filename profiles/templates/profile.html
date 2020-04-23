@@ -43,7 +43,8 @@
         {% endif %}
         {% endif %}
         <p>Joined: {{profile.created_at}}</p>
-        <p>Birthday:  {{profile.dob}}</p>
+        <p>{{user_profile}}</p>
+        <p>Birthday:  {{user_profile.dob}}</p>
 </div>
 <div class="col-lg-4">
 {% if profile.username == user.username or confirmed_mate == True %}

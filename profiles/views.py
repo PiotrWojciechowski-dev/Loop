@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -14,6 +11,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic import ListView, View, DetailView, UpdateView, DeleteView
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from .emails import Email
 
 User = get_user_model()
 
@@ -42,15 +40,12 @@ class ProfileView(View):
   template_name = 'profile.html'
 
   def get(self, request,username, *args, **kwargs):
-    if Profile.objects.filter(username=request.user).exists():
-      user_profile = Profile.objects.get(user=request.user)
-    else:
-      user_profile = None
     form = ProfileForm()
     profile = get_object_or_404(Profile, username=username)
     if User.objects.filter(username=request.user).exists():
       username = request.user
       user_profile = Profile.objects.get(user=request.user)
+
       #users = get_user_model().objects.exclude(id=request.user.id)
     else:
       username = None
@@ -123,6 +118,7 @@ def change_Mates(request, operation, username):
   mate = get_user_model().objects.get(username=username)
   if operation == 'add':
     Mates.make_mates(request.user, mate)
+    Email.friendRequest(request, mate.email, request.user)
   elif operation == 'lose':
       Mates.lose_mate(request.user, mate)
       Mates.lose_mate(mate, request.user)

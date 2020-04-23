@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Message
 from profiles.models import Profile
+from .email import Email
 
 class MessageView(View):
     template_name = 'messages.html'
@@ -37,10 +38,10 @@ class MessageView(View):
             message.recipient = recipient_user.user
             text = form.cleaned_data['text']
             if form.cleaned_data['image'] is not None:
-                print('hello')
                 message.image = form.cleaned_data['image']
             form = MessageForm()
             message.save()
+            Email.messageRecievedFromMate(request, message.recipient.email, message.sender, message.recipient)
             return redirect('messages:messaging', request.user, recipient_user.user)
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)

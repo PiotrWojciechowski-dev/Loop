@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import GroupChat, GroupMessage
 from profiles.models import Profile
 from profiles.models import Mates
+from .email import Email
 
 class GroupMessageView(View):
     template_name = 'groupchats.html'
@@ -40,6 +41,9 @@ class GroupMessageView(View):
                 GroupMessage.image = form.cleaned_data['image']
             form = GroupMessageForm()
             GroupMessage.save()
+            members = groupchat.members.all()
+            for member in members:
+                Email.messageRecieved(request, member.email, groupchat.name, member, request.user, groupchat.id)
             return redirect('groupchat:messaging', groupchat.id, groupchat.name)
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
@@ -67,10 +71,8 @@ def create_group(request):
                 confirmed_mate = None
 
     if request.method == 'POST':
-        print("Hello")
         form = GroupChatForm(confirmed_mates, request.POST, request.FILES)
         if form.is_valid():
-            print("hey there")
             groupchat = form.save(commit=False)
             if request.user.is_authenticated:
                 owner = request.user
@@ -81,8 +83,10 @@ def create_group(request):
             groupchat = form.save()
             groupchat.save()
             members = form.cleaned_data['members']
-            groupchat.members.set(form.cleaned_data['members'])
+            groupchat.members.set(members)
             groupchat.save()
+            for member in members:
+                Email.addedToGroupChat(request, member.email, groupchat.name, member, request.user, groupchat.owner, groupchat.id)
             return redirect('groupchat:messaging', groupchat.id, groupchat.name)
     else:
         form = GroupChatForm(confirmed_mates)

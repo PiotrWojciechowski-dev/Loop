@@ -7,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .models import CustomUser
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from .email import email
 
 # Create your views here.
@@ -55,12 +55,24 @@ class SignOutView(View):
         logout(request)
         return redirect(reverse('signin'))
 
-class UserDelete(UserPassesTestMixin, DeleteView):
-    model = 'CustomUser'
+class UserDelete(LoginRequiredMixin, DeleteView):
     template_name = 'delete_user.html'
+    model = CustomUser
     success_url = reverse_lazy('signin')
-    raise_exception = True
 
-    def test_func(self):
+
+    def user_passes_test(self, request):
+        if request.user.is_authenticated:
+            self.object = self.get_object()
+            return self.object == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return redirect_to_login(request.get_full_path())
+        return super(UserDelete, self).dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return self.object.user == self.request.user
+        self.object.delete()
+        return HttpResponseRedirect(reverse('signin'))

@@ -28,7 +28,7 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('signin/', SignInView.as_view(), name='signin'),
     path('logout/', SignOutView.as_view(), name='signout'),
-    path('delete_user/', UserDelete.as_view(), name='delete_user'),
+    path('delete_user/<int:pk>', UserDelete.as_view(), name='delete_user'),
     path('', include('post.urls')),
     path('user/', include('user.urls')),
     path('search/', include('search.urls')),
