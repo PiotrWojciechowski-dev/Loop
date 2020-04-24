@@ -67,8 +67,12 @@ def admin_add_product(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             product = form.save(commit=False)
-        if form.cleaned_data['image'] is not None:
-            forms.image = form.cleaned_data['image']
+            product.save()
+            if form.cleaned_data['image_thumbnail'] is not None:
+                print("Hello")
+                product.image_thumbnail = form.cleaned_data['image_thumbnail']
+            product.save()
+        return redirect('shop:product_list')
     else:
         form = ProductForm()
     

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {%block content%}
 <div class="mx-auto w-50">
     <div class="row">
+        <div class="col-2 col-sm-3 col-md-2 col-lg-2">
+            <form class="w-100 my-5 font-weight-bold" action="" method="get">
+                {{ filter.form|crispy }}
+                <input class="custom-button" type="submit">
+            </form>
+        </div>
         <div class="col-sm-4 my-1">
             <h1>Reports</h1>
         </div>         
@@ -12,6 +19,8 @@
         <div class="card-title mx-4 my-3">
             <div class="row">
                 <div class="col-sm-10 my-1">
+                    <p class="mx-5">Post Created By: {{report.post.user}}</p>
+
                     <p class="mx-5">Post: {{report.post}}</p>
                 
                 
@@ -20,7 +29,8 @@
                 
                     <p class="mx-5">Report Reason: {{report.report_reason}}</p>
                
-                    <a href="{% url 'delete_post' report.post.id %}">Delete</a>
+                    <a href="{% url 'delete_post' report.post.id %}">Delete Post</a>
+                    
                 </div>        
          
             </div>

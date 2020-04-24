@@ -1,24 +1,22 @@
 from django import forms
 
-from .models import Product, Category
-CATEGORY_CHOICES = [
-    ('Bag', 'Bag'),
-    ('Clothes', 'Clothes'),
-    ('Flip Flops', 'Flip Flops'),
-    ('Hats', 'Hats'),
-    ('Phone Covers', 'Phone Covers'),
-    ('Socks', 'Socks'),
-]
+from .models import Product, Category, ProductDetailImages
 
 class ProductForm(forms.ModelForm):
-    # category = forms.ModelChoiceField(queryset = Category)
+    category = forms.ModelChoiceField(queryset = Category.objects.all(), widget=forms.Select)
     name = forms.CharField(widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg',
                 'placeholder': 'Enter Product Name'
             }
         ))
-    image = forms.ImageField(required=False,
+    slug = forms.SlugField(widget=forms.TextInput(
+            attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Slug Name'
+            }
+        ))
+    image = forms.ImageSpecField(required=False, 
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control form-control-lg',
@@ -42,8 +40,10 @@ class ProductForm(forms.ModelForm):
             'class': 'form-control form-control-lg',
         }
     )
+    
 
     )
     class Meta:
         model = Product
-        fields = ('category','name', 'image', 'description', 'price', 'available',)
+        fields = ('category','name', 'slug', 'image', 'description', 'price', 'available',)
+
