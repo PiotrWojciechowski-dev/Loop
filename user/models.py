@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.staff = True
         user.admin = True
+        user.superuser = True
         user.save(using=self._db)
         return user
         
@@ -66,6 +67,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_superuser(self, *args, **kwargs):
-        return self.superuser
+	    return self.superuser
 
     

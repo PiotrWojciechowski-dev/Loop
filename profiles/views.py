@@ -7,12 +7,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .models import Profile, Mates, Blocked
+from post.models import Post, PostFile
 from .forms import ProfileForm
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView, View, DetailView, UpdateView, DeleteView
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 User = get_user_model()
 
@@ -47,6 +49,9 @@ class ProfileView(View):
       user_profile = None
     form = ProfileForm()
     profile = get_object_or_404(Profile, username=username)
+    posts = Post.objects.all().order_by('-created')
+    files = PostFile.objects.filter(Q(user=request.user))
+    profiles = Profile.objects.all()
     if User.objects.filter(username=request.user).exists():
       username = request.user
       user_profile = Profile.objects.get(user=request.user)
@@ -54,7 +59,6 @@ class ProfileView(View):
     else:
       username = None
     try:
-
       mate = Mates.objects.get(current_user=username)
       mates = mate.users.all()
     except ObjectDoesNotExist:
@@ -81,7 +85,7 @@ class ProfileView(View):
           confirmed_mate = True
     context = {
       'form':form, 'profile': profile, 'user_profile': user_profile, 'mates': mates, 'profile_mates': profile_mates, 'blocked_profiles':blocked_profiles,
-      'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate
+      'blocked_users': blocked_users, 'confirmed_mate': confirmed_mate, 'posts': posts, 'profiles': profiles
     }
     return render(request, self.template_name, context)
 
@@ -113,6 +117,10 @@ class OwnerProfileEditMixin(OwnerProfileMixin, OwnerEditMixin):
 
 class ProfileUpdateView(PermissionRequiredMixin, OwnerProfileEditMixin, UpdateView):
   permission_required = 'profile.change_profile'
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)    
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    return context
 
 def change_Mates(request, operation, username):
   mate = get_user_model().objects.get(username=username)
@@ -137,8 +145,15 @@ class MatesView(View):
   template_name = 'mates.html'
 
   def get(self, request, username, *args, **kwargs):
+    if Profile.objects.filter(username=request.user).exists():
+      user_profile = Profile.objects.get(user=request.user)
+    else:
+      user_profile = None
     unconfirmed_mates = []
     confirmed_mates = []
+    profiles = None
+    uprofiles = None
+    bprofiles = None
     try:
       mate = Mates.objects.get(current_user=request.user)
       mates = mate.users.all()
@@ -147,6 +162,7 @@ class MatesView(View):
     try:
       blocked_by_me= Blocked.objects.get(current_user=request.user)
       blocked_users = blocked_by_me.users.all()
+      bprofiles = Profile.objects.filter(Q(user__in=blocked_users))
     except ObjectDoesNotExist:
       blocked_users = None
           
@@ -155,15 +171,20 @@ class MatesView(View):
         try:
           confirmed_mate = Mates.objects.get(current_user=m, users=request.user)
           confirmed_mates.append(confirmed_mate.current_user)
+          profiles = Profile.objects.filter(Q(user__in=confirmed_mates))
         except ObjectDoesNotExist: 
           unconfirmed_mate, created = Mates.objects.get_or_create(current_user=m)
           if not created:
             unconfirmed_mate.current_user = m
             unconfirmed_mate.save()
           unconfirmed_mates.append(unconfirmed_mate.current_user)
+          uprofiles = Profile.objects.filter(Q(user__in=unconfirmed_mates))
     mate_requests = None
     context = {
-      'mates':mates, 'confirmed_mates':confirmed_mates, 'unconfirmed_mates':unconfirmed_mates, 'blocked_users':blocked_users, 'mate_requests':mate_requests
+      'mates':mates, 'confirmed_mates':confirmed_mates,
+      'unconfirmed_mates':unconfirmed_mates, 'blocked_users':blocked_users,
+      'mate_requests':mate_requests, 'user_profile':user_profile, 'profiles':profiles,
+      'uprofiles': uprofiles, 'bprofiles': bprofiles,
     }
     return render(request, self.template_name, context)
 

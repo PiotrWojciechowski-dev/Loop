@@ -6,7 +6,6 @@ from .models import CustomUser
 from datetime import date
 from django.contrib.auth import login
 
-
 CustomUser = get_user_model()
 
 
@@ -102,7 +101,7 @@ class SignUpForm(forms.ModelForm):
 
   class Meta:
     model = CustomUser
-    fields = ('username', 'dob', 'email')
+    fields = ('username', 'dob', 'email', 'password1', 'password2',)
 
 
 class SignInForm(forms.Form):

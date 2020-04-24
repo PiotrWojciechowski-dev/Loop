@@ -16,12 +16,12 @@
                 {% endif %}
                     <div class="card w-25 ml-auto card msgs my-3">
                         <div class="card-body ml-auto msg-body">
-                            {{message.text}}
+                            <p class="float-right">{{message.text}}</p>
+                            {% if message.image %}
+                            <img src="{{message.image.url}}" alt="message image" class="img-fluid card-img-bottom">
+                            {% endif %}
                         </div>
                     </div>
-                    {% if message.image %}
-                    <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3">
-                    {% endif %}
                 {% else %}
                         <p class="text-muted" style="margin-left: 90px;">{{message.sender}}</p>
                         {% if sender_user.profile_image == 'default.jpg' %}
@@ -32,11 +32,11 @@
                         <div class="card w-25 msgs ml-5">
                             <div class="card-body msg-body">
                                 {{message.text}}
+                                {% if message.image %}
+                                <img src="{{message.image.url}}" alt="message image" class="img-fluid my-2">
+                                {% endif %}
                             </div>
                         </div>
-                    {% if message.image %}
-                    <img src="{{message.image.url}}" alt="message image" style="width: 190px; height: 185px; border-radius: 100px" class="img-fluid ml-3">
-                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

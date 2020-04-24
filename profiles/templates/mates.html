@@ -4,28 +4,108 @@
     Mates
 {% endblock %}
 {% block content %}
-<div>All Mates
-    {% for m in mates%}
-    {{m.username}}
-    {% endfor %}</div>
-<div>Pending Mates
-    {% for u in unconfirmed_mates %}
-    {{u.username}}
-    {% endfor %}</div>
-<div>Blocked
-    {%for b in blocked_users%}
-    {{b.username}}
-    {% endfor %}</div>
-<div>
-    mate requests
-    
-</div>
-
-<div>
-    confirmed_mates
-{% for m in confirmed_mates%}
-{{m.username}}
-{% endfor %}
+<div class="row">
+    <div class="col-sm-3">
+        <ul class="float-right mr-4 mt-5">
+            <li>
+                <a class="d-block text-dark btn yes-btn" href="#mates">Go to Mates</a>
+            </li>
+            <li>
+                <a class="d-block text-dark btn yes-btn my-3" href="#pending">Go to mate requests</a>
+            </li>
+            <li>
+                <a class="d-block text-dark btn yes-btn" href="#blocked">Go to blocked users</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <h3 class="header">
+            <div class="headertitle">
+                All Mates:
+            </div>
+            <div class="divider"></div>
+        </h3>
+        {% if mates %}
+        <div class="d-flex flex-row">
+            {% for m in confirmed_mates %}
+                <div class="card posts mr-4 mb-3"  style="width: 180px;">
+                    <div class="card-text">
+                        {% for profile in profiles %}
+                            {% if m.username == profile.username %}
+                            {% if profile.profile_image == 'default.jpg' %}
+                            <a href="{% url 'profiles:profile_detail' m.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid card-img-top" style="width: 70px; height: 70px;"></a>
+                            {% else %}
+                            <a href="{% url 'profiles:profile_detail' m.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid card-img-top"style="border-radius: 20px 20px 0px 0px; height: 175px;"> </a>
+                            {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <a class="btn like w-100" href="{% url 'profiles:profile_detail' m.username %}">{{m.username}}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>You have no mates currently</p>
+        {% endif %}
+        <h3 class="header">
+            <div class="headertitle">
+                Pending Mates:
+            </div>
+            <div class="divider"></div>
+        </h3>
+        {% if unconfirmed_mates %}
+        <div class="d-flex flex-row">
+            {% for u in unconfirmed_mates %}
+                <div class="card posts mr-4 mb-3" style="width: 180px;">
+                    <div class="card-text">
+                        {% for profile in uprofiles %}
+                            {% if u.username == profile.username %}
+                            {% if profile.profile_image == 'default.jpg' %}
+                            <a class="profile-image" href="{% url 'profiles:profile_detail' u.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid card-img-top" style="width: 70px; height: 70px;"></a>
+                            {% else %}
+                            <a class="profile-image" href="{% url 'profiles:profile_detail' u.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid card-img-top"style="border-radius: 20px 20px 0px 0px; height: 175px;"> </a>
+                            {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <a class="btn like w-100" href="{% url 'profiles:profile_detail' u.username %}">{{u.username}}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>You have no mate requests currently</p>
+        {% endif %}
+        <h3 class="header">
+            <div class="headertitle">
+                Blocked:
+            </div>
+            <div class="divider"></div>
+        </h3>
+        {% if blocked_users %}
+        <div class="d-flex flex-row">
+            {% for b in blocked_users %}
+                <div class="card posts mr-4 mb-3" style="width: 180px;">
+                    <div class="card-text">
+                        {% for profile in bprofiles %}
+                            {% if b.username == profile.username %}
+                            {% if profile.profile_image == 'default.jpg' %}
+                            <a class="profile-image" href="{% url 'profiles:profile_detail' b.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid card-img-top" style="width: 70px; height: 70px;"></a>
+                            {% else %}
+                            <a class="profile-image" href="{% url 'profiles:profile_detail' b.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid card-img-top"style="border-radius: 20px 20px 0px 0px; height: 175px;"> </a>
+                            {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <a class="btn like w-100" href="{% url 'profiles:profile_detail' b.username %}">{{b.username}}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>You have no blocked users currently</p>
+        {% endif %}
+        <hr class="w-100"> 
+    </div>
+    <div class="col-sm-3"></div>
 </div>
 
 
