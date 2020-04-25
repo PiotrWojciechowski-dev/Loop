@@ -328,12 +328,12 @@
                     <br>
                     <br>
                     <br>
-                    <hr class="w-100">
-                    <span class="split-button d-flex justify-content-center my-3">
+                    <hr class="w-100 follow-scroll">
+                    <span class="d-flex justify-content-center my-3 follow-scroll">
                     <button class="mg-btn active" id="mates">Mates</button>
                     <button class="mg-btn ml-3 active" id="groups">Groups</button>
                     </span>
-                    <div class="card w-100 mates-box">
+                    <div class="card w-100 mates-box follow-scroll">
                         <div class="card-body mh-100 text-center">
                             {% if not confirmed_mates %}
                                 <br>
@@ -347,7 +347,7 @@
                                 <br>
                                 <br>
                                 <br>
-                                You have no friends :(
+                                You have no mates:(
                                 <br>
                                 <br>
                                 <br>
@@ -423,10 +423,31 @@
 $(function(){
 $('textarea').emojiInit();
 });
+
+document.getElementsByClassName("post-form")[0].setAttribute("wrap", "hard");
+
+(function($) {
+    var element = $('.follow-scroll'),
+        originalY = element.offset().top;
+
+    // Space between element and top of screen (when scrolling)
+    var topMargin = 20;
+
+    // Should probably be set in CSS; but here just for emphasis
+    element.css('position', 'relative');
+
+    $(window).on('scroll', function(event) {
+        var scrollTop = $(window).scrollTop();
+
+        element.stop(false, false).animate({
+            top: scrollTop < originalY
+                    ? 0
+                    : scrollTop - originalY + topMargin
+        }, 150);
+    });
+})(jQuery);
 </script>
-<script>
-    document.getElementsByClassName("post-form")[0].setAttribute("wrap", "hard");
-</script>
+
 
 
 {% endblock content %}

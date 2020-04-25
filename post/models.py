@@ -56,16 +56,6 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = "Comments"
-
-
-'''
-try:
-          files.files =  files
-          content_type = request.FILES['file'].content_type.split("/")
-          files.content_type = content_type[0]
-        except MultiValueDictKeyError:
-          files.user_file = False
-'''
     
 class Report(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default = None)

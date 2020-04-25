@@ -9,8 +9,8 @@
 {% if not user in blocked_users %}   
 <div class="row">
     <div class="col-lg-2"></div>
-        <div class="col-lg-2 ml-5">
-            <div class="ml-4 mt-3">
+        <div class="col-lg-3 ml-4">
+            <div class="ml-5 mt-3">
                 {% if profile.profile_image == 'default.jpg' %}
                 <img src="{% static 'img/default.jpg' %}" alt="Profile Image" style="width: 190px; height: 185px; border-radius: 100px;" class="img-thumbnail img-fluid">
                 {% else %}
@@ -18,26 +18,34 @@
                 {% endif %}
             </div>
             {% if user.is_authenticated %}
-            <p class="ml-3 mt-3">Joined: {{profile.created_at}}</p>
+            <p class="ml-4 mt-3">Joined: {{profile.created_at}}</p>
                 {% if profile.username == user.username %}
                     <div class="text-center mr-5 my-2">
                         <a class="btn yes-btn" href="{% url 'profiles:update_profile' profile.id %}">Update Profile</a>
                     </div>
                 {% else%}
+                    <span class="ml-2">
                     {% if not profile.user in mates  %}
                         {% if not user in profile_mates%}
-                        <div class="d-inline mx-4 my-3">
+                        <div class="d-inline ml-3 my-3">
                             <a class="btn yes-btn my-2" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a>
                         </div>
                         {% else %}
-                        <div class="d-inline mx-3 my-2">
+                        <div class="d-inline my-2">
                             <a class="btn yes-btn" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Accept Request</a>
+                        </div>
+                        {% endif %}
+                        {%if profile.privacy_settings == 'Open'%}
+                        <div class="d-inline">
+                            <a class="btn yes-btn my-1" href="{% url 'messages:messaging' user profile.user %}">Message</a>
                         </div>
                         {% endif %}
                     {% else %}
                         {% if user in profile_mates%}
-                        <a class="btn yes-btn my-1" href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a>
-                        <a class="btn yes-btn my-1" href="{% url 'messages:messaging' user profile.user %}">Message</a>
+                        <div class="d-inline">
+                            <a class="btn yes-btn ml-3 my-1" href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Lose Mate</a>
+                            <a class="btn yes-btn my-1" href="{% url 'messages:messaging' user profile.user %}">Message</a>
+                        </div>
                         {% else %}
                         <a class="btn yes-btn my-1" href="{% url 'profiles:change_Mates' 'lose' profile.username %}">Cancel Request</a>
                         {% endif %}
@@ -51,11 +59,12 @@
                         <a class="btn yes-btn my-1" href="{% url 'profiles:block_user' 'block' profile.username %}">Block</a>
                     </div>
                     {% endif %}
+                    </span>
                 {% endif %}
             {% endif %}
         </div>
-    <div class="col-lg-4 ml-5">
-        {% if profile.username == user.username or confirmed_mate == True %}
+    <div class="col-lg-4">
+        {% if profile.username == user.username or confirmed_mate == True or profile.privacy_settings == 'Open'%}
             <h4 class="header">
                 <div class="headertitle">
                 Basic Information
@@ -75,26 +84,7 @@
                 <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
             </ul>
         {% else%}
-            {% if profile.privacy_settings == 'Open'%}
-                <h4 class="header">
-                    <div class="headertitle">
-                    Basic Information
-                    </div>
-                    <div class="divider"></div>
-                </h4>
-                    <ul class="list-group list-group-horizontal info my-2">
-                        <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
-                        <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
-                    </ul>
-                    <ul class="list-group list-group-horizontal info my-2">
-                        <li class="list-group-item w-100">Gender:  <span class="font-weight-bold">{{profile.gender}}</span></li>
-                        <li class="list-group-item w-100">Status:  <span class="font-weight-bold">{{profile.status}}</span></li>
-                    </ul>
-                    <ul class="list-group list-group-horizontal info my-2">
-                        <li class="list-group-item w-100">Country:  <span class="font-weight-bold">{{ country.name }}</span></li>
-                        <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
-                    </ul>
-            {% elif  profile.privacy_settings == 'Restricted'%}
+            {% if  profile.privacy_settings == 'Restricted'%}
                 <h4 class="header">
                     <div class="headertitle">
                     Basic Information
@@ -114,8 +104,16 @@
                         <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
                     </ul>
             {% elif  profile.privacy_settings == 'Strict'%}
-                <h2 class="text-left d-inline">Name: {{profile.fname}} {{profile.lname}}   </h2>
-                <h2>Username: {{profile.username}}</h2>
+            <h4 class="header">
+                <div class="headertitle">
+                Basic Information
+                </div>
+                <div class="divider"></div>
+            </h4>
+                <ul class="list-group list-group-horizontal info my-2">
+                    <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
+                    <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
+                </ul>
                 <h1>This user is private become their freind to see more about them</h1>
             {%endif %}
         {% endif %}
@@ -123,7 +121,8 @@
 </div>
 <div class="row">
     <div class="col-lg-2"></div>
-    <div class="col-lg-2 ml-5">
+    {% if profile.privacy_settings == 'Open'%}
+    <div class="col-lg-3 mr-3">
         <div class="card w-75 ml-3 mt-3 bio">
             <div class="card-header text-center">
                 <h5 class="">{{profile.username}}'s bio:</h5>
@@ -133,7 +132,9 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 ml-5">
+    {% endif %}
+    {% if profile.privacy_settings == 'Open'  or profile.username == user.username or confirmed_mate == True%}
+    <div class="col-lg-4 mr-3">
         <h4 class="header">
             <div class="headertitle">
             Posts
@@ -241,6 +242,9 @@
         {% endif %}
         {% endfor %}
     </div>
+    {% elif profile.privacy_settings == 'Restricted'%}  
+        <h3 class="text-center">Because of this users privacy settings you cannot see their posts about them</h3>
+    {% endif %}
 </div>
 {% else %}
 <h3 class="text-center">This user has blocked you</h3>

@@ -65,15 +65,16 @@
                             {% elif user_profile.profile_image %}
                             <a class="mr-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{user_profile.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% else %}
-                            <a class="mr-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{{profiles.profile_image.url}}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
+                            <a class="mr-3 profile-image" href="{% url 'profiles:profile_detail' user.username %}"><img src="{% static 'img/default.jpg' %}" alt="{{user.username}}" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
                             {% endif %}
                         <div class="settings mr-4 my-2">
                             <button onclick="OpenSettings()" class="btn settings-btn"><i class="fa fa-bars fa-lg"></i></button>
                             <div id="mySettings" class="settings-options">
                                 <a href="{% url 'profiles:profile_detail' user.username %}">My Profile</a>
                                 <a href="{% url 'order_history' %}">View Orders</a>
+                                <a href="{% url 'change_password'%}">Change Password</a>
+                                <a href="{% url 'delete_user' user.id %}">Delete Profile</a>
                                 <a href="{% url 'signout' %}">Logout</a>
-                                <a href="{% url 'delete_user' %}">Delete Profile</a>
                             </div>
                         </div>
                         {% else %}

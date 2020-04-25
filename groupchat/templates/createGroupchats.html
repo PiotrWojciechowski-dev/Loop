@@ -8,20 +8,35 @@
 
 {% block content %}
 
-<h1 class="text-center mt-4">Create GroupChat</h1>
+<h1 class="text-center my-3">Create Groupchat</h1>
 
-<div class="row justify-content-center">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
+<div class="row mt-5">
+    {% if confirmed_mates %}
+    <div class="col-sm-3"></div>
+    <div class="col-sm-7">
     <form action="." method="post" class="box-checkout w-75 mb-3" enctype="multipart/form-data">
-            <p>{{ form|crispy }}</p>
-            <input type="submit" value="Create">
-            {% csrf_token %}
+        {% csrf_token %}
+        {{ form.name }}
+        <p class="d-inline mr-3">Set a Group Image:</p>{{ form.groupchatImage }}
+        <p class="mr-3 my-2">Add Members:</p>{{ form.members }}
+        <button type="submit" value="Create" class="btn yes-btn d-inline float-right mt-3">Create</button>
     </form>
     </div>
+    {% else %}
     <div class="col-sm-2"></div>
-            
 </div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 d-flex flex-column justify-content-center">
+        <h3 class="text-center mt-4">We regret to inform you that you cannot make a Groupchat with no mates</h3>
+        <h4 class="text-center mt-4">Please get mates and make a Groupchat</h4>
+        <h4 class="text-center mt-4"> <a href="{% url 'home' %}" class=" btn yes-btn">Return to home</a></h4>
+    </div>
+    {% endif %}
+    <div class="col-sm-2"></div>
+</div>
+
+            
 
 
 {% endblock content %}

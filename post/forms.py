@@ -30,6 +30,7 @@ class FileForm(forms.ModelForm):
         attrs={
           'multiple': True,
           'class': 'd-inline mt-3',
+          'style': 'cursor: pointer;overflow: auto;'
           }
     ))
 

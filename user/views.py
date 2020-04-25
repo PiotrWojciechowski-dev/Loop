@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .forms import SignUpForm, SignInForm
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import SignUpForm, SignInForm, ChangePassword
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import CreateView, View, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .models import CustomUser
-from django.contrib.auth.mixins import UserPassesTestMixin
+from profiles.models import Profile
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from .email import email
 
 # Create your views here.
@@ -55,12 +58,41 @@ class SignOutView(View):
         logout(request)
         return redirect(reverse('signin'))
 
-class UserDelete(UserPassesTestMixin, DeleteView):
-    model = 'CustomUser'
+class UserDelete(LoginRequiredMixin, DeleteView):
     template_name = 'delete_user.html'
+    model = CustomUser
     success_url = reverse_lazy('signin')
-    raise_exception = True
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        context['profiles'] = Profile.objects.get(user=self.request.user)
+        return context
 
-    def test_func(self):
+
+    def user_passes_test(self, request):
+        if request.user.is_authenticated:
+            self.object = self.get_object()
+            return self.object == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return redirect_to_login(request.get_full_path())
+        return super(UserDelete, self).dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return self.object.user == self.request.user
+        self.object.delete()
+        return HttpResponseRedirect(reverse('signin'))
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(reverse('home'))
+        else:
+            return redirect(reverse('change_password'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'change_password.html', {'form': form})

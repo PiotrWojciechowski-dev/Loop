@@ -43,18 +43,22 @@
     </div>
     <div class="col-sm-2"></div>
 </div>
-    <div class="row mt-5">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8 d-flex justify-content-center">
-            <form method="post" class="w-75 post-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.text }} 
-                {{ form.image }}
-                <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
-            </form>
-        </div>
-        <div class="col-sm-2"></div>
+<div class="row mt-5">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 d-flex justify-content-center">
+        <form method="post" class="w-75 post-form recent" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.text }} 
+            {{ form.image }}
+            <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
+        </form>
     </div>
-    </div>
-    
+    <div class="col-sm-2"></div>
+</div>
+<script>
+    $(document).ready(function(){
+    $("html, body").animate({ 
+        scrollTop: $('.recent').offset().top }, 5);
+});
+</script>
 {%endblock content%}

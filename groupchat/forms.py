@@ -9,14 +9,15 @@ class GroupChatForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Send a message...'
+            'placeholder': 'Set a group name...'
         }
     ))
     groupchatImage = forms.ImageField(
         required=False,
         widget=forms.FileInput(
             attrs={
-                'class': 'form-control form-control-lg',
+                'multiple': True,
+                'class': 'd-inline mt-3',
             }
         )
     )

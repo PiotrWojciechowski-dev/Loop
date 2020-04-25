@@ -30,6 +30,9 @@ class HomeView(LoginRequiredMixin, View):
     like = None
     current_user = None
     other_user = None
+    posts = None
+    comments = None
+    files = None
     if Profile.objects.filter(username=username).exists():
       post_form = PostForm()
       comment_form = CommentForm()
@@ -38,11 +41,11 @@ class HomeView(LoginRequiredMixin, View):
       profiles = Profile.objects.all()
       if GroupChat.objects.filter(Q(members=request.user.id)).exists():
         groupchats = GroupChat.objects.filter(Q(members=request.user.id))
-        print(groupchats)
       else:
         groupchats = None
       users = get_user_model().objects.exclude(id=request.user.id)
       confirmed_mates = []
+      mate_requests = []
       try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
@@ -138,7 +141,6 @@ class HomeView(LoginRequiredMixin, View):
         comment.save()
         Notification.sendMatesCommentConfirmation(request, user.email, comment.user)
         comment_form = CommentForm()
-
     return redirect('home')
     args = {'post_form': post_form, 'comment_form': comment_form, 'text': text, 'file_form':file_form}
     return render(request, self.template_name, args)
@@ -230,7 +232,6 @@ def report_post(request, pk, **kwargs):
       form = ReportForm(request.POST)
       if form.is_valid():
         post_report = form.save(commit=False)
-        #post_id = request.POST.get("id_value", "")
         post_id = pk
         post_report.post_id = post_id
         report_reason = form.cleaned_data['report']

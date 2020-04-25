@@ -12,14 +12,14 @@ class GroupChat(models.Model):
         member, created = cls.objects.get_or_create(
             owner=owner
         )
-        
         member.members.add(new_member)
 
     @classmethod
-    def remove_member(cls, current_user, current_member):
+    def remove_member(cls, owner, current_member):
         member, created = cls.objects.get_or_create(
-            current_user=current_user
-        ) 
+            owner=owner
+        )
+        member.members.remove(new_member)
         
 class GroupMessage(models.Model):
     recipient = models.ForeignKey(GroupChat,null=True, on_delete = models.CASCADE, related_name = 'GroupRecipient')
