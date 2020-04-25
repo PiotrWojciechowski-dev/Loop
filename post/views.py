@@ -14,6 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
+from .filters import ReportFilter
+from .notifications import Notification
 # Create your views here.
 
 User = get_user_model()
@@ -102,6 +104,30 @@ class HomeView(LoginRequiredMixin, View):
       return redirect(reverse('profiles:create_profile'))
 
   def post(self, request, *args, **kwargs):
+    username = request.user.username
+    if Profile.objects.filter(username=username).exists():
+      post_form = PostForm()
+      comment_form = CommentForm()
+      file_form = FileForm()
+      user_profile = Profile.objects.get(user=request.user)
+      profiles = Profile.objects.all()
+      users = get_user_model().objects.exclude(id=request.user.id)
+      confirmed_mates = []
+      try:
+        mate = Mates.objects.get(current_user=request.user)
+        mates = mate.users.all()
+      except ObjectDoesNotExist:
+        mates = None
+        posts = Post.objects.filter(Q(user=request.user)).order_by('-created')
+        files = PostFile.objects.filter(Q(user=request.user))
+        comments = Comment.objects.filter(Q(user=request.user)).order_by('-created')
+      if mates != None:
+        for m in mates:
+          try:
+            confirmed_mate = Mates.objects.get(current_user=m, users=request.user)
+            confirmed_mates.append(confirmed_mate.current_user)
+          except ObjectDoesNotExist: 
+            confirmed_mate = None
     user = request.user
     if request.POST.get("submit-form") == "1":
       post_form = PostForm(request.POST)
@@ -111,6 +137,8 @@ class HomeView(LoginRequiredMixin, View):
         post = post_form.save(commit=False)
         post.user = user
         post.save()
+        for n in confirmed_mates:
+          Notification.sendMatesPostConfirmation(request, n.email, post.user)
         if file_form.is_valid():
           file = file_form.save(commit=False)
           print(files)
@@ -127,6 +155,7 @@ class HomeView(LoginRequiredMixin, View):
         comment.user = user
         text = comment_form.cleaned_data['comment']
         comment.save()
+        Notification.sendMatesCommentConfirmation(request, user.email, comment.user)
         comment_form = CommentForm()
 
     return redirect('home')
@@ -143,18 +172,23 @@ class HomeView(LoginRequiredMixin, View):
     qs = super(HomeView, self).get_queryset()
     return qs.filter(owner=self.request.user)
 
+
 class OwnerMixin(object):
   def get_queryset(self):
     qs = super(OwnerMixin, self).get_queryset()
-    return qs.filter(user=self.request.user)
+    print(qs)
+    return qs.filter(Q(user=self.request.user) | Q(user=self.request.user.is_superuser))
+
 
 
 class OwnerEditMixin(object):
   def from_valid(self, form):
-    form.instance.user = self.request.user
+    form.instance.user = (Q(self.request.user) | Q(self.request.user.is_superuser))
     return super(OwnerEditMixin, self).form_valid(form)
 
-class OwnerPostMixin(OwnerMixin, LoginRequiredMixin):
+
+
+class OwnerPostMixin(OwnerMixin,LoginRequiredMixin):
   model = Post
   fields = ['post']
   success_url = reverse_lazy('home')
@@ -196,7 +230,8 @@ class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   permission_required = 'post.delete_post'
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)    
-    context['profiles'] = Profile.objects.get(user=self.request.user ) 
+    context['profiles'] = Profile.objects.get(user=self.request.user)
+    print(context)
     return context
   
 
@@ -232,14 +267,15 @@ def report_post(request, pk, **kwargs):
     return render(request, 'post/report_post.html', context)
 
 def get_report(request, **kwargs):
+  reports_filter = ReportFilter(request.GET, queryset=Report.objects.all())
+  reports = reports_filter.qs
   form = ReportForm()
   reports = Report.objects.all()
   context = {
-    'form':form, 'reports':reports,
+    'form':form, 'reports':reports, 'filter':reports_filter,
   }
   return render(request, 'post/report_list.html', context)
 
 
-#def ignore_report(request, **kwargs):
 
 

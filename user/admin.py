@@ -8,12 +8,12 @@ from .forms import SignUpForm
 class UserAdmin(BaseUserAdmin):
     add_form = SignUpForm
 
-    list_display = ['username','dob','email', 'admin', 'staff', 'active']
+    list_display = ['username','dob','email','superuser', 'admin', 'staff', 'active']
     list_filter = ['admin', 'staff', 'active', 'groups']
 
     fieldsets = (
         ('Auth Info', {'fields': ('email', 'username', 'dob', 'password',)}),
-        ('Permissions', {'fields': ('admin', 'staff', 'active', 'groups')})
+        ('Permissions', {'fields': ('superuser', 'admin', 'staff', 'active', 'groups')})
     )
 
     search_fields = ['email']
