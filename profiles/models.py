@@ -51,6 +51,7 @@ class Profile(models.Model):
     )
     location = CountryField(blank_label='Select Country', null=True, blank=True)
     bio = models.TextField(blank=True, default='I have no bio yet :(')
+    dob = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(
         upload_to='profiles/',
         default='default.jpg',

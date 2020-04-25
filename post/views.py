@@ -27,6 +27,9 @@ class HomeView(LoginRequiredMixin, View):
     like = None
     current_user = None
     other_user = None
+    posts = None
+    comments = None
+    files = None
     if Profile.objects.filter(username=username).exists():
       post_form = PostForm()
       comment_form = CommentForm()
@@ -35,6 +38,7 @@ class HomeView(LoginRequiredMixin, View):
       profiles = Profile.objects.all()
       users = get_user_model().objects.exclude(id=request.user.id)
       confirmed_mates = []
+      mate_requests = []
       try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
@@ -50,6 +54,28 @@ class HomeView(LoginRequiredMixin, View):
             confirmed_mates.append(confirmed_mate.current_user)
           except ObjectDoesNotExist: 
             confirmed_mate = None
+        
+        allUsers_withOutCurrent = CustomUser.objects.exclude(username=request.user)
+        for u in allUsers_withOutCurrent:
+          try:
+            umates = Mates.objects.get(current_user=u)
+            umates_users = umates.users.all()
+            if request.user in umates_users and u not in mates:
+              mate_requests.append(u)
+          except ObjectDoesNotExist:
+            umates = None
+        
+      else:
+        allUsers_withOutCurrent = CustomUser.objects.exclude(username=request.user)
+        for u in allUsers_withOutCurrent:
+          try:
+            umates = Mates.objects.get(current_user=u)
+            umates_users = umates.users.all()
+            if request.user in umates_users:
+              mate_requests.append(u)
+          except ObjectDoesNotExist:
+            umates = None
+
         posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
@@ -69,7 +95,7 @@ class HomeView(LoginRequiredMixin, View):
               'confirmed_mates': confirmed_mates, 'comments': comments,
               'file_form': file_form, 'files': files, 
               'profiles': profiles, 'like': like,
-              'other_user': other_user, 'current_user': current_user,
+              'other_user': other_user, 'current_user': current_user, 'mate_requests':mate_requests
           }
       return render(request, self.template_name, context)
     else:

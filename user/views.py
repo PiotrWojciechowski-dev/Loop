@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .forms import SignUpForm, SignInForm
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import SignUpForm, SignInForm, ChangePassword
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import CreateView, View, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .models import CustomUser
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from .email import email
 
@@ -76,3 +78,16 @@ class UserDelete(LoginRequiredMixin, DeleteView):
         self.object = self.get_object()
         self.object.delete()
         return HttpResponseRedirect(reverse('signin'))
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(reverse('home'))
+        else:
+            return redirect(reverse('change_password'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'change_password.html', {'form': form})

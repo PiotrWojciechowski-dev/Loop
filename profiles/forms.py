@@ -124,7 +124,7 @@ class ProfileForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Enter Workplace',
+                'placeholder': 'Enter Education',
                 'rows': 1,
                 'style':'resize:none;',
             }

@@ -84,7 +84,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-sm-3 ml-5">
-                                {% if post.like_set.all.exists %}
+                                {% if post.liked_post.all.exists %}
                                 <button type="button" class="btn like" data-toggle="modal" data-target="#like-list" data-id="{{ post.id }}"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}</button>
                                 {% endif %}
                                 <!-- Modal Content -->
@@ -92,7 +92,7 @@
                                     <div class="modal-dialog modal-dialog-centered">
                                       <div class="modal-content d-inline">
                                         <h4 class="ml-4 mt-2">Liked By:</h4>
-                                        {% for like in post.like_set.all %}
+                                        {% for like in post.liked_post.all %}
                                             {% for profile in profiles %}
                                                 {% if profile.user == like.user %}
                                                     {% if profile.profile_image == 'default.jpg' %}
@@ -121,7 +121,7 @@
                         <hr class="mx-auto post-line">
                         <div class="row">
                             <div class="col-sm-3 ml-5 mb-3">
-                                {% if post.like_set.all %}
+                                {% if post.liked_post.all %}
                                 <a href="{{post.get_like_url}}" class="btn btn-sm ml-1 like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>Like</a>
                                 {% else %}
                                 <a href="{{post.get_like_url}}" class="btn btn-sm like ml-1" id="heart"><i class="far fa-heart fa-lg mr-2"></i>Like</a>
@@ -254,36 +254,9 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-sm-3 ml-5">
-                                {% if post.like_set.all.exists %}
-                                <button type="button" class="btn like" data-toggle="modal" data-target="#like-list" data-id="{{ post.id }}"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.like_set.all|length}}</button>
+                                {% if post.liked_post.exists %}
+                                <button type="button" class="btn like"><i class="fas fa-heart text-danger mr-2 fa-lg"></i>{{post.liked_post.all|length}}</button>
                                 {% endif %}
-                                <!-- Modal Content -->
-                                <div class="modal fade" id="like-list">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                      <div class="modal-content d-block">
-                                        <h4 class="ml-4 mt-2">Liked By:</h4>
-                                        {% for like in post.like_set.all %}
-                                            {% for profile in profiles %}
-                                                {% if profile.user == like.user %}
-                                                    {% if profile.profile_image == 'default.jpg' %}
-                                                        <a class="ml-3 profile-image" href="{% url 'home' %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid" style="width: 70px; height: 70px; border-radius: 100px;"></a>
-                                                        <h5><a href="{% url 'profiles:profile_detail' user.username%}">{{ like.user }}</a></h5>
-                                                    {% else %}
-                                                    <div>
-                                                        <a class="ml-3 profile-image d-inline" href="{% url 'profiles:profile_detail' like.user %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid my-3" style="width: 60px; height: 60px; border-radius: 100px;"></a>
-                                                        <h5 class="ml-3 d-inline my-3"><a href="{% url 'profiles:profile_detail' like.user%}">{{ like.user }}</a></h5>
-                                                    </div>
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endfor %}
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-sm-4"></div>
                             <div class="col-sm-3 ml-5">
@@ -371,7 +344,7 @@
                                 <br>
                                 <br>
                                 <br>
-                                You have no friends :(
+                                You have no mates:(
                                 <br>
                                 <br>
                                 <br>
@@ -388,7 +361,49 @@
                                         <h3 class="text-dark">{{ mate.username }}</h3>
                                     </a>
                                     <a href="{% url 'profiles:change_Mates' 'lose' mate.username %}">
-                                        <button type="button" class="btn btn-default">Remove Friend</button>
+                                        <button type="button" class="btn btn-default">Remove Mate</button>
+                                        </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <hr class="w-100">
+                    <h2 class="text-center mb-3">Mate Requests</h2>
+                    <div class="card w-100 mates-box">
+                        <div class="card-body mh-100 text-center">
+                            {% if not mate_requests %}
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                You have no Requests :(
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                            {% else %}
+                                {% for request in mate_requests %}
+                                    <a class="text-dark" href="{% url 'profiles:profile_detail' request.username %}">
+                                        <h3 class="text-dark">{{ request.username }}</h3>
+                                    </a>
+                                    <a href="{% url 'profiles:change_Mates' 'add' request.username %}">
+                                        <button type="button" class="btn btn-default">Add Mate</button>
                                         </a>
                                 {% endfor %}
                             {% endif %}

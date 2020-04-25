@@ -17,6 +17,28 @@ class Email:
                             <h2>User {} has sent you a mate request and wants to be mates</h2>
                             <h2>Here is a link to their profile page</h2>
                             <a href='http://127.0.0.1:8000/profiles/detail/{}'>View Profile Page</a>
+                            <h2>You can make this person your mate here</h2>
+                            <a href='http://127.0.0.1:8000/profiles/mate/add/{}'>Add Mate Now</a>
+                            </body></html>""".format(to_current_user,  to_current_user, to_current_user)
+        # Turn the message into a plain/html MIMETEXT object
+        content = MIMEText(html, "html")
+        # Add HTML/plain=text parts to MIMEMultipart message
+        msg.attach(content)
+        #call the method to connect with the server and send email
+        Email.send_email(to_user_email, msg)
+
+    @staticmethod
+    def friendRequestAcceppted(request, to_user_email, to_current_user):
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = "New Mate"
+        msg["From"] = "social@loop.ie"
+        msg["Date"] = formatdate(localtime=settings.EMAIL_USE_LOCALTIME)
+        msg["To"] = str(to_user_email)
+        # Create the plain-text and html version of your message
+        html = """<html><body><h1>You have a new mate</h1>
+                            <h2>User {} has accepted your mate request</h2>
+                            <h2>Here is a link to their profile page</h2>
+                            <a href='http://127.0.0.1:8000/profiles/detail/{}'>View Profile Page</a>
                             </body></html>""".format(to_current_user,  to_current_user)
         # Turn the message into a plain/html MIMETEXT object
         content = MIMEText(html, "html")

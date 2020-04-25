@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import Message
 from profiles.models import Profile
 from .email import Email
+from profiles.models import Mates
 
 class MessageView(View):
     template_name = 'messages.html'
@@ -41,7 +42,17 @@ class MessageView(View):
                 message.image = form.cleaned_data['image']
             form = MessageForm()
             message.save()
-            Email.messageRecievedFromMate(request, message.recipient.email, message.sender, message.recipient)
+            try :
+                mate = Mates.objects.get(current_user=request.user)
+                mates = mate.users.all()
+            except ObjectDoesNotExist:
+                mates = None
+
+            if mates != None:
+                if message.recipient in mates:
+                    Email.messageRecievedFromMate(request, message.recipient.email, message.sender, message.recipient)
+                else:
+                    Email.messageRecievedFromStranger(request, message.recipient.email, message.sender, message.recipient)
             return redirect('messages:messaging', request.user, recipient_user.user)
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)

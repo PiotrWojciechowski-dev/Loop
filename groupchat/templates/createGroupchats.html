@@ -11,6 +11,7 @@
 <h1 class="text-center mt-4">Create GroupChat</h1>
 
 <div class="row justify-content-center">
+    {% if confirmed_mates %}
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
     <form action="." method="post" class="box-checkout w-75 mb-3" enctype="multipart/form-data">
@@ -19,6 +20,14 @@
             {% csrf_token %}
     </form>
     </div>
+    {% else %}
+    <div class="col-sm-2"></div>
+    <div class="col-sm-6">
+        <h3 class="text-center mt-4">We regret to inform you that you cannot make a Groupchat with no mates</h3>
+        <h4 class="text-center mt-4">Please get mates and make a Groupchat</h4>
+        <h4 class="text-center mt-4"> <a href="{% url 'home' %}" class=" btn yes-btn">Return to home</a></h4>
+    </div>
+    {% endif %}
     <div class="col-sm-2"></div>
             
 </div>

@@ -138,3 +138,53 @@ class SignInForm(forms.Form):
   class Meta:
     model = CustomUser
     fields = ()
+
+class ChangePassword(forms.Form):
+  old_password = forms.CharField(
+    label='Old',
+    widget=forms.PasswordInput(
+      attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter Old Password'
+      }
+    )
+  )
+
+  password1 = forms.CharField(
+  label='Password',
+  widget=forms.PasswordInput(
+    attrs={
+      'class': 'form-control',
+      'placeholder': 'Enter Password'
+    }
+  )
+)
+
+  password2 = forms.CharField(
+  label='Confirm Password',
+  widget=forms.PasswordInput(
+    attrs={
+      'class': 'form-control',
+      'placeholder': 'Confirm Password'
+    }
+  )
+)
+
+  
+class Meta:
+    model = CustomUser
+    fields = ('old_password', 'password1', 'password2')
+
+
+def clean_password2(self, *args, **kwargs):
+  password1 = self.cleaned_data.get('password1')
+  password2 = self.cleaned_data.get('password2')
+  old_password = self.cleaned_data.get('old_password')
+  qs = get_user_model().objects.filter(username__iexact="testuser7")
+  user_obj = qs.first()
+  if password1 and password2 and password1 != password2:
+      raise forms.ValidationError('Passwords did not match!')
+  elif not user_obj.check_password(old_password):
+    raise forms.ValidationError('Invalid Credentials!')
+  else:
+    return password2

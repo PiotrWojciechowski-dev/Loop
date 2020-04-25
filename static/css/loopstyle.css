@@ -443,3 +443,36 @@ label[for=id_quantity] {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
     margin: 0;
 }
+
+.img-thumbnail {
+    padding: 0;
+    border: 1px solid black;
+}
+
+.header{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+  }
+.headertitle{
+    flex-grow:0;
+}
+  
+.divider{
+    flex-grow:1;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+.bio {
+    border-radius: 15px;
+    box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.1);
+    margin: 0;
+}
+
+.info {
+    border-radius: 15px;
+    box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.1);
+    margin: 0;
+}
