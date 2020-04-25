@@ -82,6 +82,7 @@ def create_group(request):
             groupchat.save()
             members = form.cleaned_data['members']
             groupchat.members.set(form.cleaned_data['members'])
+            groupchat.members.add(owner.id)
             groupchat.save()
             return redirect('groupchat:messaging', groupchat.id, groupchat.name)
     else:

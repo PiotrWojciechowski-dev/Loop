@@ -2,8 +2,8 @@
 {% load static %}
 {%block content%}
 <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
         <div class="container-fluid">
             <h3 class="text-center my-3">This is the beginning of the conversation in {{groupchat.name}}</h3>
             {% for message in messages%}
@@ -50,11 +50,27 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-sm-2"></div>
+    <div class="col-lg-2">
+        <div class="card">
+            <div class="card-title">
+                <div class="d-flex justify-content-center mt-3">
+                    {% if groupchat.groupchatImage == 'default.jpg' %}
+                    <img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-left" style="width: 120px; height: 115px; border-radius: 100px;"></a>
+                    {% else %}
+                    <img src="{{groupchat.groupchatImage.url}}" alt="{{profile.username}}" class="img-fluid float-left" style="width: 120px; height: 115px; border-radius: 100px;"></a>
+                    {% endif %}
+                </div>
+                <div class="row justify-content-center mt-2">
+                    <p class="font-weight-bold">{{groupchat.name}}</p>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
 </div>
     <div class="row mt-5">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8 d-flex justify-content-center">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 d-flex justify-content-center">
             <form method="post" class="w-75 post-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.text }} 
@@ -62,7 +78,9 @@
                 <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
             </form>
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-lg-2">
+            {{groupchat.members.all|length}} Member{{groupchat.members.all|length|pluralize}}
+        </div>
     </div>
     </div>
 {%endblock content%}

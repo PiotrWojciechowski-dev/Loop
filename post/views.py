@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
 from .filters import ReportFilter
 from .notifications import Notification
+from groupchat.models import GroupChat
 # Create your views here.
 
 User = get_user_model()
@@ -35,6 +36,11 @@ class HomeView(LoginRequiredMixin, View):
       file_form = FileForm()
       user_profile = Profile.objects.get(user=request.user)
       profiles = Profile.objects.all()
+      if GroupChat.objects.filter(Q(members=request.user.id)).exists():
+        groupchats = GroupChat.objects.filter(Q(members=request.user.id))
+        print(groupchats)
+      else:
+        groupchats = None
       users = get_user_model().objects.exclude(id=request.user.id)
       confirmed_mates = []
       try:
@@ -72,6 +78,7 @@ class HomeView(LoginRequiredMixin, View):
               'file_form': file_form, 'files': files, 
               'profiles': profiles, 'like': like,
               'other_user': other_user, 'current_user': current_user,
+              'groupchats': groupchats,
           }
       return render(request, self.template_name, context)
     else:

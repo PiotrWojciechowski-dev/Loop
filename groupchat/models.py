@@ -8,11 +8,12 @@ class GroupChat(models.Model):
     groupchatImage =  models.ImageField( upload_to='groupchats/', default='default.jpg', blank=True)
 
     @classmethod
-    def add_member(cls, current_user, new_member):
+    def add_member(cls, owner, new_member):
         member, created = cls.objects.get_or_create(
-            current_user=current_user
+            owner=owner
         )
-        mate.users.add(new_friend)
+        
+        member.members.add(new_member)
 
     @classmethod
     def remove_member(cls, current_user, current_member):

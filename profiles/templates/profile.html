@@ -30,7 +30,7 @@
                             <a class="btn yes-btn my-2" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Add Mate</a>
                         </div>
                         {% else %}
-                        <div class=" mr-5 my-2">
+                        <div class="d-inline mx-3 my-2">
                             <a class="btn yes-btn" href="{% url 'profiles:change_Mates' 'add' profile.username %}">Accept Request</a>
                         </div>
                         {% endif %}
