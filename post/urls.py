@@ -13,4 +13,5 @@ urlpatterns = [
     path('<pk>/delete_comment/', CommentDeleteView.as_view(), name= 'delete_comment'),
     path('<pk>/report_post/', views.report_post, name= 'report_post'),
     path('report_list/', views.get_report, name= 'report_list'),
+    path('<int:pk>/ignore/', views.ignore_report, name= 'ignore_report'),
 ]

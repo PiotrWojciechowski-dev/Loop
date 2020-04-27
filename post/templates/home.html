@@ -197,14 +197,6 @@
                                             </div>
                                         </div>
 
-                                    {% elif request.user.is_admin %}
-                                    <div class="settings float-right">
-                                        <button class="btn post-opt-btn"><i class="fas fa-angle-down"></i></button>
-                                        <div id="myBrain" class="settings-options">
-                                            <a href="{% url 'delete_post' post.id %}">Delete</a>
-                                            <a href="{% url 'report_post' post.id %}">Report</a>
-                                        </div>
-                                    </div> 
                                     {% else %}
                                     <div class="settings float-right">
                                         <button class="post-opt-btn"><i class="fas fa-angle-down"></i></button>

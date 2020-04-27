@@ -6,6 +6,7 @@ from cart.forms import CartAddProductForm, CartClothesForm, CartHatsForm
 from .filters import ProductFilter
 from profiles.models import Profile
 from .forms import ProductForm
+from django.forms import inlineformset_factory
 
 # Create your views here.
 
@@ -63,21 +64,50 @@ def product_detail(request, id, slug):
 
 
 def admin_add_product(request):
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
             product.save()
-            if form.cleaned_data['image_thumbnail'] is not None:
+            if form.cleaned_data['image'] is not None:
                 print("Hello")
-                product.image_thumbnail = form.cleaned_data['image_thumbnail']
+                product.image_thumbnail = form.cleaned_data['image']
             product.save()
         return redirect('shop:product_list')
     else:
         form = ProductForm()
     
     context = {
-            'form': form,
+            'form': form, 'user_profile': user_profile
         }
 
     return render(request, 'products/admin_add_product.html', context)
+
+def add_detail_images(request, id, slug):
+    if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
+    product = get_object_or_404(Product,
+                                id=id,
+                                slug=slug,
+                                available=True)
+
+    DetailImageFormset = inlineformset_factory(Product, ProductDetailImages, fields=('detail_image',))
+   
+    if request.method == 'POST':
+        formset = DetailImageFormset(request.POST, request.FILES, instance=product)
+        if formset.is_valid():
+            formset.save()
+            return redirect('shop:product_list')
+    formset = DetailImageFormset(instance=product)
+    return render(request,
+                  'products/add_detail_images.html', {'formset':formset, 'user_profile': user_profile})  
+
+    
+
+    

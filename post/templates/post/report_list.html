@@ -4,38 +4,35 @@
 {%block content%}
 <div class="mx-auto w-50">
     <div class="row">
-        <div class="col-2 col-sm-3 col-md-2 col-lg-2">
-            <form class="w-100 my-5 font-weight-bold" action="" method="get">
-                {{ filter.form|crispy }}
-                <input class="custom-button" type="submit">
-            </form>
-        </div>
         <div class="col-sm-4 my-1">
             <h1>Reports</h1>
         </div>         
     </div>
-    {% for report in reports %}
-    <div class="card mt-5 w-75 posts">
-        <div class="card-title mx-4 my-3">
-            <div class="row">
-                <div class="col-sm-10 my-1">
-                    <p class="mx-5">Post Created By: {{report.post.user}}</p>
+        
+        {% for report in reports %}
+        <div class="card mt-5 w-75 posts">
+            <div class="card-title mx-4 my-3">
+                <div class="row">
+                    <div class="col-sm-10 my-1">
+                        <p class="mx-5"><span class="font-weight-bold">Post Created By:</span> {{report.post.user}}</p>
 
-                    <p class="mx-5">Post: {{report.post}}</p>
+                        <p class="mx-5"><span class="font-weight-bold">Post:</span> {{report.post}}</p>
                 
                 
-                    <p class="mx-5">Report: {{report.report}}</p>
+                        <p class="mx-5"><span class="font-weight-bold">Report:</span> {{report.report}}</p>
                    
                 
-                    <p class="mx-5">Report Reason: {{report.report_reason}}</p>
+                        <p class="mx-5"><span class="font-weight-bold">Report Reason:</span> {{report.report_reason}}</p>
                
-                    <a href="{% url 'delete_post' report.post.id %}">Delete Post</a>
+                        <a href="{% url 'admin:index' %}" type="button" class="btn no-btn font-weight-bold">Delete Post</a>
+                        <a href="{% url 'ignore_report' report.id %}" type="button" class="btn no-btn font-weight-bold">Ignore Report</a>
+
                     
-                </div>        
+                    </div>        
          
+                </div>
             </div>
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
 </div>
 {%endblock content%}

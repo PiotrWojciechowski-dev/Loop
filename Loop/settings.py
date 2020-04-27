@@ -196,6 +196,7 @@ ADMIN_SHORTCUTS = [
                 'url_name': 'admin:user_customuser_add',
                 'has_perms': 'example.utils.has_perms_to_users',
             },
+            
         ]
     },
     {
