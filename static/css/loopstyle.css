@@ -333,6 +333,49 @@ label[for=id_quantity] {
     background-color: #c8bef2;
 }
 
+.msg-btn {
+    border: 1px black solid;
+    background-color: #c8bef2;
+    color: white;
+    min-width: 60px;
+    font-size: 16px;
+    overflow: auto;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px
+}
+
+.mg-btn {
+    margin: 0;
+    width: 100px;
+    min-width: 60px;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    line-height: 35px;
+    background-color: #F2F3F5;
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+.mg-btn:hover {
+    background-color: #c8bef2;
+}
+
+.mg-btn:active:focus {
+    box-shadow: 0px 8px 16px 0px #c8bef2;
+}
+
+.add-btn {
+    border: 1px black solid;
+    background-color: #c8bef2;
+    color: white;
+    min-width: 60px;
+    overflow: auto;
+    border: none;
+    cursor: pointer;
+}
+
 .yes-btn {
     border: 1px black solid;
     border-radius: 5px;
@@ -412,6 +455,7 @@ label[for=id_quantity] {
     background-color: #c8bef2;
 }
 
+
 .posts {
     border-radius: 20px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -475,4 +519,8 @@ label[for=id_quantity] {
     border-radius: 15px;
     box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.1);
     margin: 0;
+}
+
+.myBox:hover{
+    background-color: #c8bef2;
 }

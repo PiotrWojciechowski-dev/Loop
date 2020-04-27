@@ -8,6 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .models import CustomUser
+from profiles.models import Profile
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from .email import email
@@ -61,6 +62,10 @@ class UserDelete(LoginRequiredMixin, DeleteView):
     template_name = 'delete_user.html'
     model = CustomUser
     success_url = reverse_lazy('signin')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        context['profiles'] = Profile.objects.get(user=self.request.user)
+        return context
 
 
     def user_passes_test(self, request):

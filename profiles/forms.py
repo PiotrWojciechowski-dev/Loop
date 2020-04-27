@@ -23,6 +23,7 @@ PRIVACY_CHOICES = [
     ('Restricted', 'Restricted'),
     ('Strict', 'Strict')
 ]
+
 class PrivacyForm(forms.ModelForm):
     privacy_setting = forms.ChoiceField(choices=PRIVACY_CHOICES, widget=forms.RadioSelect)
 
@@ -46,6 +47,7 @@ class ProfileImageForm(forms.ModelForm):
 
 class ProfileForm(forms.ModelForm):
     fname = forms.CharField(
+        label="First Name",
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg',
@@ -54,15 +56,17 @@ class ProfileForm(forms.ModelForm):
         )
     )
     lname = forms.CharField(
+        label="Last Name",
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-lg',
-                'placeholder': 'Enter SurName'
+                'placeholder': 'Enter Last Name'
             }
         )
     )
 
     gender = forms.ChoiceField(
+        required=False,
         choices=GENDER_CHOICES,
         widget=forms.Select(
             attrs={
@@ -72,6 +76,7 @@ class ProfileForm(forms.ModelForm):
     )
 
     status = forms.ChoiceField(
+        required=False,
         choices=STATUS_CHOICES,
         widget=forms.Select(
             attrs={
@@ -81,6 +86,7 @@ class ProfileForm(forms.ModelForm):
     )
 
     location = CountryField().formfield(
+        required=False,
         widget=forms.Select(
             attrs={
                 'class': 'form-control form-control-lg',
@@ -89,6 +95,7 @@ class ProfileForm(forms.ModelForm):
     )
 
     bio = forms.CharField(
+        required=False,
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control form-control-lg',
@@ -131,9 +138,17 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
-    privacy_setting = forms.ChoiceField(choices=PRIVACY_CHOICES, widget=forms.RadioSelect)
+    privacy_setting = forms.ChoiceField(
+        required = True,
+        choices=PRIVACY_CHOICES,
+        widget=forms.RadioSelect)
+
     class Meta:
         model = Profile
-        fields = ('fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image', 'privacy_setting', 'workplace', 'education')
+        fields = ('privacy_setting', 'fname','lname', 'gender', 'status', 'location', 'bio', 'profile_image', 'workplace', 'education')
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.initial['privacy_setting'] = 'Open'
 
     

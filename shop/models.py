@@ -109,8 +109,6 @@ class Review(models.Model):
     order = OrderField(blank=True, for_fields=['product']) 
     product = models.CharField(max_length = 250, null= True)
     
-    
-
     class Meta:
         ordering = ['order']  
 

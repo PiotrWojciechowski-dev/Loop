@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import Product, Category, ProductDetailImages
 
 class ProductForm(forms.ModelForm):
@@ -16,14 +15,13 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Enter Slug Name'
             }
         ))
-    
     image = forms.ImageField(required=False, 
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control form-control-lg',
             }
         ))
-    
+        
     description = forms.CharField(widget=forms.Textarea(
             attrs={
                 'class': 'form-control form-control-lg',

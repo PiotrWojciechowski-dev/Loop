@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
 from .filters import ReportFilter
 from .notifications import Notification
+from groupchat.models import GroupChat
 # Create your views here.
 
 User = get_user_model()
@@ -38,6 +39,10 @@ class HomeView(LoginRequiredMixin, View):
       file_form = FileForm()
       user_profile = Profile.objects.get(user=request.user)
       profiles = Profile.objects.all()
+      if GroupChat.objects.filter(Q(members=request.user.id)).exists():
+        groupchats = GroupChat.objects.filter(Q(members=request.user.id))
+      else:
+        groupchats = None
       users = get_user_model().objects.exclude(id=request.user.id)
       confirmed_mates = []
       mate_requests = []
@@ -56,28 +61,6 @@ class HomeView(LoginRequiredMixin, View):
             confirmed_mates.append(confirmed_mate.current_user)
           except ObjectDoesNotExist: 
             confirmed_mate = None
-        
-        allUsers_withOutCurrent = CustomUser.objects.exclude(username=request.user)
-        for u in allUsers_withOutCurrent:
-          try:
-            umates = Mates.objects.get(current_user=u)
-            umates_users = umates.users.all()
-            if request.user in umates_users and u not in mates:
-              mate_requests.append(u)
-          except ObjectDoesNotExist:
-            umates = None
-        
-      else:
-        allUsers_withOutCurrent = CustomUser.objects.exclude(username=request.user)
-        for u in allUsers_withOutCurrent:
-          try:
-            umates = Mates.objects.get(current_user=u)
-            umates_users = umates.users.all()
-            if request.user in umates_users:
-              mate_requests.append(u)
-          except ObjectDoesNotExist:
-            umates = None
-
         posts = Post.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         comments = Comment.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user)).order_by('-created')
         files = PostFile.objects.filter(Q(user__in=confirmed_mates) | Q(user=request.user))
@@ -97,7 +80,8 @@ class HomeView(LoginRequiredMixin, View):
               'confirmed_mates': confirmed_mates, 'comments': comments,
               'file_form': file_form, 'files': files, 
               'profiles': profiles, 'like': like,
-              'other_user': other_user, 'current_user': current_user, 'mate_requests':mate_requests
+              'other_user': other_user, 'current_user': current_user,
+              'groupchats': groupchats,
           }
       return render(request, self.template_name, context)
     else:
@@ -157,7 +141,6 @@ class HomeView(LoginRequiredMixin, View):
         comment.save()
         Notification.sendMatesCommentConfirmation(request, user.email, comment.user)
         comment_form = CommentForm()
-
     return redirect('home')
     args = {'post_form': post_form, 'comment_form': comment_form, 'text': text, 'file_form':file_form}
     return render(request, self.template_name, args)
@@ -249,7 +232,6 @@ def report_post(request, pk, **kwargs):
       form = ReportForm(request.POST)
       if form.is_valid():
         post_report = form.save(commit=False)
-        #post_id = request.POST.get("id_value", "")
         post_id = pk
         post_report.post_id = post_id
         report_reason = form.cleaned_data['report']

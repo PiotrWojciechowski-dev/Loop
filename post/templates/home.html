@@ -7,7 +7,7 @@
         </div>
             <div class="col-9 col-sm-6 col-md-8 col-lg-6 float-left">
                 {% if request.user.is_admin %}
-                    <button type="submit" class="btn signup-button mt-4 font-weight-bold"><a href="{% url 'report_list' %}">Reports</button></a>
+                    <a class="btn yes-btn" href="{% url 'report_list' %}">Reports</a>
                 {% endif %}
                 <h2 class="text-left">My Dashboard</h2>
                 <form method="post" class="w-75 text" type="input" enctype="multipart/form-data">
@@ -328,9 +328,12 @@
                     <br>
                     <br>
                     <br>
-                    <hr class="w-100">
-                    <h2 class="text-center mb-3">Mates List</h2>
-                    <div class="card w-100 mates-box">
+                    <hr class="w-100 follow-scroll">
+                    <span class="d-flex justify-content-center my-3 follow-scroll">
+                    <button class="mg-btn active" id="mates">Mates</button>
+                    <button class="mg-btn ml-3 active" id="groups">Groups</button>
+                    </span>
+                    <div class="card w-100 mates-box follow-scroll">
                         <div class="card-body mh-100 text-center">
                             {% if not confirmed_mates %}
                                 <br>
@@ -357,54 +360,52 @@
                                 <br>
                             {% else %}
                                 {% for mate in confirmed_mates %}
-                                    <a class="text-dark" href="{% url 'profiles:profile_detail' mate.username %}">
-                                        <h3 class="text-dark">{{ mate.username }}</h3>
-                                    </a>
-                                    <a href="{% url 'profiles:change_Mates' 'lose' mate.username %}">
-                                        <button type="button" class="btn btn-default">Remove Mate</button>
-                                        </a>
+                                    <div class="row mates">
+                                        <div class="col-sm-8 my-2">
+                                                {% for profile in profiles %}
+                                                {% if mate.username == profile.username %}
+                                                {% if profile.profile_image == 'default.jpg' %}
+                                                <a class="" href="{% url 'profiles:profile_detail' mate.username %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-left" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                                {% else %}
+                                                <a class="" href="{% url 'profiles:profile_detail' mate.username %}"><img src="{{profile.profile_image.url}}" alt="{{profile.username}}" class="img-fluid float-left" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                                {% endif %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                <a class="text-dark" href="{% url 'profiles:profile_detail' mate.username %}">
+                                                    <h5 class="text-dark my-2 mr-1">{{ mate.username }}</h5>
+                                                </a>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3 my-2">
+                                            <a class="btn msg-btn" href="{% url 'messages:messaging' user mate.username %}"><i class="fas fa-comment-dots fa-2x"></i></a>
+                                        </div>
+                                    </div>
                                 {% endfor %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <hr class="w-100">
-                    <h2 class="text-center mb-3">Mate Requests</h2>
-                    <div class="card w-100 mates-box">
-                        <div class="card-body mh-100 text-center">
-                            {% if not mate_requests %}
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                You have no Requests :(
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                            {% else %}
-                                {% for request in mate_requests %}
-                                    <a class="text-dark" href="{% url 'profiles:profile_detail' request.username %}">
-                                        <h3 class="text-dark">{{ request.username }}</h3>
-                                    </a>
-                                    <a href="{% url 'profiles:change_Mates' 'add' request.username %}">
-                                        <button type="button" class="btn btn-default">Add Mate</button>
+                                <div class="row d-flex justify-content-center">
+                                    <a class="btn groups" href="{% url 'groupchat:create_group' %}"><h5>Create Groupchat<i class="fas fa-plus-circle ml-3 fa-1x btn add-btn"></i></h5></a>
+                                    <hr class="post-line groups">
+                                </div>
+                                {% for groupchat in groupchats %}
+                                <div class="row groups">
+                                    <div class="col-sm-12 my-2 btn myBox">
+                                        <script>
+                                            $(".myBox").click(function(){
+                                            window.location=$(this).find("a").attr("href");
+                                            return false;
+                                        });
+                                        </script>
+                                    <a class="test" href="{% url 'groupchat:messaging' groupchat.id groupchat.name %}">
+                                        {% if groupchat.groupchatImage == 'default.jpg' %}
+                                        <a class="" href="{% url 'groupchat:messaging' groupchat.id groupchat.name %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-left" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% else %}
+                                        <a class="" href="{% url 'groupchat:messaging' groupchat.id groupchat.name %}"><img src="{{groupchat.groupchatImage.url}}" alt="{{profile.username}}" class="img-fluid float-left" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                                        {% endif %}
+                                        <a class="text-dark float-left ml-2" href="{% url 'groupchat:messaging' groupchat.id groupchat.name %}">
+                                            <h5 class="text-dark my-2 mr-1">{{ groupchat.name }}</h5>
                                         </a>
+                                    </a>
+                                    </div>
+                                </div>
                                 {% endfor %}
                             {% endif %}
                         </div>
@@ -416,14 +417,37 @@
 <script src="{% static 'js/post.js' %}"></script>
 <script src="{% static 'js/comments.js' %}"></script>
 <script src="{% static 'js/post-image.js' %}"></script>
+<script src="{% static 'js/mates.js' %}"></script>
 <script src="{% static 'js/jquery.emojiFace.js' %}"></script>
 <script>
 $(function(){
 $('textarea').emojiInit();
 });
+
+document.getElementsByClassName("post-form")[0].setAttribute("wrap", "hard");
+
+(function($) {
+    var element = $('.follow-scroll'),
+        originalY = element.offset().top;
+
+    // Space between element and top of screen (when scrolling)
+    var topMargin = 20;
+
+    // Should probably be set in CSS; but here just for emphasis
+    element.css('position', 'relative');
+
+    $(window).on('scroll', function(event) {
+        var scrollTop = $(window).scrollTop();
+
+        element.stop(false, false).animate({
+            top: scrollTop < originalY
+                    ? 0
+                    : scrollTop - originalY + topMargin
+        }, 150);
+    });
+})(jQuery);
 </script>
-<script>
-    document.getElementsByClassName("post-form")[0].setAttribute("wrap", "hard");
-</script>
+
+
 
 {% endblock content %}

@@ -13,9 +13,12 @@ class GroupMessageView(View):
     template_name = 'groupchats.html'
 
     def get(self, request, groupchat_id, groupchat_name, *args, **kwargs):
+        if Profile.objects.filter(username=request.user).exists():
+            user_profile = Profile.objects.get(user=request.user)
+        else:
+            user_profile = None
         form = GroupMessageForm()
         user = request.user
-        user_profile = Profile.objects.get(user=request.user)
         sender_user = Profile.objects.get(user=request.user)
         groupchat = GroupChat.objects.all().get(id=groupchat_id)
         profiles = Profile.objects.all()
@@ -53,15 +56,16 @@ class GroupMessageView(View):
         return queryset.filter(recipient=self.request.user)
 
 def create_group(request):
+    if Profile.objects.filter(username=request.user).exists():
+        user_profile = Profile.objects.get(user=request.user)
+    else:
+        user_profile = None
     confirmed_mates = []
     try:
         mate = Mates.objects.get(current_user=request.user)
         mates = mate.users.all()
     except ObjectDoesNotExist:
         mates = None
-        posts = Post.objects.filter(Q(user=user)).order_by('-created')
-        files = PostFile.objects.filter(Q(user=user))
-        comments = Comment.objects.filter(Q(user=user)).order_by('-created')
     if mates != None:
         for m in mates:
             try:
@@ -69,7 +73,6 @@ def create_group(request):
                 confirmed_mates.append(confirmed_mate.current_user.username)
             except ObjectDoesNotExist: 
                 confirmed_mate = None
-
     if request.method == 'POST':
         form = GroupChatForm(confirmed_mates, request.POST, request.FILES)
         if form.is_valid():
@@ -83,11 +86,12 @@ def create_group(request):
             groupchat = form.save()
             groupchat.save()
             members = form.cleaned_data['members']
-            groupchat.members.set(members)
+            groupchat.members.set(form.cleaned_data['members'])
+            groupchat.members.add(owner.id)
             groupchat.save()
             for member in members:
                 Email.addedToGroupChat(request, member.email, groupchat.name, member, request.user, groupchat.owner, groupchat.id)
-            return redirect('groupchat:messaging', groupchat.id, groupchat.name, {'confirmed_mates':confirmed_mates})
+            return redirect('groupchat:messaging', groupchat.id, groupchat.name)
     else:
         form = GroupChatForm(confirmed_mates)
-    return render(request, 'createGroupchats.html', {'form':form, 'confirmed_mates':confirmed_mates})
+    return render(request, 'createGroupchats.html', {'form':form, 'confirmed_mates':confirmed_mates, 'user_profile':user_profile})

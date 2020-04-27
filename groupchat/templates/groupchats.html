@@ -2,8 +2,8 @@
 {% load static %}
 {%block content%}
 <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
         <div class="container-fluid">
             <h3 class="text-center my-3">This is the beginning of the conversation in {{groupchat.name}}</h3>
             {% for message in messages%}
@@ -50,19 +50,81 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-sm-2"></div>
-</div>
-    <div class="row mt-5">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8 d-flex justify-content-center">
-            <form method="post" class="w-75 post-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.text }} 
-                {{ form.image }}
-                <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
-            </form>
+    <div class="col-lg-2">
+        <div class="card w-100 posts follow-scroll">
+            <div class="card-title">
+                <div class="d-flex justify-content-center mt-3">
+                    {% if groupchat.groupchatImage == 'default.jpg' %}
+                    <img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid float-left" style="width: 120px; height: 115px; border-radius: 100px;"></a>
+                    {% else %}
+                    <img src="{{groupchat.groupchatImage.url}}" alt="{{profile.username}}" class="img-fluid float-left" style="width: 120px; height: 115px; border-radius: 100px;"></a>
+                    {% endif %}
+                </div>
+                <div class="row justify-content-center mt-2">
+                    <p class="font-weight-bold">{{groupchat.name}}</p>
+                </div>
+                <hr>
+            </div>
+            <div class="card-subtitle text-muted ml-3">{{groupchat.members.all|length}} Member{{groupchat.members.all|length|pluralize}}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                {% for profile in profiles %}
+                    {% for member in groupchat.members.all %}
+                    {% if profile.user.id == member.id %}
+                        {% if profile.profile_image == 'default.jpg' %}
+                            <a class="d-inline" href="{% url 'profiles:profile_detail' member %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid my-2 ml-3" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                        {% else %}
+                            <a class="d-inline" href="{% url 'profiles:profile_detail' member %}"><img src="{{profile.profile_image.url}}" alt="{{message.sender}}" class="img-fluid my-2 ml-3" style="width: 50px; height: 50px; border-radius: 100px;">
+                            </a>
+                        {% endif %}
+                        <p class="d-inline mr-5"><a class="text-dark" href="{% url 'profiles:profile_detail' member %}">{{ member }}</a></p>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-2"></div>
     </div>
+</div>
+<div class="row mt-5">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6 d-flex justify-content-center">
+        <form method="post" class="w-75 post-form recent" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.text }} 
+            {{ form.image }}
+            <button type="submit" class="btn yes-btn d-inline float-right mt-3">Send</button>
+        </form>
     </div>
+    <div class="col-lg-2"></div>
+</div>
+<script>
+    (function($) {
+    var element = $('.follow-scroll'),
+        originalY = element.offset().top;
+
+    // Space between element and top of screen (when scrolling)
+    var topMargin = 20;
+
+    // Should probably be set in CSS; but here just for emphasis
+    element.css('position', 'relative');
+
+    $(window).on('scroll', function(event) {
+        var scrollTop = $(window).scrollTop();
+
+        element.stop(false, false).animate({
+            top: scrollTop < originalY
+                    ? 0
+                    : scrollTop - originalY + topMargin
+        }, 300);
+    });
+})(jQuery);
+
+$(document).ready(function(){
+    $("html, body").animate({ 
+        scrollTop: $('.recent').offset().top }, 5);
+    });
+</script>
 {%endblock content%}
