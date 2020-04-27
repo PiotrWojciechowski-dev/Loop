@@ -41,7 +41,7 @@
     "fields": {
     "category_id":1,
     "name": "Crop Top",
-    "description": "Now this item is just for the ladies out there. We know you want to have something to call your own and this crop top will do just that. Fashnioble all year round! Available for women only.",
+    "description": "Now this item is just for the ladies out there. We know you want to have something to call your own and this crop top will do just that. Fashnioble all year round!",
     "slug": "crop-top",
     "image": "product_images/loop_croptop.png",
     "price": 10.00

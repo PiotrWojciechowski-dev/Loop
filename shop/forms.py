@@ -16,11 +16,7 @@ class ProductForm(forms.ModelForm):
             }
         ))
     image = forms.ImageField(required=False, 
-        widget=forms.FileInput(
-            attrs={
-                'class': 'form-control form-control-lg',
-            }
-        ))
+        widget=forms.FileInput())
         
     description = forms.CharField(widget=forms.Textarea(
             attrs={
@@ -35,13 +31,9 @@ class ProductForm(forms.ModelForm):
             }
     )
     )
-    available = forms.BooleanField(widget=forms.CheckboxInput(
-        attrs={
-            'class': 'form-control form-control-lg',
-        }
-    )
     
-
+    available = forms.BooleanField(widget=forms.CheckboxInput()
+    
     )
     class Meta:
         model = Product

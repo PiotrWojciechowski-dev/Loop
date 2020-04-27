@@ -26,9 +26,7 @@ class PostLikeView(View):
     )
     if is_liked.exists():
       is_liked.delete()
-      messages.error(request, 'Post has already been unliked!')
       return redirect(reverse('home'))
     else:
       Like.objects.create_like(self.get_object(), request.user, state)
-      messages.success(request, 'Post has been liked!')
       return redirect(reverse('home'))

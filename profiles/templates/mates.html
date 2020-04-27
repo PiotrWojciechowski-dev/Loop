@@ -29,9 +29,9 @@
             <div class="divider"></div>
         </h3>
         {% if mates %}
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row flex-wrap">
             {% for m in confirmed_mates %}
-                <div class="card posts mr-4 mb-3"  style="width: 180px;">
+                <div class="card posts mr-4 mb-3 w-25">
                     <div class="card-text">
                         {% for profile in profiles %}
                             {% if m.username == profile.username %}
@@ -57,9 +57,9 @@
             <div class="divider"></div>
         </h3>
         {% if mate_requests %}
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row flex-wrap">
             {% for u in mate_requests %}
-                <div class="card posts mr-4 mb-3" style="width: 180px;">
+                <div class="card posts mr-4 mb-3 w-25">
                     <div class="card-text">
                         {% for profile in rprofiles %}
                             {% if u.username == profile.username %}
@@ -85,9 +85,9 @@
             <div class="divider"></div>
         </h3>
         {% if unconfirmed_mates %}
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row flex-wrap">
             {% for u in unconfirmed_mates %}
-                <div class="card posts mr-4 mb-3" style="width: 180px;">
+                <div class="card posts mr-4 mb-3 w-25">
                     <div class="card-text">
                         {% for profile in uprofiles %}
                             {% if u.username == profile.username %}
@@ -113,9 +113,9 @@
             <div class="divider"></div>
         </h3>
         {% if blocked_users %}
-        <div class="d-flex flex-row">
+        <div class="d-flex flex-row flex-wrap">
             {% for b in blocked_users %}
-                <div class="card posts mr-4 mb-3" style="width: 180px;">
+                <div class="card posts mr-4 mb-3 w-25">
                     <div class="card-text">
                         {% for profile in bprofiles %}
                             {% if b.username == profile.username %}
