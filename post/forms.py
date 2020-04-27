@@ -10,7 +10,7 @@ REPORT_CHOICES = [
     ('Hate Speech', 'Hate Speech'),
     ('Unauthorized Sales', 'Unauthorized Sales')
 ]
-
+#post form for homepage
 class PostForm(forms.ModelForm):
   post = forms.CharField(widget=forms.Textarea(
         attrs={
@@ -38,6 +38,7 @@ class FileForm(forms.ModelForm):
     model = PostFile
     fields = ['files']
 
+#comment form for the homepage
 class CommentForm(forms.ModelForm):
   comment = forms.CharField(widget=forms.Textarea(
         attrs={
@@ -52,6 +53,7 @@ class CommentForm(forms.ModelForm):
     model = Comment
     fields = ('comment',)
     
+#report for for the homepage
 class ReportForm(forms.ModelForm):
 
   report_reason = forms.CharField(widget=forms.Textarea(

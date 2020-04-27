@@ -9,8 +9,10 @@
       <form action="" method="POST" class="font-weight-bold"> 
         {% csrf_token %}
         {{form|crispy}}
+        <!-- edit post -->
         <button type="submit" class="btn yes-btn font-weight-bold">Update</button>
-        <buttom type="submit" class="btn no-btn"><a href="{{post.get_absolute_url}}" class="text-dark font-weight-bold text-decoration-none">Discard</a></buttom>
+        <!-- redirect to home page, no edit to post -->
+        <buttom type="submit" class="btn no-btn"><a href="{% url 'home' %}" class="text-dark font-weight-bold text-decoration-none">Discard</a></buttom>
       </form>
     </div>
   </div>

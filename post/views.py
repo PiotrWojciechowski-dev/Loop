@@ -123,6 +123,7 @@ class HomeView(LoginRequiredMixin, View):
         post.user = user
         post.save()
         for n in confirmed_mates:
+          # notifivation email for when post is made, sent to mates
           Notification.sendMatesPostConfirmation(request, n.email, post.user)
         if file_form.is_valid():
           file = file_form.save(commit=False)
@@ -141,6 +142,7 @@ class HomeView(LoginRequiredMixin, View):
         comment.user = user
         text = comment_form.cleaned_data['comment']
         comment.save()
+        # notifivation email for when comment is made, sent to maker of post
         Notification.sendMatesCommentConfirmation(request, user.email, comment.user)
         comment_form = CommentForm()
     return redirect('home')

@@ -6,6 +6,8 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
 # Create your models here.
+
+#list of choices to choose from when writing a report
 REPORT_CHOICES = [
     ('Language', 'Language'),
     ('Violence', 'Violence'),
@@ -29,6 +31,7 @@ class Post(models.Model):
     def get_like_url(self, *args, **kwargs):
         return reverse('likes:post-likes', kwargs={'id': self.pk})
 
+    #gets the comments for each post
     def get_comments(self):
         return Comment.objects.filter(post=self)
 
@@ -42,6 +45,8 @@ class PostFile(models.Model):
     image_thumbnail = ImageSpecField(source='files', processors=[ResizeToFill(300,230)], format='JPEG', options={'quality': 100})
     content_type = models.CharField(max_length=10, null=True)
 
+    
+#comment model
 class Comment(models.Model):
     comment = models.CharField(max_length=250, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default=None)
@@ -56,7 +61,8 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = "Comments"
-    
+
+#Report model
 class Report(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default = None)
     
@@ -65,7 +71,7 @@ class Report(models.Model):
     report = models.CharField(
         max_length=18,
         default=1,
-        choices=REPORT_CHOICES
+        choices=REPORT_CHOICES #from line 11
     )
 
    
