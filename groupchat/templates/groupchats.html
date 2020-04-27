@@ -20,7 +20,7 @@
                     {% endfor %}
                     <div class="card w-25 ml-auto card msgs my-3">
                         <div class="card-body ml-auto msg-body">
-                            {{message.text}}
+                            <p class="float-right">{{message.text}}</p>
                             {% if message.image %}
                             <img src="{{message.image.url}}" alt="message image"  class="img-fluid my-2">
                             {% endif %}
@@ -41,7 +41,7 @@
                         {% endfor %}
                         <div class="card w-25 msgs ml-5">
                             <div class="card-body msg-body">
-                                {{message.text}}
+                                <p class="float-left">{{message.text}}</p>
                                 {% if message.image %}
                                 <img src="{{message.image.url}}" alt="message image" class="img-fluid my-2">
                                 {% endif %}
@@ -74,7 +74,7 @@
                     {% for member in groupchat.members.all %}
                     {% if profile.user.id == member.id %}
                         {% if profile.profile_image == 'default.jpg' %}
-                            <a class="d-inline" href="{% url 'profiles:profile_detail' member %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid my-2 ml-3" style="width: 50px; height: 50px; border-radius: 100px;"></a>
+                            <a class="d-inline" href="{% url 'profiles:profile_detail' member %}"><img src="{% static 'img/default.jpg' %}" alt="no user" class="img-fluid my-2 ml-3" style="width: 60px; height: 60px; border-radius: 100px;"></a>
                         {% else %}
                             <a class="d-inline" href="{% url 'profiles:profile_detail' member %}"><img src="{{profile.profile_image.url}}" alt="{{message.sender}}" class="img-fluid my-2 ml-3" style="width: 50px; height: 50px; border-radius: 100px;">
                             </a>
