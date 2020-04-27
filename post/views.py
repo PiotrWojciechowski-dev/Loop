@@ -157,7 +157,6 @@ class HomeView(LoginRequiredMixin, View):
     qs = super(HomeView, self).get_queryset()
     return qs.filter(owner=self.request.user)
 
-
 class OwnerMixin(object):
   def get_queryset(self):
     qs = super(OwnerMixin, self).get_queryset()
@@ -213,7 +212,7 @@ class PostDeleteView(PermissionRequiredMixin ,OwnerPostEditMxin, DeleteView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs) 
     print(context)   
-    context['profiles'] = get_user_model().objects.get(self.request.user)
+    context['profiles'] = Profile.objects.get(user=self.request.user)
     print(context)
     return context
   
