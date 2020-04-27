@@ -1,0 +1,129 @@
+{
+  "id": "ff0a198a-a7a3-4e78-8c48-9c2be51f677d",
+  "version": "2.0",
+  "name": "Order Tests",
+  "url": "http://127.0.0.1:8000/order/history/",
+  "tests": [{
+    "id": "58d6a1bc-8c39-4a5e-9896-233ff79efba2",
+    "name": "Order Cancel Success",
+    "commands": [{
+      "id": "506d45eb-6ef9-4017-8737-ea24e46f9791",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/order/history/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "85e6cebc-bbfc-4d59-a2c6-af3d0c4998f8",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1040",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "014921ee-9257-49aa-bd15-5959554409bc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.row:nth-child(6) a > .btn",
+      "targets": [
+        ["css=.row:nth-child(6) a > .btn", "css:finder"],
+        ["xpath=//a/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cancel Order')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8914612-3d25-4864-a288-509f96167339",
+      "comment": "",
+      "command": "click",
+      "target": "css=.alert",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//div[2]/div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5dd30d50-04cb-4105-ab01-1b3e47b866e5",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.alert",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//div[2]/div[2]/div", "xpath:position"]
+      ],
+      "value": "Order is now cancelled"
+    }]
+  }, {
+    "id": "a9668aa4-50bc-492d-82cd-74e9fd791763",
+    "name": "Order Cancel Fail ",
+    "commands": [{
+      "id": "01e58faa-66a8-4255-9579-ba39f55b2f5f",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/order/history/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0b04b748-e51e-44d2-b6a8-ba8805ab9132",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1040",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cd0fb145-837e-46c5-b73e-2d1f6c4d37c5",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=3",
+      "targets": [
+        ["linkText=3", "linkText"],
+        ["css=.btn:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'3')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '?page=3')]", "xpath:href"],
+        ["xpath=//div[2]/div/a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'3')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d88cfc12-5c23-4cc5-864d-cbca16c9261d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.row:nth-child(6) a > .btn",
+      "targets": [
+        ["css=.row:nth-child(6) a > .btn", "css:finder"],
+        ["xpath=//a/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cancel Order')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d23a1dda-3ee1-46d4-b967-8047a0c16560",
+      "comment": "",
+      "command": "click",
+      "target": "css=.alert",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//div[2]/div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0b224ff5-b816-4186-bacd-9ce9d323b0a4",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.alert",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//div[2]/div[2]/div", "xpath:position"]
+      ],
+      "value": "Sorry, it is too late to cancel this order"
+    }]
+  }],
+  "suites": [{
+    "id": "6b769a6e-10a0-4735-a7cf-91fef8b7f61b",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["58d6a1bc-8c39-4a5e-9896-233ff79efba2"]
+  }],
+  "urls": ["http://127.0.0.1:8000/order/history/"],
+  "plugins": []
+}

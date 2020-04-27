@@ -1,0 +1,650 @@
+{
+  "id": "bffee94f-6857-4970-8bb9-f64d8cfd21bf",
+  "version": "2.0",
+  "name": "Payment Tests",
+  "url": "http://127.0.0.1:8000/shop/products/",
+  "tests": [{
+    "id": "2ea281de-2cd6-4065-a089-c06cf012d5b4",
+    "name": "Payment with PayPal",
+    "commands": [{
+      "id": "119214de-4772-45ac-948a-479159a9a953",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/shop/products/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dba9e8e1-57f9-4779-ad5b-34d44c89933a",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1056",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9205d402-6809-4b4c-a6c7-f106b4eff651",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Baseball Cap']",
+      "targets": [
+        ["xpath=//img[@alt='Baseball Cap']", "xpath:img"],
+        ["xpath=//div[@id='items']/a/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[3]/div/div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0df296cc-7be9-4dfa-886c-576019d1176c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cart-btn",
+      "targets": [
+        ["css=.cart-btn", "css:finder"],
+        ["xpath=//input[@value='Add to Cart']", "xpath:attributes"],
+        ["xpath=//div[3]/div/form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e692cc24-d2a6-47c1-9d1b-a1c9aa7fdc5b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Checkout",
+      "targets": [
+        ["linkText=Checkout", "linkText"],
+        ["css=.btn:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Checkout')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/order/create/')]", "xpath:href"],
+        ["xpath=//p/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Checkout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4e6018a1-3ddd-41ce-bfa3-08c6a7ec462b",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_first_name",
+      "targets": [
+        ["id=id_first_name", "id"],
+        ["name=first_name", "name"],
+        ["css=#id_first_name", "css:finder"],
+        ["xpath=//input[@id='id_first_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_first_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "32de9cc0-8b70-4251-8a7a-89538d261826",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_first_name",
+      "targets": [
+        ["id=id_first_name", "id"],
+        ["name=first_name", "name"],
+        ["css=#id_first_name", "css:finder"],
+        ["xpath=//input[@id='id_first_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_first_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Piotr"
+    }, {
+      "id": "eb6374a3-f02b-45e2-88da-3bdf3e27c552",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_last_name",
+      "targets": [
+        ["id=id_last_name", "id"],
+        ["name=last_name", "name"],
+        ["css=#id_last_name", "css:finder"],
+        ["xpath=//input[@id='id_last_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_last_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Wojciechowski"
+    }, {
+      "id": "7ac9d3f9-f817-4fe3-87c7-fd67e7d127b7",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_emailAddress",
+      "targets": [
+        ["id=id_emailAddress", "id"],
+        ["name=emailAddress", "name"],
+        ["css=#id_emailAddress", "css:finder"],
+        ["xpath=//input[@id='id_emailAddress']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_emailAddress']/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": "piotr87654@gmail.com"
+    }, {
+      "id": "8a337de7-5290-4ae0-8070-11edc9aaaae4",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_addressline1",
+      "targets": [
+        ["id=id_addressline1", "id"],
+        ["name=addressline1", "name"],
+        ["css=#id_addressline1", "css:finder"],
+        ["xpath=//input[@id='id_addressline1']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_addressline1']/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": "228 Balrothery Estate"
+    }, {
+      "id": "498e19f7-24ed-4bcd-813a-0efd3d2df453",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_code",
+      "targets": [
+        ["id=id_code", "id"],
+        ["name=code", "name"],
+        ["css=#id_code", "css:finder"],
+        ["xpath=//input[@id='id_code']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_code']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div/input", "xpath:position"]
+      ],
+      "value": "D24 CKP4"
+    }, {
+      "id": "0bbf21eb-16aa-4af0-9341-89ff118704b3",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_city",
+      "targets": [
+        ["id=id_city", "id"],
+        ["name=city", "name"],
+        ["css=#id_city", "css:finder"],
+        ["xpath=//input[@id='id_city']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_city']/div/input", "xpath:idRelative"],
+        ["xpath=//div[7]/div/input", "xpath:position"]
+      ],
+      "value": "Tallaght"
+    }, {
+      "id": "c2303044-403f-4509-b122-92febf3bfe91",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_county",
+      "targets": [
+        ["id=id_county", "id"],
+        ["name=county", "name"],
+        ["css=#id_county", "css:finder"],
+        ["xpath=//input[@id='id_county']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_county']/div/input", "xpath:idRelative"],
+        ["xpath=//div[8]/div/input", "xpath:position"]
+      ],
+      "value": "Co. Dublin"
+    }, {
+      "id": "9da6169c-4b07-4ab2-819e-6a11a4682e02",
+      "comment": "",
+      "command": "select",
+      "target": "id=id_country",
+      "targets": [],
+      "value": "label=Ireland"
+    }, {
+      "id": "fb126cab-cbc7-4e7c-a835-73f9f30ac06f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cart-btn",
+      "targets": [
+        ["css=.cart-btn", "css:finder"],
+        ["xpath=//input[@value='Pay Now']", "xpath:attributes"],
+        ["xpath=//div[2]/form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a633a775-5509-4612-a963-3c0464c1b2ef",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=input:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//input[12]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d3a2620c-fd4b-45eb-8353-ba2b73d6cc84",
+      "comment": "",
+      "command": "click",
+      "target": "css=h4",
+      "targets": [
+        ["css=h4", "css:finder"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Pay using paypal')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "25ea848a-6230-404f-a0f2-2572f788c954",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=input:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//input[12]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7810346-0fac-4394-8898-9acd0be2f82e",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=login_password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login_passworddiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f19cd018-9498-4669-a3a5-00143c6e1f78",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=login_password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[@id='login_passworddiv']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "IrishSoft123"
+    }, {
+      "id": "d8c4073c-d234-4346-842e-115b8e268aa3",
+      "comment": "",
+      "command": "click",
+      "target": "id=confirmButtonTop",
+      "targets": [
+        ["id=confirmButtonTop", "id"],
+        ["css=#confirmButtonTop", "css:finder"],
+        ["xpath=//input[@id='confirmButtonTop']", "xpath:attributes"],
+        ["xpath=//div[@id='button']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad71441c-586a-4e26-a3a5-302dc2d98a44",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=confirmButtonTop",
+      "targets": [
+        ["id=confirmButtonTop", "id"],
+        ["css=#confirmButtonTop", "css:finder"],
+        ["xpath=//input[@id='confirmButtonTop']", "xpath:attributes"],
+        ["xpath=//div[@id='button']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4511fbbb-94e5-4c27-ab29-836393f4bbec",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=confirmButtonTop",
+      "targets": [
+        ["id=confirmButtonTop", "id"],
+        ["css=#confirmButtonTop", "css:finder"],
+        ["xpath=//input[@id='confirmButtonTop']", "xpath:attributes"],
+        ["xpath=//div[@id='button']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "123c67c8-b86f-4d0b-b726-7ced9e540007",
+      "comment": "",
+      "command": "click",
+      "target": "id=confirmButtonTop",
+      "targets": [
+        ["id=confirmButtonTop", "id"],
+        ["css=#confirmButtonTop", "css:finder"],
+        ["xpath=//input[@id='confirmButtonTop']", "xpath:attributes"],
+        ["xpath=//div[@id='button']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "579f16ac-1290-4579-a3c5-efff43bacb7a",
+      "comment": "",
+      "command": "click",
+      "target": "id=merchantReturnBtn",
+      "targets": [
+        ["id=merchantReturnBtn", "id"],
+        ["css=#merchantReturnBtn", "css:finder"],
+        ["xpath=//input[@id='merchantReturnBtn']", "xpath:attributes"],
+        ["xpath=//div[@id='button']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "baa940de-a9a8-4fe9-beb6-feadbaf8b19c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.text-center:nth-child(4)",
+      "targets": [
+        ["css=.text-center:nth-child(4)", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Payment has been made and Your order has been successfully completed and we have sent out a confirmation email.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "80d569aa-200d-4b54-9291-cc8f69525df8",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.text-center:nth-child(4)",
+      "targets": [
+        ["css=.text-center:nth-child(4)", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Payment has been made and Your order has been successfully completed and we have sent out a confirmation email.')]", "xpath:innerText"]
+      ],
+      "value": "Payment has been made and Your order has been successfully completed and we have sent out a confirmation email."
+    }]
+  }, {
+    "id": "7ac44ece-6393-4b35-a17b-2db6cd819b14",
+    "name": "Payment with Stripe",
+    "commands": [{
+      "id": "964dbef4-1383-4321-9868-1db5d17b4558",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:8000/shop/products/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "78efb136-f4d3-4827-9a59-45c4eceb12bb",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1056",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "83aab439-cb9b-4d4e-91f2-1ea61231766d",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Baseball Cap']",
+      "targets": [
+        ["xpath=//img[@alt='Baseball Cap']", "xpath:img"],
+        ["xpath=//div[@id='items']/a/img", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[3]/div/div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "96f2f2b4-3622-4541-a9a4-d1afbd4eeb0c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cart-btn",
+      "targets": [
+        ["css=.cart-btn", "css:finder"],
+        ["xpath=//input[@value='Add to Cart']", "xpath:attributes"],
+        ["xpath=//div[3]/div/form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66de6319-218d-4aaa-bd09-fa3cf834ecd9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.return",
+      "targets": [
+        ["css=.return", "css:finder"],
+        ["xpath=//p", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7ce13c1-dc06-47fc-8266-52466adf46f8",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Checkout",
+      "targets": [
+        ["linkText=Checkout", "linkText"],
+        ["css=.btn:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Checkout')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/order/create/')]", "xpath:href"],
+        ["xpath=//p/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Checkout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7a2711c-25e3-4e1c-9209-b5a919791d46",
+      "comment": "",
+      "command": "click",
+      "target": "id=id_first_name",
+      "targets": [
+        ["id=id_first_name", "id"],
+        ["name=first_name", "name"],
+        ["css=#id_first_name", "css:finder"],
+        ["xpath=//input[@id='id_first_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_first_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1493d1c7-2c13-4c1a-9c35-041432e392aa",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_first_name",
+      "targets": [
+        ["id=id_first_name", "id"],
+        ["name=first_name", "name"],
+        ["css=#id_first_name", "css:finder"],
+        ["xpath=//input[@id='id_first_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_first_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Piotr"
+    }, {
+      "id": "bdfa1614-d22c-4759-a6ce-e5a13abe9f8f",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_last_name",
+      "targets": [
+        ["id=id_last_name", "id"],
+        ["name=last_name", "name"],
+        ["css=#id_last_name", "css:finder"],
+        ["xpath=//input[@id='id_last_name']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_last_name']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Wojciechowski"
+    }, {
+      "id": "7c4807d3-2372-4613-8aea-2efbcebdd9a8",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_emailAddress",
+      "targets": [
+        ["id=id_emailAddress", "id"],
+        ["name=emailAddress", "name"],
+        ["css=#id_emailAddress", "css:finder"],
+        ["xpath=//input[@id='id_emailAddress']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_emailAddress']/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": "piotr87654@gmail.com"
+    }, {
+      "id": "17e36bfc-9bad-43ce-9db9-3c64f2743635",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_addressline1",
+      "targets": [
+        ["id=id_addressline1", "id"],
+        ["name=addressline1", "name"],
+        ["css=#id_addressline1", "css:finder"],
+        ["xpath=//input[@id='id_addressline1']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_addressline1']/div/input", "xpath:idRelative"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": "228 Balrothery Estate"
+    }, {
+      "id": "50e1d2bb-c602-42f8-aaad-df2de62ac808",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_code",
+      "targets": [
+        ["id=id_code", "id"],
+        ["name=code", "name"],
+        ["css=#id_code", "css:finder"],
+        ["xpath=//input[@id='id_code']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_code']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div/input", "xpath:position"]
+      ],
+      "value": "D24 CKP4"
+    }, {
+      "id": "ccbc8f70-af79-4d7d-8b77-8fe070b8dd1c",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_city",
+      "targets": [
+        ["id=id_city", "id"],
+        ["name=city", "name"],
+        ["css=#id_city", "css:finder"],
+        ["xpath=//input[@id='id_city']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_city']/div/input", "xpath:idRelative"],
+        ["xpath=//div[7]/div/input", "xpath:position"]
+      ],
+      "value": "Tallaght"
+    }, {
+      "id": "a8cc7a8c-ac39-4a09-a13c-763c00bec5fb",
+      "comment": "",
+      "command": "type",
+      "target": "id=id_county",
+      "targets": [
+        ["id=id_county", "id"],
+        ["name=county", "name"],
+        ["css=#id_county", "css:finder"],
+        ["xpath=//input[@id='id_county']", "xpath:attributes"],
+        ["xpath=//div[@id='div_id_county']/div/input", "xpath:idRelative"],
+        ["xpath=//div[8]/div/input", "xpath:position"]
+      ],
+      "value": "Co. Dublin"
+    }, {
+      "id": "d9bf396f-da48-415b-be19-7c760b4b85b7",
+      "comment": "",
+      "command": "select",
+      "target": "id=id_country",
+      "targets": [],
+      "value": "label=Ireland"
+    }, {
+      "id": "3e6dca15-4b0c-4bab-9e7e-a64e16b37c20",
+      "comment": "",
+      "command": "click",
+      "target": "css=.cart-btn",
+      "targets": [
+        ["css=.cart-btn", "css:finder"],
+        ["xpath=//input[@value='Pay Now']", "xpath:attributes"],
+        ["xpath=//div[2]/form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "26e17a8d-99e9-4830-b7cf-9e40277a636e",
+      "comment": "",
+      "command": "click",
+      "target": "css=span",
+      "targets": [
+        ["css=span", "css:finder"],
+        ["xpath=//span", "xpath:position"],
+        ["xpath=//span[contains(.,'Pay with Card')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f610553d-3f2a-42b2-9565-44804a9818a0",
+      "comment": "",
+      "command": "selectFrame",
+      "target": "index=0",
+      "targets": [
+        ["index=0"]
+      ],
+      "value": ""
+    }, {
+      "id": "a649234d-2142-4290-887d-11df5f6d8459",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//input",
+      "targets": [
+        ["id=13546d70-889b-11ea-a422-4b415e750041", "id"],
+        ["css=#\\31 3546d70-889b-11ea-a422-4b415e750041", "css:finder"],
+        ["xpath=//input[@id='13546d70-889b-11ea-a422-4b415e750041']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/section/span[2]/div/div/main/form/div/div/div/div/div/div/div/div/div/div/fieldset/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "piotr87654@gmail.com"
+    }, {
+      "id": "bba560d1-a87d-4414-90e6-ef36ee5c6f17",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//span/span/div/div/input",
+      "targets": [
+        ["id=1354e2a0-889b-11ea-a422-4b415e750041", "id"],
+        ["css=#\\31 354e2a0-889b-11ea-a422-4b415e750041", "css:finder"],
+        ["xpath=//input[@id='1354e2a0-889b-11ea-a422-4b415e750041']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/section/span[2]/div/div/main/form/div/div/div/div/div/div/div[2]/fieldset/div/div/span/span/div/div/input", "xpath:idRelative"],
+        ["xpath=//span/span/div/div/input", "xpath:position"]
+      ],
+      "value": "4242 4242 4242 4242"
+    }, {
+      "id": "22708ac9-c141-466c-af09-d875686981c0",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//div[2]/div/div/input",
+      "targets": [
+        ["id=1354e2a1-889b-11ea-a422-4b415e750041", "id"],
+        ["css=#\\31 354e2a1-889b-11ea-a422-4b415e750041", "css:finder"],
+        ["xpath=//input[@id='1354e2a1-889b-11ea-a422-4b415e750041']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/section/span[2]/div/div/main/form/div/div/div/div/div/div/div[2]/fieldset/div/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/input", "xpath:position"]
+      ],
+      "value": "01 / 31"
+    }, {
+      "id": "e510abca-7e51-4ee6-bc92-b0307a69b0d9",
+      "comment": "",
+      "command": "type",
+      "target": "xpath=//div[2]/div/input",
+      "targets": [
+        ["id=135509b0-889b-11ea-a422-4b415e750041", "id"],
+        ["css=#\\31 35509b0-889b-11ea-a422-4b415e750041", "css:finder"],
+        ["xpath=//input[@id='135509b0-889b-11ea-a422-4b415e750041']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/section/span[2]/div/div/main/form/div/div/div/div/div/div/div[2]/fieldset/div/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "111"
+    }, {
+      "id": "d44e9492-8b32-4736-8237-167f5bb52003",
+      "comment": "",
+      "command": "click",
+      "target": "css=.Button-animationWrapper-child--primary",
+      "targets": [
+        ["css=.Button-animationWrapper-child--primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/section/span[2]/div/div/main/form/nav/div/div/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Pay €10.00')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c16861bf-e9b9-44dc-9a20-094e93061479",
+      "comment": "",
+      "command": "selectFrame",
+      "target": "relative=parent",
+      "targets": [
+        ["relative=parent"]
+      ],
+      "value": ""
+    }, {
+      "id": "f0adb441-b5ab-4f59-9802-e4e3a881c91b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.text-center:nth-child(4)",
+      "targets": [
+        ["css=.text-center:nth-child(4)", "css:finder"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Payment has been made and Your order has been successfully completed and we have sent out a confirmation email.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "d701506d-0df0-4e95-beff-43ad45108ab9",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/shop/products/"],
+  "plugins": []
+}

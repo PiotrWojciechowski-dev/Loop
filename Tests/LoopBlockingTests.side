@@ -1,0 +1,384 @@
+{
+  "id": "cc375e73-0fa4-456a-a018-822e88fce9be",
+  "version": "2.0",
+  "name": "LoopBlockingTests",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "ffc6d59e-2e2b-4cf3-ac50-c4042e8fe5e4",
+    "name": "3) Check User is Blocked",
+    "commands": [{
+      "id": "f27bf440-9c4f-4fe3-a430-7b4ef9a012c7",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3ba0e72c-0f88-4922-b597-9091abce8087",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1382x754",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "74fff53e-202d-43ee-8127-33d2c2c99e3f",
+      "comment": "",
+      "command": "click",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "24f9ceed-8eef-4b6e-b808-edf51e60d9da",
+      "comment": "",
+      "command": "type",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Testuser13"
+    }, {
+      "id": "4a84ed50-0c11-4764-b004-4dfaa6ccabed",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "28df60ad-b45a-4282-a9ac-53ef69447fd2",
+      "comment": "",
+      "command": "click",
+      "target": "css=h3",
+      "targets": [
+        ["css=h3", "css:finder"],
+        ["xpath=//div[@id='items']/a[2]/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'testuser13')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "73171265-a017-4c4a-85fc-02167abc4f97",
+      "comment": "",
+      "command": "click",
+      "target": "css=.text-center:nth-child(3)",
+      "targets": [
+        ["css=.text-center:nth-child(3)", "css:finder"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'This user has blocked you')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1ba7132-4e53-4af6-9ead-ea3a01e88149",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.text-center:nth-child(3)",
+      "targets": [
+        ["css=.text-center:nth-child(3)", "css:finder"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'This user has blocked you')]", "xpath:innerText"]
+      ],
+      "value": "This user has blocked you"
+    }, {
+      "id": "2158345d-d06a-444f-80bf-47a711f54bfa",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "971dec72-fe3f-470e-9ad7-6f82fece9db4",
+    "name": "1)Block User",
+    "commands": [{
+      "id": "5a40f5f2-b76c-483b-b4e6-c35ebf44a782",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b4a404f8-6048-4cbe-a783-884b6de0bb21",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1382x754",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "33565505-30ec-4ae2-ba76-e4232ac1e4f2",
+      "comment": "",
+      "command": "click",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "430e2baa-2113-45cb-bdb0-dd8d07bcc371",
+      "comment": "",
+      "command": "type",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "testuser1"
+    }, {
+      "id": "3e818086-b78f-4127-a7d8-cea4e5732293",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "name=q",
+      "targets": [
+        ["name=q", "name"],
+        ["css=.searchbox-input", "css:finder"],
+        ["xpath=//input[@name='q']", "xpath:attributes"],
+        ["xpath=//div[@id='container']/div[3]/div[2]/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "328ce3aa-2a0b-4976-bfb6-2c119d9c866f",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//div[@id='items']/a[2]/h3)[3]",
+      "targets": [
+        ["xpath=(//div[@id='items']/a[2]/h3)[3]", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]/h3", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec05df34-0439-4c37-a6e8-da88a6fd4b3c",
+      "comment": "",
+      "command": "assertText",
+      "target": "linkText=Block",
+      "targets": [
+        ["linkText=Block", "linkText"],
+        ["css=.my-1", "css:finder"],
+        ["xpath=//a[contains(text(),'Block')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profiles/block/block/testuser1')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Block')]", "xpath:innerText"]
+      ],
+      "value": "Block"
+    }, {
+      "id": "10e174af-7c67-4f03-8b7c-e51c3edc004b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Block",
+      "targets": [
+        ["linkText=Block", "linkText"],
+        ["css=.my-1", "css:finder"],
+        ["xpath=//a[contains(text(),'Block')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profiles/block/block/testuser1')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Block')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "050c5f24-cc05-499e-b727-fcfe554ce762",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "395947ec-29e7-47f9-8d6b-f4304420deef",
+    "name": "2) Check Block List",
+    "commands": [{
+      "id": "23601942-98fd-4356-8fee-bbdf30d4ef1b",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8b22b674-7919-486e-875b-51d5dbe0e9aa",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1382x754",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7212319d-7872-443e-8c67-787818863461",
+      "comment": "",
+      "command": "click",
+      "target": "css=.fa-users",
+      "targets": [
+        ["css=.fa-users", "css:finder"],
+        ["xpath=//div[@id='container']/div[3]/div[3]/ul/li[2]/a/i", "xpath:idRelative"],
+        ["xpath=//li[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d63baf6f-b34c-4f2d-9d26-3c06c88b6935",
+      "comment": "",
+      "command": "assertText",
+      "target": "linkText=testuser1",
+      "targets": [
+        ["linkText=testuser1", "linkText"],
+        ["css=.d-flex:nth-child(8) .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'testuser1')]", "xpath:link"],
+        ["xpath=(//a[contains(@href, '/profiles/detail/testuser1')])[4]", "xpath:href"],
+        ["xpath=//div[2]/div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'testuser1')]", "xpath:innerText"]
+      ],
+      "value": "testuser1"
+    }, {
+      "id": "b0bd34c1-4374-45e3-8ebd-8672d764d313",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.header:nth-child(7) > .headertitle",
+      "targets": [
+        ["css=.header:nth-child(7) > .headertitle", "css:finder"],
+        ["xpath=//h3[4]/div", "xpath:position"]
+      ],
+      "value": "Blocked:"
+    }, {
+      "id": "140e2ec3-b2c7-4d3c-97c8-a51dfa0398d8",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "0a2513b5-7fc5-4e9c-8430-4d36548f75e5",
+    "name": "4) Unblock User",
+    "commands": [{
+      "id": "8ab14097-f655-41ba-ab87-35321c5bb658",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b4ac6754-065a-4f84-aa1b-10f45048c8f7",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1382x754",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6d9970de-7601-4c07-b858-fd2ce9fe7f2f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.fa-users",
+      "targets": [
+        ["css=.fa-users", "css:finder"],
+        ["xpath=//div[@id='container']/div[3]/div[3]/ul/li[2]/a/i", "xpath:idRelative"],
+        ["xpath=//li[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3293e3d2-0fa2-435e-987e-6f18738bb046",
+      "comment": "",
+      "command": "click",
+      "target": "css=.profile-image > .card-img-top",
+      "targets": [
+        ["css=.profile-image > .card-img-top", "css:finder"],
+        ["xpath=//img[@alt='no user']", "xpath:img"],
+        ["xpath=//div[2]/div/div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "87e60ae6-3103-4068-92db-9438631d7d33",
+      "comment": "",
+      "command": "assertText",
+      "target": "linkText=Unblock",
+      "targets": [
+        ["linkText=Unblock", "linkText"],
+        ["css=.mx-3 > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Unblock')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profiles/block/unblock/testuser1')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Unblock')]", "xpath:innerText"]
+      ],
+      "value": "Unblock"
+    }, {
+      "id": "5406c882-06d7-4400-96ac-8c786ee8fbe7",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Unblock",
+      "targets": [
+        ["linkText=Unblock", "linkText"],
+        ["css=.mx-3 > .btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Unblock')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profiles/block/unblock/testuser1')]", "xpath:href"],
+        ["xpath=//div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Unblock')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d93c748b-ec23-4d58-8d26-d1382af23a4e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.fa-users",
+      "targets": [
+        ["css=.fa-users", "css:finder"],
+        ["xpath=//div[@id='container']/div[3]/div[3]/ul/li[2]/a/i", "xpath:idRelative"],
+        ["xpath=//li[2]/a/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "72c09d09-7ffc-482e-af5f-f04c9998d913",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-sm-6",
+      "targets": [
+        ["css=.col-sm-6", "css:finder"],
+        ["xpath=//div[2]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7827d53-3907-494c-b710-8ef712e0fced",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=p:nth-child(8)",
+      "targets": [
+        ["css=p:nth-child(8)", "css:finder"],
+        ["xpath=//p[3]", "xpath:position"],
+        ["xpath=//p[contains(.,'You have no blocked users currently')]", "xpath:innerText"]
+      ],
+      "value": "You have no blocked users currently"
+    }, {
+      "id": "935bd96c-86b5-489f-b02a-e90573a4173d",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "14f6e1a0-d039-4b8c-aea8-818d1c3ad352",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["ffc6d59e-2e2b-4cf3-ac50-c4042e8fe5e4"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
