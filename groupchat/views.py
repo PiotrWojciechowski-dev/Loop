@@ -91,7 +91,7 @@ def create_group(request):
             groupchat.save()
             for member in members:
                 Email.addedToGroupChat(request, member.email, groupchat.name, member, request.user, groupchat.owner, groupchat.id)
-            return redirect('groupchat:messaging', groupchat.id, groupchat.name, {'confirmed_mates':confirmed_mates, 'user_profile':user_profile})
+            return redirect('groupchat:messaging', groupchat.id, groupchat.name)
     else:
         form = GroupChatForm(confirmed_mates)
     return render(request, 'createGroupchats.html', {'form':form, 'confirmed_mates':confirmed_mates, 'user_profile':user_profile})
