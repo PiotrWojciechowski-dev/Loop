@@ -64,7 +64,26 @@
             {% endif %}
         </div>
     <div class="col-lg-4">
-        {% if profile.username == user.username or confirmed_mate == True or profile.privacy_settings == 'Open'%}
+        {% if profile.username == user.username or confirmed_mate == True %}
+            <h4 class="header">
+                <div class="headertitle">
+                Basic Information
+                </div>
+                <div class="divider"></div>
+            </h4>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Username: <span class="font-weight-bold">{{profile.username}}</span></li>
+                <li class="list-group-item w-100">Name:  <span class="font-weight-bold">{{profile.fname}} {{profile.lname}}</span></li>
+            </ul>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Gender:  <span class="font-weight-bold">{{profile.gender}}</span></li>
+                <li class="list-group-item w-100">Status:  <span class="font-weight-bold">{{profile.status}}</span></li>
+            </ul>
+            <ul class="list-group list-group-horizontal info my-2">
+                <li class="list-group-item w-100">Country:  <span class="font-weight-bold">{{ country.name }}</span></li>
+                <li class="list-group-item w-100">Date of Birth:  <span class="font-weight-bold">{{profile.dob}}</span></li>
+            </ul>
+        {% elif profile.privacy_settings == 'Open'%}
             <h4 class="header">
                 <div class="headertitle">
                 Basic Information
