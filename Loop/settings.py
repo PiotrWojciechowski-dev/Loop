@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
     'groupchat.apps.GroupchatConfig',
-    #'imagekit',
+    'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'django_countries',
     'django_filters',
