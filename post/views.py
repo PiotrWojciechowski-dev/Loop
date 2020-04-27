@@ -162,7 +162,7 @@ class OwnerMixin(object):
   def get_queryset(self):
     qs = super(OwnerMixin, self).get_queryset()
     print(qs)
-    return qs.filter(Q(user=self.request.user) | Q(user=self.request.user.is_superuser))
+    return qs.filter(user=self.request.user)
 
 class OwnerEditMixin(object):
   def from_valid(self, form):
